@@ -1,0 +1,94 @@
+/* ============================================================
+   EduSetu — Mentor View Styles
+   ============================================================ */
+
+.mentor-hero {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+  padding: var(--space-12) 0 var(--space-8);
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid rgba(59,130,246,0.1);
+}
+.mentor-hero::before { content:''; position:absolute; top:-80px; right:-80px; width:350px; height:350px; background:radial-gradient(circle,rgba(244,163,0,0.12)0%,transparent 70%); border-radius:50%; }
+.mentor-hero-inner { position: relative; z-index: 1; }
+.mentor-hero .badge { margin-bottom: var(--space-3); }
+.mentor-hero h1 { color: var(--clr-white); font-size: var(--fs-2xl); margin-bottom: var(--space-2); }
+.mentor-subtitle { color: rgba(255,255,255,0.7); font-size: var(--fs-sm); }
+
+.mentor-chart-card { margin-bottom: var(--space-6); padding: var(--space-5); }
+.mentor-chart-card h4 { margin-bottom: var(--space-3); font-size: var(--fs-sm); color: #D1D5DB; }
+.chart-container { position: relative; width: 100%; }
+
+/* Prevent page shaking from card animations */
+.student-card, .insight-card, .mentor-chart-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.student-card:hover, .insight-card:hover { transform: none !important; }
+
+.mentor-students { margin-bottom: var(--space-6); }
+
+.mentor-section-title { margin: var(--space-6) 0 var(--space-4); }
+
+/* Student Cards */
+.student-card {
+  background: var(--surface-1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all var(--transition-normal);
+}
+.student-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: rgba(255,255,255,0.1); }
+
+.student-header { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); }
+.student-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-size: var(--fs-md);
+  font-weight: 800; color: var(--clr-white); flex-shrink: 0;
+}
+.student-name { font-weight: 700; font-size: var(--fs-md); color: var(--clr-indigo); display: block; }
+.student-grade { font-size: var(--fs-xs); color: var(--clr-gray-400); }
+.student-header .risk-badge { margin-left: auto; }
+
+.student-mastery { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
+
+.student-note {
+  padding: var(--space-4);
+  background: var(--surface-2);
+  border-left: 3px solid var(--clr-marigold);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--fs-sm);
+  color: #D1D5DB;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Insights */
+.mentor-insights {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.insight-card {
+  background: var(--surface-1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--clr-marigold);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-right: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.insight-card .insight-icon { font-size: 1.3rem; margin-bottom: var(--space-3); display: block; }
+.insight-card h5 { margin-bottom: var(--space-2); font-size: var(--fs-sm); }
+.insight-card p { font-size: var(--fs-sm); color: #9CA3AF; line-height: 1.6; }
+
+.mentor-students { margin-bottom: var(--space-8); }
+
+@media (max-width: 768px) {
+  .mentor-students { grid-template-columns: 1fr !important; }
+  .mentor-insights { grid-template-columns: 1fr; }
+}

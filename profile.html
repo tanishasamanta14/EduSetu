@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu Profile & Settings — Manage your language, grade, subjects, and offline content preferences.">
+  <title>Profile & Settings — EduSetu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
+          <div class="logo-icon">E</div>
+          Edu<span class="logo-accent">Setu</span>
+        </a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>
+          <a href="explore.html"><span class="nav-icon">🔍</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="page-content">
+
+      <!-- Profile Header -->
+      <section class="profile-hero">
+        <div class="container">
+          <div class="profile-hero-inner">
+            <div class="profile-avatar-large" id="profileAvatar">AS</div>
+            <h1 id="profileName">Aarav Sharma</h1>
+            <div class="profile-meta">
+              <span class="badge badge-info" id="profileGradeBadge">Class 8</span>
+              <span class="badge badge-mastered" id="profileRoleBadge">Student</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="section-sm">
+        <div class="container container-sm">
+
+          <!-- Personal Information -->
+          <div class="card settings-card reveal" id="personalInfoSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">👤</div>
+              <div>
+                <h3>Personal Information</h3>
+                <p class="text-muted text-sm">Update your basic profile details</p>
+              </div>
+            </div>
+            <div class="personal-info-form" id="personalInfoForm">
+              <div class="form-group">
+                <label class="form-label" for="inputName">Full Name</label>
+                <input type="text" class="form-input" id="inputName" placeholder="Enter your name" autocomplete="name" aria-label="Full Name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="inputEmail">Email (optional)</label>
+                <input type="email" class="form-input" id="inputEmail" placeholder="you@example.com" autocomplete="email" aria-label="Email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="inputSchool">School / College</label>
+                <input type="text" class="form-input" id="inputSchool" placeholder="Your school or college name" aria-label="School or College">
+              </div>
+              <button class="btn btn-primary btn-sm" id="savePersonalInfo" aria-label="Save personal info">💾 Save Changes</button>
+              <span class="save-status" id="saveStatus"></span>
+            </div>
+          </div>
+
+          <!-- Language Preference -->
+          <div class="card settings-card reveal" id="languageSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">🌐</div>
+              <div>
+                <h3>Language Preference</h3>
+                <p class="text-muted text-sm">Choose your preferred language for AI responses</p>
+              </div>
+            </div>
+            <div class="language-options" id="languageOptions">
+              <button class="language-btn active" id="langEn" data-lang="en" aria-label="Select English">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+                <span class="lang-check">✓</span>
+              </button>
+              <button class="language-btn" id="langHi" data-lang="hi" aria-label="Select Hindi">
+                <span class="lang-flag">🇮🇳</span>
+                <span class="lang-name">हिंदी (Hindi)</span>
+                <span class="lang-check">✓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Grade Level -->
+          <div class="card settings-card reveal" id="gradeSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">🎓</div>
+              <div>
+                <h3>Grade Level</h3>
+                <p class="text-muted text-sm">Select your current class</p>
+              </div>
+            </div>
+            <div class="grade-selector" id="gradeSelector">
+              <!-- Grade buttons rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Subjects Enrolled -->
+          <div class="card settings-card reveal" id="subjectsSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">📚</div>
+              <div>
+                <h3>Subjects Enrolled</h3>
+                <p class="text-muted text-sm">Select the subjects you want to study</p>
+              </div>
+            </div>
+            <div class="subjects-grid" id="subjectsGrid">
+              <!-- Subject checkboxes rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Offline Content -->
+          <div class="card settings-card reveal" id="offlineSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">📥</div>
+              <div>
+                <h3>Offline Content</h3>
+                <p class="text-muted text-sm">Download lessons for offline access</p>
+              </div>
+            </div>
+            <div class="offline-list" id="offlineList">
+              <!-- Offline items rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Role Switch -->
+          <div class="card settings-card reveal" id="roleSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">👤</div>
+              <div>
+                <h3>Role</h3>
+                <p class="text-muted text-sm">Switch between Student and Mentor view</p>
+              </div>
+            </div>
+            <div class="role-cards" id="roleCards">
+              <!-- Role cards rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Account Actions -->
+          <div class="card settings-card settings-card-danger reveal" id="accountSection">
+            <div class="settings-card-header">
+              <div class="settings-icon">⚠️</div>
+              <div>
+                <h3>Account Actions</h3>
+                <p class="text-muted text-sm">Demo data management</p>
+              </div>
+            </div>
+            <p class="danger-warning">This will clear all your progress, quiz history, and preferences. This action is for demo/testing purposes.</p>
+            <button class="btn btn-danger-outline" id="resetDataBtn" aria-label="Reset all data">
+              🗑️ Reset All Data
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo">Edu<span>Setu</span></div>
+            <p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p>
+          </div>
+          <div>
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="chatbot.html">AI Tutor</a></li>
+              <li><a href="mastery-map.html">Mastery Map</a></li>
+              <li><a href="quiz.html">Adaptive Quiz</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>For Mentors</h4>
+            <ul class="footer-links">
+              <li><a href="mentor.html">Mentor View</a></li>
+              <li><a href="profile.html">Settings</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>About</h4>
+            <ul class="footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">SDG Goals</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 EduSetu . All rights reserved.</p>
+          <div class="footer-sdg">
+            <span class="sdg-badge sdg4">SDG 4</span>
+            <span class="sdg-badge sdg10">SDG 10</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      /* ---------- Data ---------- */
+      var SUBJECTS_META = [
+        { key: 'math',          name: 'Mathematics',    icon: '📐', size: '45 MB' },
+        { key: 'science',       name: 'Science',        icon: '🔬', size: '52 MB' },
+        { key: 'english',       name: 'English',        icon: '📚', size: '38 MB' },
+        { key: 'socialScience', name: 'Social Science',  icon: '🌍', size: '41 MB' },
+        { key: 'hindi',         name: 'हिंदी',           icon: '📖', size: '35 MB' },
+        { key: 'physics',       name: 'Physics',        icon: '⚛️', size: '58 MB' },
+        { key: 'chemistry',     name: 'Chemistry',      icon: '🧪', size: '55 MB' },
+        { key: 'computerScience', name: 'Computer Science', icon: '💻', size: '62 MB' },
+        { key: 'biology',       name: 'Biology',        icon: '🧬', size: '50 MB' },
+        { key: 'economics',     name: 'Economics',      icon: '📈', size: '40 MB' }
+      ];
+
+      var GRADES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'UG'];
+
+      /* ---------- Load user prefs ---------- */
+      function loadPrefs() {
+        var prefs = EduSetu.getUserPrefs();
+        return prefs;
+      }
+
+      function savePrefs(prefs) {
+        localStorage.setItem('edusetu_user_prefs', JSON.stringify(prefs));
+      }
+
+      /* ---------- Render Profile Header ---------- */
+      function renderProfileHeader(prefs) {
+        var avatarEl = document.getElementById('profileAvatar');
+        var nameEl = document.getElementById('profileName');
+        var gradeBadge = document.getElementById('profileGradeBadge');
+        var roleBadge = document.getElementById('profileRoleBadge');
+
+        var initials = prefs.name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase();
+        avatarEl.textContent = initials;
+        nameEl.textContent = prefs.name;
+        gradeBadge.textContent = 'Class ' + prefs.grade;
+        roleBadge.textContent = prefs.role === 'mentor' ? 'Mentor' : 'Student';
+      }
+
+      /* ---------- Language Selection ---------- */
+      function setupLanguage(prefs) {
+        var enBtn = document.getElementById('langEn');
+        var hiBtn = document.getElementById('langHi');
+
+        function updateLangUI(lang) {
+          if (lang === 'hi') {
+            enBtn.classList.remove('active');
+            hiBtn.classList.add('active');
+          } else {
+            enBtn.classList.add('active');
+            hiBtn.classList.remove('active');
+          }
+        }
+
+        updateLangUI(prefs.language);
+
+        enBtn.addEventListener('click', function() {
+          prefs.language = 'en';
+          savePrefs(prefs);
+          updateLangUI('en');
+        });
+
+        hiBtn.addEventListener('click', function() {
+          prefs.language = 'hi';
+          savePrefs(prefs);
+          updateLangUI('hi');
+        });
+      }
+
+      /* ---------- Grade Selector ---------- */
+      function setupGrade(prefs) {
+        var container = document.getElementById('gradeSelector');
+        container.replaceChildren();
+
+        GRADES.forEach(function(g) {
+          var btn = document.createElement('button');
+          btn.className = 'grade-btn' + (prefs.grade === g ? ' active' : '');
+          btn.setAttribute('aria-label', 'Select Class ' + g);
+          btn.textContent = 'Class ' + g;
+          btn.addEventListener('click', function() {
+            prefs.grade = g;
+            savePrefs(prefs);
+            // Update UI
+            var allBtns = container.querySelectorAll('.grade-btn');
+            allBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            // Update header badge
+            var gradeBadge = document.getElementById('profileGradeBadge');
+            gradeBadge.textContent = g === 'UG' ? 'Undergraduate' : 'Class ' + g;
+          });
+          container.appendChild(btn);
+        });
+      }
+
+      /* ---------- Subjects Enrolled ---------- */
+      function setupSubjects(prefs) {
+        var container = document.getElementById('subjectsGrid');
+        container.replaceChildren();
+
+        SUBJECTS_META.forEach(function(subj) {
+          var isChecked = prefs.subjects && prefs.subjects.indexOf(subj.key) !== -1;
+
+          var label = document.createElement('label');
+          label.className = 'subject-checkbox' + (isChecked ? ' checked' : '');
+          label.setAttribute('for', 'subj-' + subj.key);
+
+          var checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.id = 'subj-' + subj.key;
+          checkbox.checked = isChecked;
+          checkbox.setAttribute('aria-label', subj.name);
+
+          var iconSpan = document.createElement('span');
+          iconSpan.className = 'subject-icon';
+          iconSpan.textContent = subj.icon;
+
+          var nameSpan = document.createElement('span');
+          nameSpan.className = 'subject-name';
+          nameSpan.textContent = subj.name;
+
+          var checkmark = document.createElement('span');
+          checkmark.className = 'subject-checkmark';
+          checkmark.textContent = '✓';
+
+          label.appendChild(checkbox);
+          label.appendChild(iconSpan);
+          label.appendChild(nameSpan);
+          label.appendChild(checkmark);
+
+          checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+              if (prefs.subjects.indexOf(subj.key) === -1) {
+                prefs.subjects.push(subj.key);
+              }
+              label.classList.add('checked');
+            } else {
+              prefs.subjects = prefs.subjects.filter(function(s) { return s !== subj.key; });
+              label.classList.remove('checked');
+            }
+            savePrefs(prefs);
+          });
+
+          container.appendChild(label);
+        });
+      }
+
+      /* ---------- Offline Content ---------- */
+      function setupOffline() {
+        var container = document.getElementById('offlineList');
+        container.replaceChildren();
+
+        var offlineState = {};
+        var stored = localStorage.getItem('edusetu_offline');
+        if (stored) {
+          try { offlineState = JSON.parse(stored); } catch(e) { /* ignore */ }
+        }
+
+        SUBJECTS_META.forEach(function(subj) {
+          var row = document.createElement('div');
+          row.className = 'offline-item';
+
+          var infoDiv = document.createElement('div');
+          infoDiv.className = 'offline-info';
+
+          var icon = document.createElement('span');
+          icon.className = 'offline-icon';
+          icon.textContent = subj.icon;
+
+          var details = document.createElement('div');
+          var nameEl = document.createElement('span');
+          nameEl.className = 'offline-name';
+          nameEl.textContent = subj.name;
+          var sizeEl = document.createElement('span');
+          sizeEl.className = 'offline-size text-muted text-xs';
+          sizeEl.textContent = subj.size;
+          details.appendChild(nameEl);
+          details.appendChild(sizeEl);
+
+          infoDiv.appendChild(icon);
+          infoDiv.appendChild(details);
+
+          var statusDiv = document.createElement('div');
+          statusDiv.className = 'offline-status';
+
+          var isDownloaded = offlineState[subj.key] === true;
+
+          var statusText = document.createElement('span');
+          statusText.className = 'offline-status-text' + (isDownloaded ? ' downloaded' : '');
+          statusText.textContent = isDownloaded ? '✓ Downloaded' : 'Not downloaded';
+
+          var toggleLabel = document.createElement('label');
+          toggleLabel.className = 'toggle-switch';
+          var toggleInput = document.createElement('input');
+          toggleInput.type = 'checkbox';
+          toggleInput.checked = isDownloaded;
+          toggleInput.setAttribute('aria-label', 'Download ' + subj.name + ' for offline');
+          var toggleSlider = document.createElement('span');
+          toggleSlider.className = 'toggle-slider';
+          toggleLabel.appendChild(toggleInput);
+          toggleLabel.appendChild(toggleSlider);
+
+          toggleInput.addEventListener('change', function() {
+            offlineState[subj.key] = toggleInput.checked;
+            localStorage.setItem('edusetu_offline', JSON.stringify(offlineState));
+            statusText.textContent = toggleInput.checked ? '✓ Downloaded' : 'Not downloaded';
+            if (toggleInput.checked) {
+              statusText.classList.add('downloaded');
+            } else {
+              statusText.classList.remove('downloaded');
+            }
+          });
+
+          statusDiv.appendChild(statusText);
+          statusDiv.appendChild(toggleLabel);
+
+          row.appendChild(infoDiv);
+          row.appendChild(statusDiv);
+          container.appendChild(row);
+        });
+      }
+
+      /* ---------- Role Switch ---------- */
+      function setupRole(prefs) {
+        var container = document.getElementById('roleCards');
+        container.replaceChildren();
+
+        var roles = [
+          { key: 'student', name: 'Student', icon: '🎒', desc: 'Access your learning dashboard, quizzes, and AI tutor' },
+          { key: 'mentor', name: 'Mentor', icon: '👨‍🏫', desc: 'View student progress, weekly insights, and dropout risk' }
+        ];
+
+        roles.forEach(function(role) {
+          var card = document.createElement('div');
+          card.className = 'role-card' + (prefs.role === role.key ? ' active' : '');
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-label', 'Switch to ' + role.name + ' role');
+
+          var iconEl = document.createElement('div');
+          iconEl.className = 'role-icon';
+          iconEl.textContent = role.icon;
+
+          var nameEl = document.createElement('h4');
+          nameEl.textContent = role.name;
+
+          var descEl = document.createElement('p');
+          descEl.className = 'text-sm text-muted';
+          descEl.textContent = role.desc;
+
+          var selectedBadge = document.createElement('span');
+          selectedBadge.className = 'role-selected-badge';
+          selectedBadge.textContent = 'Current';
+
+          card.appendChild(iconEl);
+          card.appendChild(nameEl);
+          card.appendChild(descEl);
+          card.appendChild(selectedBadge);
+
+          card.addEventListener('click', function() {
+            prefs.role = role.key;
+            savePrefs(prefs);
+            var allCards = container.querySelectorAll('.role-card');
+            allCards.forEach(function(c) { c.classList.remove('active'); });
+            card.classList.add('active');
+            // Update header
+            var roleBadge = document.getElementById('profileRoleBadge');
+            roleBadge.textContent = role.key === 'mentor' ? 'Mentor' : 'Student';
+            // If mentor selected, offer navigation
+            if (role.key === 'mentor') {
+              window.location.href = 'mentor.html';
+            }
+          });
+
+          card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
+
+          container.appendChild(card);
+        });
+      }
+
+      /* ---------- Reset Data ---------- */
+      function setupReset() {
+        var btn = document.getElementById('resetDataBtn');
+        btn.addEventListener('click', function() {
+          // Create confirmation modal
+          var overlay = document.createElement('div');
+          overlay.className = 'modal-overlay';
+
+          var modal = document.createElement('div');
+          modal.className = 'modal-box';
+
+          var title = document.createElement('h3');
+          title.textContent = 'Reset All Data?';
+
+          var msg = document.createElement('p');
+          msg.textContent = 'This will clear all your progress, quiz history, mastery records, and preferences. This cannot be undone.';
+
+          var actions = document.createElement('div');
+          actions.className = 'modal-actions';
+
+          var cancelBtn = document.createElement('button');
+          cancelBtn.className = 'btn btn-secondary btn-sm';
+          cancelBtn.textContent = 'Cancel';
+          cancelBtn.addEventListener('click', function() {
+            document.body.removeChild(overlay);
+          });
+
+          var confirmBtn = document.createElement('button');
+          confirmBtn.className = 'btn btn-danger-outline btn-sm';
+          confirmBtn.textContent = 'Yes, Reset Everything';
+          confirmBtn.addEventListener('click', function() {
+            localStorage.clear();
+            window.location.reload();
+          });
+
+          actions.appendChild(cancelBtn);
+          actions.appendChild(confirmBtn);
+
+          modal.appendChild(title);
+          modal.appendChild(msg);
+          modal.appendChild(actions);
+          overlay.appendChild(modal);
+
+          overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+              document.body.removeChild(overlay);
+            }
+          });
+
+          document.body.appendChild(overlay);
+        });
+      }
+
+      /* ---------- Personal Information ---------- */
+      function setupPersonalInfo(prefs) {
+        var nameInput = document.getElementById('inputName');
+        var emailInput = document.getElementById('inputEmail');
+        var schoolInput = document.getElementById('inputSchool');
+        var saveBtn = document.getElementById('savePersonalInfo');
+        var saveStatus = document.getElementById('saveStatus');
+
+        // Load existing values
+        nameInput.value = prefs.name || '';
+        emailInput.value = prefs.email || '';
+        schoolInput.value = prefs.school || '';
+
+        saveBtn.addEventListener('click', function() {
+          var newName = nameInput.value.trim();
+          if (!newName) {
+            nameInput.style.borderColor = '#F87171';
+            setTimeout(function() { nameInput.style.borderColor = ''; }, 2000);
+            return;
+          }
+
+          prefs.name = newName;
+          prefs.email = emailInput.value.trim();
+          prefs.school = schoolInput.value.trim();
+          savePrefs(prefs);
+
+          // Update profile header live
+          renderProfileHeader(prefs);
+
+          // Show success feedback
+          saveStatus.textContent = '✓ Saved!';
+          saveStatus.classList.add('show');
+          setTimeout(function() {
+            saveStatus.classList.remove('show');
+          }, 2500);
+        });
+      }
+
+      /* ---------- Init ---------- */
+      function init() {
+        var prefs = loadPrefs();
+        renderProfileHeader(prefs);
+        setupPersonalInfo(prefs);
+        setupLanguage(prefs);
+        setupGrade(prefs);
+        setupSubjects(prefs);
+        setupOffline();
+        setupRole(prefs);
+        setupReset();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

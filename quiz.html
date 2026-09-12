@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu Adaptive Quiz — Diagnostic quizzes that identify your specific misconceptions.">
+  <title>Adaptive Quiz — EduSetu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home"><div class="logo-icon">E</div>Edu<span class="logo-accent">Setu</span></a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <section class="quiz-hero">
+        <div class="container">
+          <h1 id="quizTitle">Adaptive Quiz</h1>
+          <p class="quiz-subtitle" id="quizSubtitle">Choose a concept to test your understanding</p>
+        </div>
+      </section>
+
+      <section class="section-sm">
+        <div class="container container-sm">
+          <!-- Concept Selector (shown when no concept selected) -->
+          <div id="conceptSelector" class="concept-selector"></div>
+
+          <!-- Quiz Area (shown during quiz) -->
+          <div id="quizArea" class="quiz-area" style="display:none">
+            <!-- Progress -->
+            <div class="quiz-progress" id="quizProgress">
+              <div class="quiz-progress-text"><span id="questionNum">1</span> / <span id="totalQuestions">5</span></div>
+              <div class="progress-bar"><div class="progress-bar-fill" id="progressFill" style="width:20%"></div></div>
+            </div>
+            <!-- Question -->
+            <div class="quiz-question-card" id="questionCard">
+              <h3 class="quiz-question-text" id="questionText"></h3>
+              <div class="quiz-options" id="optionsContainer"></div>
+              <div class="quiz-feedback" id="feedbackArea" style="display:none"></div>
+              <button class="btn btn-primary quiz-next-btn" id="nextBtn" style="display:none" aria-label="Next question">Next Question →</button>
+            </div>
+          </div>
+
+          <!-- Results (shown after quiz) -->
+          <div id="resultsArea" class="results-area" style="display:none"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand"><div class="footer-logo">Edu<span>Setu</span></div><p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p></div>
+          <div><h4>Platform</h4><ul class="footer-links"><li><a href="chatbot.html">AI Tutor</a></li><li><a href="mastery-map.html">Mastery Map</a></li><li><a href="quiz.html">Adaptive Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+          <div><h4>For Mentors</h4><ul class="footer-links"><li><a href="mentor.html">Mentor View</a></li><li><a href="profile.html">Settings</a></li></ul></div>
+          <div><h4>About</h4><ul class="footer-links"><li><a href="#">About Us</a></li><li><a href="#">SDG Goals</a></li><li><a href="#">Contact</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 EduSetu . All rights reserved.</p><div class="footer-sdg"><span class="sdg-badge sdg4">SDG 4</span><span class="sdg-badge sdg10">SDG 10</span></div></div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/mastery-data.js"></script>
+  <script src="js/quiz-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>
+

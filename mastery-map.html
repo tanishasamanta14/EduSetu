@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu Concept Mastery Map — Visualize your understanding with an interactive concept graph.">
+  <title>Concept Mastery Map — EduSetu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mastery-map.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home"><div class="logo-icon">E</div>Edu<span class="logo-accent">Setu</span></a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>
+          <a href="explore.html"><span class="nav-icon">🔍</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <!-- Header -->
+      <section class="map-hero">
+        <div class="container">
+          <h1>Concept Mastery Map</h1>
+          <p class="map-subtitle">Visualize your learning journey — see what you've mastered, what needs work, and what's next.</p>
+        </div>
+      </section>
+
+      <section class="section-sm">
+        <div class="container">
+          <!-- Subject Tabs -->
+          <div class="tabs" id="subjectTabs" role="tablist">
+            <button class="tab-btn active" data-subject="math" role="tab" aria-selected="true" id="tab-math">📐 Math</button>
+            <button class="tab-btn" data-subject="science" role="tab" aria-selected="false" id="tab-science">🔬 Science</button>
+            <button class="tab-btn" data-subject="english" role="tab" aria-selected="false" id="tab-english">📚 English</button>
+            <button class="tab-btn" data-subject="socialScience" role="tab" aria-selected="false" id="tab-social">🌍 Social Science</button>
+            <button class="tab-btn" data-subject="hindi" role="tab" aria-selected="false" id="tab-hindi">📖 हिंदी</button>
+            <button class="tab-btn" data-subject="physics" role="tab" aria-selected="false" id="tab-physics">⚛️ Physics</button>
+            <button class="tab-btn" data-subject="chemistry" role="tab" aria-selected="false" id="tab-chemistry">🧪 Chemistry</button>
+            <button class="tab-btn" data-subject="computerScience" role="tab" aria-selected="false" id="tab-cs">💻 Computer Science</button>
+            <button class="tab-btn" data-subject="biology" role="tab" aria-selected="false" id="tab-bio">🧬 Biology</button>
+            <button class="tab-btn" data-subject="economics" role="tab" aria-selected="false" id="tab-econ">📈 Economics</button>
+          </div>
+
+          <!-- Legend -->
+          <div class="map-legend" id="mapLegend">
+            <div class="legend-item"><span class="legend-dot" style="background: var(--status-mastered)"></span> Mastered</div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--status-shaky)"></span> Shaky</div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--status-unattempted)"></span> Unattempted</div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--status-recommended)"></span> Recommended</div>
+          </div>
+
+          <!-- Graph Container -->
+          <div class="map-graph-wrapper">
+            <div id="masteryGraph" class="map-graph" role="img" aria-label="Concept mastery graph"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Side Panel -->
+      <div class="side-panel" id="sidePanel" role="dialog" aria-label="Concept details">
+        <button class="side-panel-close" id="sidePanelClose" aria-label="Close panel">&times;</button>
+        <div class="side-panel-content" id="sidePanelContent">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <div class="side-panel-overlay" id="sidePanelOverlay"></div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand"><div class="footer-logo">Edu<span>Setu</span></div><p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p></div>
+          <div><h4>Platform</h4><ul class="footer-links"><li><a href="chatbot.html">AI Tutor</a></li><li><a href="mastery-map.html">Mastery Map</a></li><li><a href="quiz.html">Adaptive Quiz</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+          <div><h4>For Mentors</h4><ul class="footer-links"><li><a href="mentor.html">Mentor View</a></li><li><a href="profile.html">Settings</a></li></ul></div>
+          <div><h4>About</h4><ul class="footer-links"><li><a href="#">About Us</a></li><li><a href="#">SDG Goals</a></li><li><a href="#">Contact</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 EduSetu . All rights reserved.</p><div class="footer-sdg"><span class="sdg-badge sdg4">SDG 4</span><span class="sdg-badge sdg10">SDG 10</span></div></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- TODO(security): Pin vis-network CDN version and add SRI hash for production -->
+  <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+  <script src="js/mastery-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/mastery-map.js"></script>
+</body>
+</html>

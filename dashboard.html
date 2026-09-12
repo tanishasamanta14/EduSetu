@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu Student Dashboard — Track your learning progress, confidence score, and mastery across subjects.">
+  <title>Dashboard — EduSetu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home"><div class="logo-icon">E</div>Edu<span class="logo-accent">Setu</span></a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+
+    <main class="page-content">
+      <section class="dash-hero">
+        <div class="container">
+          <div class="dash-hero-inner">
+            <div><h1 id="dashWelcome">Welcome back!</h1><p class="text-muted" id="dashSubtitle">Here's your learning overview</p></div>
+            <div class="dash-risk" id="dashRisk"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-sm">
+        <div class="container">
+          <!-- Stats Row -->
+          <div class="dash-stats grid grid-4" id="dashStats"></div>
+
+          <!-- Charts Row -->
+          <div class="dash-charts grid grid-2">
+            <div class="card">
+              <h4>🎯 Confidence Breakdown</h4>
+              <div class="chart-container">
+                <canvas id="confidenceChart" aria-label="Confidence doughnut chart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <h4>📡 Subject Mastery Radar</h4>
+              <div class="chart-container">
+                <canvas id="subjectRadar" aria-label="Subject mastery radar chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject Scores -->
+          <h3 class="dash-section-title">Subject Progress</h3>
+          <div class="dash-subjects grid grid-3" id="dashSubjects"></div>
+
+          <!-- Recommended, Activity & CTA -->
+          <div class="grid grid-2">
+            <div class="card">
+              <h4>📌 Recommended Topics</h4>
+              <div id="recommendedTopics" class="recommended-list"></div>
+            </div>
+            <div class="card">
+              <h4>📋 Recent Quiz Activity</h4>
+              <div id="quizActivity" class="activity-list"></div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="dash-charts" style="margin-top:var(--space-6)">
+            <div class="card dash-cta-card">
+              <div class="cta-content">
+                <span class="cta-icon">🗺️</span>
+                <h3>Explore Your Mastery Map</h3>
+                <p>See your complete learning graph — mastered, shaky, or needs attention.</p>
+                <a href="mastery-map.html" class="btn btn-primary">View Full Map →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand"><div class="footer-logo">Edu<span>Setu</span></div><p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p></div>
+          <div><h4>Platform</h4><ul class="footer-links"><li><a href="chatbot.html">AI Tutor</a></li><li><a href="mastery-map.html">Mastery Map</a></li><li><a href="quiz.html">Adaptive Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+          <div><h4>For Mentors</h4><ul class="footer-links"><li><a href="mentor.html">Mentor View</a></li><li><a href="profile.html">Settings</a></li></ul></div>
+          <div><h4>About</h4><ul class="footer-links"><li><a href="#">About Us</a></li><li><a href="#">SDG Goals</a></li><li><a href="#">Contact</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 EduSetu . All rights reserved.</p><div class="footer-sdg"><span class="sdg-badge sdg4">SDG 4</span><span class="sdg-badge sdg10">SDG 10</span></div></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- TODO(security): Pin Chart.js version and add SRI hash for production -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="js/mastery-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
+

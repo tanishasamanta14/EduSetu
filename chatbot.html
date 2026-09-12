@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu AI Tutor — Get instant doubt-solving in Hindi and English with step-by-step explanations.">
+  <title>AI Tutor — EduSetu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
+          <div class="logo-icon">E</div>
+          Edu<span class="logo-accent">Setu</span>
+        </a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <main class="page-content chat-page">
+      <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="chat-avatar-header">🤖</div>
+            <div>
+              <h2 class="chat-title">AI Tutor</h2>
+              <span class="chat-status">Online · Ready to help</span>
+            </div>
+          </div>
+          <div class="chat-header-right">
+            <div class="confidence-widget" id="confidenceWidget" aria-label="Confidence Score">
+              <svg class="confidence-ring" viewBox="0 0 36 36">
+                <path class="confidence-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="confidence-fill" id="confidenceRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+              <span class="confidence-value" id="confidenceValue">0%</span>
+            </div>
+            <div class="lang-toggle" id="langToggle">
+              <button class="lang-btn active" id="btnEN" data-lang="en" aria-label="English">EN</button>
+              <button class="lang-btn" id="btnHI" data-lang="hi" aria-label="Hindi">HI</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+          <!-- Messages rendered by JS -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about your studies..." aria-label="Type your question" autocomplete="off">
+            <button class="chat-send-btn" id="chatSend" aria-label="Send message">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
+

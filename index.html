@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduSetu — AI-Powered Learning Companion bridging education gaps for students in India. Multilingual, diagnostic-first learning platform.">
+  <title>EduSetu — AI-Powered Learning Companion</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Landing Page Specific Styles ---- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #070A12 0%, #0B0F19 30%, #111827 60%, #0F172A 100%);
+      overflow: hidden;
+      padding-top: 72px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(244,163,0,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(55,138,221,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .hero-shapes .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.08;
+      background: var(--clr-marigold);
+    }
+    .hero-shapes .shape-1 { width: 120px; height: 120px; top: 15%; left: 10%; animation: float 6s ease-in-out infinite; }
+    .hero-shapes .shape-2 { width: 80px; height: 80px; top: 60%; right: 15%; animation: float 8s ease-in-out infinite 1s; border-radius: var(--radius-xl); }
+    .hero-shapes .shape-3 { width: 60px; height: 60px; bottom: 20%; left: 30%; animation: float 7s ease-in-out infinite 2s; }
+    .hero-shapes .shape-4 { width: 100px; height: 100px; top: 30%; right: 30%; animation: float 9s ease-in-out infinite 0.5s; border-radius: var(--radius-2xl); }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+    }
+    .hero-overline {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-5);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-full);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      color: var(--clr-marigold-light);
+      margin-bottom: var(--space-6);
+      letter-spacing: 0.05em;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .hero h1 {
+      color: var(--clr-white);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: var(--space-6);
+      animation: fadeInUp 0.8s ease 0.1s forwards;
+      opacity: 0;
+    }
+    .hero h1 .accent { color: var(--clr-marigold); }
+    .hero-subtitle {
+      color: rgba(255,255,255,0.75);
+      font-size: var(--fs-md);
+      max-width: 580px;
+      margin: 0 auto var(--space-8);
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.3s forwards;
+      opacity: 0;
+    }
+    .hero-ctas .btn-primary { padding: 1rem 2.5rem; font-size: var(--fs-base); }
+    .hero-ctas .btn-hero-outline {
+      padding: 1rem 2.5rem;
+      font-size: var(--fs-base);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: var(--clr-white);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      transition: all var(--transition-normal);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .hero-ctas .btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); color: var(--clr-white); }
+
+    /* Stats Bar */
+    .stats-bar {
+      background: var(--surface-1);
+      padding: var(--space-10) 0;
+      position: relative;
+      z-index: 5;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-8);
+      text-align: center;
+    }
+    .stat-item .stat-number {
+      font-family: var(--font-heading);
+      font-size: var(--fs-3xl);
+      font-weight: 800;
+      color: var(--clr-indigo);
+      display: block;
+    }
+    .stat-item .stat-label {
+      font-size: var(--fs-sm);
+      color: var(--clr-gray-500);
+      margin-top: var(--space-2);
+      display: block;
+    }
+
+    /* Problem Section */
+    .problem-section { background: var(--surface-0); }
+
+    /* Features */
+    .features-section { background: var(--surface-0); }
+    .feature-card {
+      text-align: center;
+      padding: var(--space-8) var(--space-6);
+    }
+    .feature-card .feature-icon {
+      width: 72px; height: 72px;
+      margin: 0 auto var(--space-5);
+      background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(244,163,0,0.1));
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      transition: all var(--transition-normal);
+    }
+    .feature-card:hover .feature-icon {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 0 30px rgba(59,130,246,0.2);
+    }
+    .feature-card h4 { margin-bottom: var(--space-3); font-size: var(--fs-md); }
+    .feature-card p { color: var(--clr-gray-500); font-size: var(--fs-sm); line-height: 1.6; }
+
+    /* How it Works */
+    .how-section { background: var(--surface-1); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 12%;
+      right: 12%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-indigo), var(--clr-marigold));
+      border-radius: 2px;
+      z-index: 0;
+    }
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .step-number {
+      width: 56px; height: 56px;
+      margin: 0 auto var(--space-5);
+      background: linear-gradient(135deg, #3B82F6, #60A5FA);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: var(--fs-xl);
+      font-weight: 800;
+      color: #F9FAFB;
+      box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+      border: 4px solid var(--surface-1);
+    }
+    .step-card .step-icon { font-size: 1.5rem; margin-bottom: var(--space-3); display: block; }
+    .step-card h4 { font-size: var(--fs-sm); margin-bottom: var(--space-2); }
+    .step-card p { font-size: var(--fs-xs); color: var(--clr-gray-500); }
+
+    /* SDG Section */
+    .sdg-section { background: var(--surface-0); }
+    .sdg-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+    .sdg-card { padding: var(--space-8); border-radius: var(--radius-xl); position: relative; overflow: hidden; }
+    .sdg-card.sdg4-card { background: linear-gradient(135deg, rgba(220,38,38,0.08), rgba(220,38,38,0.04)); border: 1px solid rgba(220,38,38,0.15); }
+    .sdg-card.sdg10-card { background: linear-gradient(135deg, rgba(219,39,119,0.08), rgba(219,39,119,0.04)); border: 1px solid rgba(219,39,119,0.15); }
+    .sdg-card .sdg-number { font-family: var(--font-heading); font-size: var(--fs-5xl); font-weight: 800; opacity: 0.08; position: absolute; top: -10px; right: 20px; }
+    .sdg-card .sdg-badge-lg { display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); font-size: var(--fs-xs); font-weight: 700; margin-bottom: var(--space-4); }
+    .sdg4-card .sdg-badge-lg { background: rgba(200,30,30,0.15); color: #DC2626; }
+    .sdg10-card .sdg-badge-lg { background: rgba(221,44,108,0.15); color: #DB2777; }
+    .sdg-card h3 { font-size: var(--fs-xl); margin-bottom: var(--space-3); }
+    .sdg-card p { color: var(--clr-gray-600); font-size: var(--fs-sm); line-height: 1.7; }
+
+    /* CTA Bottom */
+    .cta-section {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
+      text-align: center;
+      padding: var(--space-20) 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(59,130,246,0.15);
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(244,163,0,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .cta-section h2 { color: var(--clr-white); margin-bottom: var(--space-4); }
+    .cta-section p { color: rgba(255,255,255,0.7); margin-bottom: var(--space-8); max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid::before { display: none; }
+      .sdg-cards { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
+          <div class="logo-icon">E</div>
+          Edu<span class="logo-accent">Setu</span>
+        </a>
+        <div class="navbar-links" id="navLinks">
+          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
+          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a>
+          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
+          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+      </div>
+      <div class="container hero-content">
+        <div class="hero-overline">🎓 SDG 4 &amp; SDG 10 · AI-Powered Education</div>
+        <h1>Your <span class="accent">AI Learning</span> Companion</h1>
+        <p class="hero-subtitle">Bridging the education gap with diagnostic-first, multilingual AI tutoring. Don't just answer the question — find the gap.</p>
+        <div class="hero-ctas">
+          <a href="chatbot.html" class="btn btn-primary">🚀 Start Learning</a>
+          <a href="#features" class="btn-hero-outline">Explore Features ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Stats Bar -->
+    <section class="stats-bar">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal">
+            <span class="stat-number" data-count="10" data-suffix="M+">0</span>
+            <span class="stat-label">Students affected by learning gaps</span>
+          </div>
+          <div class="stat-item reveal">
+            <span class="stat-number" data-count="30" data-suffix="%">0</span>
+            <span class="stat-label">Dropout rate after Class 8</span>
+          </div>
+          <div class="stat-item reveal">
+            <span class="stat-number" data-count="22" data-suffix=":1">0</span>
+            <span class="stat-label">Student-teacher ratio</span>
+          </div>
+          <div class="stat-item reveal">
+            <span class="stat-number" data-count="6000" data-suffix="+">0</span>
+            <span class="stat-label">Schools without internet</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section section" id="features">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="overline">What Makes Us Different</span>
+          <h2>Powerful Features</h2>
+          <p>Built for students who need more than just video lectures</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card feature-card reveal">
+            <div class="feature-icon">🤖</div>
+            <h4>AI Tutor</h4>
+            <p>Instant doubt-solving in Hindi &amp; English. Step-by-step explanations adapted to your grade level.</p>
+          </div>
+          <div class="card feature-card reveal">
+            <div class="feature-icon">🗺️</div>
+            <h4>Concept Mastery Map</h4>
+            <p>Visual graph showing which concepts you've mastered, which are shaky, and what to study next.</p>
+          </div>
+          <div class="card feature-card reveal">
+            <div class="feature-icon">🎯</div>
+            <h4>Adaptive Quiz</h4>
+            <p>Diagnoses <em>why</em> you got it wrong — misconception tagging, not just scores.</p>
+          </div>
+          <div class="card feature-card reveal">
+            <div class="feature-icon">👨‍🏫</div>
+            <h4>Mentor View</h4>
+            <p>Auto-generated weekly insights for teachers &amp; parents. Know exactly where each student needs help.</p>
+          </div>
+          <div class="card feature-card reveal">
+            <div class="feature-icon">🌐</div>
+            <h4>Multilingual</h4>
+            <p>Learn in your own language. Hindi &amp; English support with more languages coming soon.</p>
+          </div>
+          <div class="card feature-card reveal">
+            <div class="feature-icon">📡</div>
+            <h4>Offline First</h4>
+            <p>Works on low-bandwidth connections. Download lessons for offline access on any device.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="overline">Simple &amp; Effective</span>
+          <h2>How EduSetu Works</h2>
+          <p>Four steps to better understanding</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">1</div>
+            <span class="step-icon">💬</span>
+            <h4>Ask a Doubt</h4>
+            <p>Type your question in Hindi or English. No question is too basic.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">2</div>
+            <span class="step-icon">🔍</span>
+            <h4>AI Diagnoses the Gap</h4>
+            <p>Our AI finds the exact misconception causing confusion.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">3</div>
+            <span class="step-icon">📖</span>
+            <h4>Learn at Your Pace</h4>
+            <p>Get step-by-step explanations adapted to your level.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">4</div>
+            <span class="step-icon">📊</span>
+            <h4>Track Your Mastery</h4>
+            <p>Watch your Concept Mastery Map turn green as you grow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SDG Section -->
+    <section class="sdg-section section" id="sdg">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="overline">United Nations SDGs</span>
+          <h2>Aligned with Global Goals</h2>
+          <p>Contributing directly to Sustainable Development Goals</p>
+        </div>
+        <div class="sdg-cards">
+          <div class="sdg-card sdg4-card card reveal">
+            <div class="sdg-number">4</div>
+            <span class="sdg-badge-lg">SDG 4 — Quality Education</span>
+            <h3>Ensuring inclusive and equitable quality education</h3>
+            <p>EduSetu provides free, diagnostic-first AI tutoring that adapts to each student's level and language, making quality education accessible to students in rural and semi-urban India who lack trained teachers.</p>
+          </div>
+          <div class="sdg-card sdg10-card card reveal">
+            <div class="sdg-number">10</div>
+            <span class="sdg-badge-lg">SDG 10 — Reduced Inequalities</span>
+            <h3>Reducing the urban-rural learning gap</h3>
+            <p>By offering multilingual support, offline access, and low-bandwidth compatibility, EduSetu bridges the educational divide between privileged urban students and underserved rural communities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Bottom -->
+    <section class="cta-section">
+      <div class="container reveal">
+        <h2>Ready to Bridge the Learning Gap?</h2>
+        <p>Start your journey with EduSetu's AI-powered diagnostic tutoring — completely free.</p>
+        <a href="chatbot.html" class="btn btn-primary btn-lg">🚀 Start Learning Now</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo">Edu<span>Setu</span></div>
+            <p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p>
+          </div>
+          <div>
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="chatbot.html">AI Tutor</a></li>
+              <li><a href="mastery-map.html">Mastery Map</a></li>
+              <li><a href="quiz.html">Adaptive Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>For Mentors</h4>
+            <ul class="footer-links">
+              <li><a href="mentor.html">Mentor View</a></li>
+              <li><a href="profile.html">Settings</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>About</h4>
+            <ul class="footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">SDG Goals</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 EduSetu. All rights reserved.</p>
+          <div class="footer-sdg">
+            <span class="sdg-badge sdg4">SDG 4</span>
+            <span class="sdg-badge sdg10">SDG 10</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+

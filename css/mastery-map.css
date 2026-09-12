@@ -1,0 +1,120 @@
+/* ============================================================
+   EduSetu — Mastery Map Styles
+   ============================================================ */
+
+.map-hero {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+  padding: var(--space-12) 0 var(--space-8);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(59,130,246,0.1);
+}
+.map-hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(244,163,0,0.1) 0%, transparent 70%); border-radius: 50%; }
+.map-hero h1 { color: var(--clr-white); margin-bottom: var(--space-3); position: relative; z-index: 1; }
+.map-subtitle { color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto; font-size: var(--fs-sm); position: relative; z-index: 1; }
+
+/* Legend */
+.map-legend {
+  display: flex;
+  gap: var(--space-6);
+  justify-content: center;
+  margin: var(--space-6) 0;
+  flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-sm); color: var(--clr-gray-600); }
+.legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+/* Graph */
+.map-graph-wrapper {
+  background: var(--surface-1);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.map-graph {
+  width: 100%;
+  height: 550px;
+}
+
+/* Side Panel */
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100vh;
+  background: rgba(17,24,39,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: -4px 0 30px rgba(0,0,0,0.4);
+  z-index: var(--z-modal);
+  transform: translateX(100%);
+  transition: transform var(--transition-slow);
+  overflow-y: auto;
+  padding: var(--space-8);
+  padding-top: var(--space-16);
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.side-panel.open { transform: translateX(0); }
+.side-panel-close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  border: none;
+  font-size: var(--fs-xl);
+  color: #9CA3AF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+.side-panel-close:hover { background: var(--surface-4); color: #F9FAFB; }
+
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: calc(var(--z-modal) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+.side-panel-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* Panel content */
+.panel-concept-name { font-size: var(--fs-xl); margin-bottom: var(--space-2); }
+.panel-status-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
+.panel-score { margin-bottom: var(--space-6); }
+.panel-score-label { font-size: var(--fs-sm); color: var(--clr-gray-500); margin-bottom: var(--space-2); display: block; }
+.panel-score-value { font-family: var(--font-heading); font-size: var(--fs-3xl); font-weight: 800; color: var(--clr-indigo); }
+.panel-actions { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6); }
+.panel-related { margin-top: var(--space-6); }
+.panel-related h4 { font-size: var(--fs-sm); color: var(--clr-gray-500); margin-bottom: var(--space-3); text-transform: uppercase; letter-spacing: 0.05em; }
+.panel-related-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.panel-related-item {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+  font-size: var(--fs-sm); color: var(--clr-gray-700);
+  transition: background var(--transition-fast);
+}
+.panel-related-item:hover { background: var(--clr-gray-50); }
+.panel-related-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+@media (max-width: 768px) {
+  .map-graph { height: 400px; }
+  .side-panel {
+    width: 100%;
+    height: 60vh;
+    top: auto;
+    bottom: 0;
+    transform: translateY(100%);
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  }
+  .side-panel.open { transform: translateY(0); }
+}
