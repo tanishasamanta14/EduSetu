@@ -1,7 +1,5 @@
 # EduSetu — AI-Powered Learning Companion
-**Team CodeVeda · ESD Program, Spring 2025-26 · SDG 4 (Quality Education) & SDG 10 (Reduced Inequalities)**
 
----
 
 ## 1. Problem Statement
 
