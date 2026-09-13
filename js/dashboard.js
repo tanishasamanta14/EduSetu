@@ -1,371 +1,349 @@
 /* ============================================================
-   EduSetu — Dashboard JavaScript (Enhanced Dark Theme)
-   Doughnut confidence, radar subjects, fixed layouts
+   EduSetu — Dashboard JavaScript
+   Database-driven student dashboard with dynamic Chart.js
    ============================================================ */
 
 (function() {
   'use strict';
 
-  var SUBJECT_CONFIG = [
-    { key: 'math',          name: 'Mathematics',    icon: '📐', color: '#818CF8' },
-    { key: 'science',       name: 'Science',        icon: '🔬', color: '#34D399' },
-    { key: 'english',       name: 'English',        icon: '📚', color: '#FBBF24' },
-    { key: 'socialScience', name: 'Social Science',  icon: '🌍', color: '#A78BFA' },
-    { key: 'hindi',         name: 'हिंदी',           icon: '📖', color: '#F87171' },
-    { key: 'physics',       name: 'Physics',        icon: '⚛️', color: '#38BDF8' },
-    { key: 'chemistry',     name: 'Chemistry',      icon: '🧪', color: '#FB923C' },
-    { key: 'computerScience', name: 'Computer Science', icon: '💻', color: '#4ADE80' },
-    { key: 'biology',       name: 'Biology',        icon: '🧬', color: '#E879F9' },
-    { key: 'economics',     name: 'Economics',      icon: '📈', color: '#FACC15' }
-  ];
+  var chartInstances = {};
 
-  /* ---------- Welcome ---------- */
-  function renderWelcome() {
-    var prefs = EduSetu.getUserPrefs();
-    var welcome = document.getElementById('dashWelcome');
-    var subtitle = document.getElementById('dashSubtitle');
-    welcome.textContent = 'Welcome back, ' + prefs.name + '!';
-    subtitle.textContent = 'Class ' + prefs.grade + ' · Here\'s your learning overview';
-
-    var riskDiv = document.getElementById('dashRisk');
-    riskDiv.replaceChildren();
-    var badge = document.createElement('span');
-    badge.className = 'risk-badge low';
-    badge.textContent = 'Low Risk';
-    riskDiv.appendChild(badge);
+  // Toast for errors
+  function showToast(msg, isError) {
+    var toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    toast.style.background = isError ? '#F87171' : '#34D399';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 24px';
+    toast.style.borderRadius = '8px';
+    toast.style.zIndex = '9999';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.remove(); }, 3000);
   }
 
-  /* ---------- Stats ---------- */
-  function renderStats() {
-    var container = document.getElementById('dashStats');
-    container.replaceChildren();
+  /* ---------- Fetch Dashboard Data ---------- */
+  function loadDashboard() {
+    var main = document.querySelector('.main-content');
+    main.style.opacity = '0.5';
 
-    var confidence = EduSetu.getConfidenceScore();
-
-    var totalMastered = 0;
-    var totalConcepts = 0;
-    SUBJECT_CONFIG.forEach(function(s) {
-      var stats = getMasteryStats(s.key);
-      totalMastered += stats.mastered;
-      totalConcepts += stats.total;
-    });
-
-    var history = [];
-    var stored = localStorage.getItem('edusetu_quiz_history');
-    if (stored) { try { history = JSON.parse(stored); } catch(e) {} }
-
-    var statsData = [
-      { icon: '🎯', label: 'Confidence Score', value: confidence + '%', bg: 'rgba(244,163,0,0.15)' },
-      { icon: '✅', label: 'Concepts Mastered', value: totalMastered + '/' + totalConcepts, bg: 'rgba(52,211,153,0.15)' },
-      { icon: '📝', label: 'Quizzes Taken', value: String(history.length), bg: 'rgba(96,165,250,0.15)' },
-      { icon: '🔥', label: 'Current Streak', value: '5 days', bg: 'rgba(248,113,113,0.15)' }
-    ];
-
-    statsData.forEach(function(s) {
-      var card = document.createElement('div');
-      card.className = 'stat-card';
-
-      var iconDiv = document.createElement('div');
-      iconDiv.className = 'stat-card-icon';
-      iconDiv.style.background = s.bg;
-      iconDiv.textContent = s.icon;
-
-      var infoDiv = document.createElement('div');
-      var val = document.createElement('span');
-      val.className = 'stat-card-value';
-      val.textContent = s.value;
-      var lbl = document.createElement('span');
-      lbl.className = 'stat-card-label';
-      lbl.textContent = s.label;
-      infoDiv.appendChild(val);
-      infoDiv.appendChild(lbl);
-
-      card.appendChild(iconDiv);
-      card.appendChild(infoDiv);
-      container.appendChild(card);
-    });
-  }
-
-  /* ---------- Confidence Doughnut Chart ---------- */
-  function renderConfidenceChart() {
-    var confidence = EduSetu.getConfidenceScore();
-    var canvas = document.getElementById('confidenceChart');
-    var ctx = canvas.getContext('2d');
-
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Confident', 'Unsure', 'Confused'],
-        datasets: [{
-          data: (function() {
-            var stored = localStorage.getItem('edusetu_chat_ratings');
-            var r = { gotIt: 15, kindOf: 8, confused: 4 };
-            if (stored) { try { r = JSON.parse(stored); } catch(e) {} }
-            return [r.gotIt || 0, r.kindOf || 0, r.confused || 0];
-          })(),
-          backgroundColor: [
-            'rgba(52,211,153,0.8)',
-            'rgba(251,191,36,0.8)',
-            'rgba(248,113,113,0.8)'
-          ],
-          borderColor: [
-            'rgba(52,211,153,1)',
-            'rgba(251,191,36,1)',
-            'rgba(248,113,113,1)'
-          ],
-          borderWidth: 2,
-          hoverOffset: 6,
-          spacing: 3,
-          borderRadius: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '70%',
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: '#9CA3AF',
-              font: { family: 'Inter', size: 11 },
-              padding: 16,
-              usePointStyle: true,
-              pointStyleWidth: 8
-            }
-          }
+    fetch('/api/dashboard/student')
+      .then(function(res) {
+        if (res.status === 401) {
+          return fetch('/api/auth/dev-login').then(function() { return fetch('/api/dashboard/student'); });
         }
-      },
-      plugins: [{
-        id: 'centerText',
-        beforeDraw: function(chart) {
-          var width = chart.width;
-          var height = chart.height;
-          var ctx2 = chart.ctx;
-          ctx2.save();
-          ctx2.font = '800 28px Sora, sans-serif';
-          ctx2.fillStyle = '#F9FAFB';
-          ctx2.textAlign = 'center';
-          ctx2.textBaseline = 'middle';
-          var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
-          ctx2.fillText(confidence + '%', width / 2, centerY - 8);
-          ctx2.font = '500 11px Inter, sans-serif';
-          ctx2.fillStyle = '#6B7280';
-          ctx2.fillText('Confidence', width / 2, centerY + 14);
-          ctx2.restore();
+        return res;
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(result) {
+        main.style.opacity = '1';
+        if (result.success && result.data) {
+          renderDashboard(result.data);
+        } else {
+          showToast(result.message || 'Error loading dashboard', true);
         }
-      }]
-    });
-  }
-
-  /* ---------- Subject Radar Chart ---------- */
-  function renderSubjectRadar() {
-    var canvas = document.getElementById('subjectRadar');
-    if (!canvas) return;
-    var ctx = canvas.getContext('2d');
-
-    var labels = [];
-    var data = [];
-    SUBJECT_CONFIG.forEach(function(s) {
-      var stats = getMasteryStats(s.key);
-      labels.push(s.name);
-      data.push(stats.total > 0 ? Math.round((stats.mastered / stats.total) * 100) : 0);
-    });
-
-    new Chart(ctx, {
-      type: 'radar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Mastery %',
-          data: data,
-          backgroundColor: 'rgba(59,130,246,0.15)',
-          borderColor: 'rgba(96,165,250,0.8)',
-          borderWidth: 2,
-          pointBackgroundColor: '#60A5FA',
-          pointBorderColor: '#111827',
-          pointBorderWidth: 2,
-          pointRadius: 5,
-          pointHoverRadius: 7
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          r: {
-            beginAtZero: true,
-            max: 100,
-            ticks: {
-              stepSize: 25,
-              color: '#6B7280',
-              backdropColor: 'transparent',
-              font: { size: 10 }
-            },
-            grid: { color: 'rgba(255,255,255,0.06)' },
-            angleLines: { color: 'rgba(255,255,255,0.06)' },
-            pointLabels: {
-              color: '#D1D5DB',
-              font: { family: 'Inter', size: 11, weight: 600 }
-            }
-          }
-        }
-      }
-    });
-  }
-
-  /* ---------- Subject Progress ---------- */
-  function renderSubjects() {
-    var container = document.getElementById('dashSubjects');
-    container.replaceChildren();
-
-    SUBJECT_CONFIG.forEach(function(s) {
-      var stats = getMasteryStats(s.key);
-      var pct = stats.total > 0 ? Math.round((stats.mastered / stats.total) * 100) : 0;
-
-      var card = document.createElement('div');
-      card.className = 'subject-card';
-      card.style.borderLeftColor = s.color;
-
-      var header = document.createElement('div');
-      header.className = 'subject-card-header';
-      var icon = document.createElement('span');
-      icon.className = 'subject-card-icon';
-      icon.textContent = s.icon;
-      var name = document.createElement('span');
-      name.className = 'subject-card-name';
-      name.textContent = s.name;
-      var pctEl = document.createElement('span');
-      pctEl.className = 'subject-card-pct';
-      pctEl.textContent = pct + '%';
-      header.appendChild(icon);
-      header.appendChild(name);
-      header.appendChild(pctEl);
-
-      var progBar = document.createElement('div');
-      progBar.className = 'progress-bar';
-      var progFill = document.createElement('div');
-      progFill.className = 'progress-bar-fill';
-      progFill.style.width = pct + '%';
-      progFill.style.background = s.color;
-      progBar.appendChild(progFill);
-
-      var badges = document.createElement('div');
-      badges.className = 'subject-badges';
-      var b1 = document.createElement('span');
-      b1.className = 'badge badge-mastered';
-      b1.textContent = stats.mastered + ' mastered';
-      var b2 = document.createElement('span');
-      b2.className = 'badge badge-shaky';
-      b2.textContent = stats.shaky + ' shaky';
-      var b3 = document.createElement('span');
-      b3.className = 'badge badge-unattempted';
-      b3.textContent = stats.unattempted + ' to learn';
-      badges.appendChild(b1);
-      badges.appendChild(b2);
-      badges.appendChild(b3);
-
-      card.appendChild(header);
-      card.appendChild(progBar);
-      card.appendChild(badges);
-      container.appendChild(card);
-    });
-  }
-
-  /* ---------- Recommended Topics ---------- */
-  function renderRecommended() {
-    var container = document.getElementById('recommendedTopics');
-    container.replaceChildren();
-
-    var count = 0;
-    SUBJECT_CONFIG.forEach(function(s) {
-      var concepts = getMasteryConcepts(s.key);
-      concepts.forEach(function(c) {
-        if (c.status === 'recommended' && count < 5) {
-          count++;
-          var item = document.createElement('div');
-          item.className = 'recommended-item';
-          var dot = document.createElement('span');
-          dot.className = 'recommended-dot';
-          var link = document.createElement('a');
-          link.href = 'quiz.html?concept=' + encodeURIComponent(c.id);
-          link.textContent = c.name;
-          var subj = document.createElement('span');
-          subj.className = 'recommended-subject';
-          subj.textContent = s.name;
-          item.appendChild(dot);
-          item.appendChild(link);
-          item.appendChild(subj);
-          container.appendChild(item);
-        }
+      })
+      .catch(function(err) {
+        main.style.opacity = '1';
+        showToast('Network error loading dashboard', true);
       });
-    });
+  }
 
-    if (count === 0) {
-      var empty = document.createElement('p');
-      empty.className = 'text-muted text-sm';
-      empty.textContent = 'No recommended topics right now.';
-      container.appendChild(empty);
+  /* ---------- Render Everything ---------- */
+  function renderDashboard(data) {
+    renderWelcome(data);
+    renderTopMetrics(data);
+    
+    // Check if new student with 0 quizzes
+    if (data.totalQuizzes === 0) {
+      showEmptyState();
+      return;
+    } else {
+      document.getElementById('dashStats').style.display = 'grid';
+      document.querySelector('.dashboard-grid').style.display = 'grid';
+      var emptyEl = document.getElementById('emptyStateMsg');
+      if (emptyEl) emptyEl.remove();
+    }
+
+    renderCharts(data);
+    renderWeakStrong(data);
+    renderRecentActivity(data);
+  }
+
+  function showEmptyState() {
+    // Hide standard elements
+    document.getElementById('dashStats').style.display = 'none';
+    document.querySelector('.dashboard-grid').style.display = 'none';
+
+    // Create empty state banner
+    var container = document.querySelector('.container');
+    var emptyDiv = document.getElementById('emptyStateMsg');
+    if (!emptyDiv) {
+      emptyDiv = document.createElement('div');
+      emptyDiv.id = 'emptyStateMsg';
+      emptyDiv.className = 'glass-card';
+      emptyDiv.style.textAlign = 'center';
+      emptyDiv.style.padding = '3rem';
+      emptyDiv.style.marginTop = '2rem';
+      
+      emptyDiv.innerHTML = `
+        <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Welcome to EduSetu!</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">
+          Take your first diagnostic quiz to start building your mastery map.
+        </p>
+        <button class="btn btn-primary" onclick="window.location.href='quiz.html'">Start a Quiz</button>
+      `;
+      container.insertBefore(emptyDiv, document.querySelector('.dashboard-grid'));
     }
   }
 
-  /* ---------- Quiz Activity ---------- */
-  function renderActivity() {
-    var container = document.getElementById('quizActivity');
+  function renderWelcome(data) {
+    var welcome = document.getElementById('dashWelcome');
+    var subtitle = document.getElementById('dashSubtitle');
+    
+    // Use profile name if we have to fetch it, but usually user data comes back.
+    // For now we'll fetch from /api/profile if needed, or rely on what's available
+    fetch('/api/profile').then(r => r.json()).then(res => {
+       if(res.success) {
+         welcome.textContent = 'Welcome back, ' + res.data.name + '!';
+         subtitle.textContent = 'Class ' + res.data.grade + ' — Here\'s your learning overview';
+       }
+    });
+
+    var riskDiv = document.getElementById('dashRisk');
+    if (riskDiv) {
+      riskDiv.replaceChildren();
+      var badge = document.createElement('span');
+      // If overall mastery is high, low risk.
+      if (data.overallMastery >= 70) {
+        badge.className = 'risk-badge low';
+        badge.textContent = 'Low Risk';
+      } else if (data.overallMastery >= 40) {
+        badge.className = 'risk-badge medium';
+        badge.textContent = 'Moderate Risk';
+      } else {
+        badge.className = 'risk-badge high';
+        badge.textContent = 'High Dropout Risk';
+      }
+      riskDiv.appendChild(badge);
+    }
+  }
+
+  function renderTopMetrics(data) {
+    var container = document.getElementById('dashStats');
+    if (!container) return;
     container.replaceChildren();
 
-    var history = [];
-    var stored = localStorage.getItem('edusetu_quiz_history');
-    if (stored) { try { history = JSON.parse(stored); } catch(e) {} }
+    var stats = [
+      { label: 'Overall Confidence', val: data.overallMastery + '%', icon: '🧠', color: 'var(--primary-color)' },
+      { label: 'Total Quizzes', val: data.totalQuizzes, icon: '📝', color: 'var(--accent-color)' },
+      { label: 'Learning Streak', val: data.learningStreak + ' days', icon: '🔥', color: '#F59E0B' },
+      { label: 'Completion', val: data.completionPercentage + '%', icon: '🎯', color: '#10B981' }
+    ];
 
-    var recent = history.slice(-5).reverse();
+    stats.forEach(function(s) {
+      var card = document.createElement('div');
+      card.className = 'stat-card';
+      
+      var icon = document.createElement('div');
+      icon.className = 'stat-icon';
+      icon.textContent = s.icon;
+      icon.style.background = s.color + '20'; // 20% opacity
+      icon.style.color = s.color;
 
-    if (recent.length === 0) {
-      var empty = document.createElement('p');
-      empty.className = 'text-muted text-sm';
-      empty.textContent = 'No quizzes taken yet.';
-      container.appendChild(empty);
+      var info = document.createElement('div');
+      var val = document.createElement('div');
+      val.className = 'stat-val';
+      val.textContent = s.val;
+      var lbl = document.createElement('div');
+      lbl.className = 'stat-label';
+      lbl.textContent = s.label;
+      
+      info.appendChild(val);
+      info.appendChild(lbl);
+      card.appendChild(icon);
+      card.appendChild(info);
+      container.appendChild(card);
+    });
+  }
+
+  function renderCharts(data) {
+    // 1. Overall Doughnut
+    var overCtx = document.getElementById('overallChart');
+    if (overCtx) {
+      if (chartInstances.overall) chartInstances.overall.destroy();
+      chartInstances.overall = new Chart(overCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Mastered', 'Learning'],
+          datasets: [{
+            data: [data.overallMastery, 100 - data.overallMastery],
+            backgroundColor: ['#3B82F6', 'rgba(59, 130, 246, 0.1)'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '80%', responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          }
+        }
+      });
+      // Update text in center
+      var centerText = document.getElementById('overallScoreText');
+      if (centerText) centerText.textContent = data.overallMastery + '%';
+    }
+
+    // 2. Subject Radar
+    var subjCtx = document.getElementById('subjectChart');
+    if (subjCtx && data.subjectMastery.length > 0) {
+      if (chartInstances.subject) chartInstances.subject.destroy();
+      var labels = data.subjectMastery.map(function(s) { return s.subjectName; });
+      var scores = data.subjectMastery.map(function(s) { return s.score; });
+
+      chartInstances.subject = new Chart(subjCtx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Subject Mastery',
+            data: scores,
+            backgroundColor: 'rgba(96, 165, 250, 0.2)',
+            borderColor: '#60A5FA',
+            pointBackgroundColor: '#60A5FA',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#60A5FA'
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255,255,255,0.1)' },
+              grid: { color: 'rgba(255,255,255,0.1)' },
+              pointLabels: { color: '#9CA3AF', font: { size: 12 } },
+              ticks: { display: false, min: 0, max: 100 }
+            }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // 3. Progress Line Chart
+    var progCtx = document.getElementById('progressChart');
+    if (progCtx && data.recentQuizScores.length > 0) {
+      if (chartInstances.progress) chartInstances.progress.destroy();
+      var pLabels = data.recentQuizScores.map(function(q) { return q.date; });
+      var pScores = data.recentQuizScores.map(function(q) { return q.score; });
+
+      chartInstances.progress = new Chart(progCtx, {
+        type: 'line',
+        data: {
+          labels: pLabels,
+          datasets: [{
+            label: 'Quiz Scores (%)',
+            data: pScores,
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true, max: 100,
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: { color: '#9CA3AF' }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#9CA3AF' }
+            }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+  }
+
+  function renderWeakStrong(data) {
+    var strongList = document.getElementById('strongTopicsList');
+    var weakList = document.getElementById('weakTopicsList');
+    
+    if (strongList) {
+      strongList.replaceChildren();
+      if (data.strongTopics.length === 0) {
+        strongList.innerHTML = '<li style="color:var(--text-muted); padding:1rem 0;">No mastered topics yet.</li>';
+      } else {
+        data.strongTopics.slice(0,4).forEach(function(t) {
+          var li = document.createElement('li');
+          li.innerHTML = '<span class="topic-name">' + t.name + '</span><span class="badge badge-mastered">Mastered</span>';
+          strongList.appendChild(li);
+        });
+      }
+    }
+
+    if (weakList) {
+      weakList.replaceChildren();
+      if (data.weakTopics.length === 0) {
+        weakList.innerHTML = '<li style="color:var(--text-muted); padding:1rem 0;">No weak topics! Great job.</li>';
+      } else {
+        data.weakTopics.slice(0,4).forEach(function(t) {
+          var li = document.createElement('li');
+          li.innerHTML = '<span class="topic-name">' + t.name + '</span><span class="badge badge-' + t.status + '">' + t.status + '</span>';
+          weakList.appendChild(li);
+        });
+      }
+    }
+  }
+
+  function renderRecentActivity(data) {
+    var activityList = document.getElementById('activityList');
+    if (!activityList) return;
+    activityList.replaceChildren();
+    
+    if (data.recentActivity.length === 0) {
+      activityList.innerHTML = '<li style="color:var(--text-muted); padding:1rem 0;">No recent activity.</li>';
       return;
     }
 
-    recent.forEach(function(q) {
-      var item = document.createElement('div');
-      item.className = 'activity-item';
-      var concept = document.createElement('span');
-      concept.className = 'activity-concept';
-      concept.textContent = q.concept;
-      var scoreEl = document.createElement('span');
-      scoreEl.className = 'activity-score';
-      scoreEl.textContent = q.score + '%';
-      scoreEl.style.color = q.score >= 80 ? '#34D399' : q.score >= 40 ? '#FBBF24' : '#F87171';
-      var date = document.createElement('span');
-      date.className = 'activity-date';
-      date.textContent = q.date;
-      item.appendChild(concept);
-      item.appendChild(scoreEl);
-      item.appendChild(date);
-      container.appendChild(item);
+    data.recentActivity.forEach(function(act) {
+      var li = document.createElement('li');
+      li.className = 'activity-item';
+      
+      var icon = document.createElement('div');
+      icon.className = 'activity-icon';
+      icon.textContent = '✅';
+      
+      var content = document.createElement('div');
+      content.className = 'activity-content';
+      var text = document.createElement('div');
+      text.textContent = act.title + ' (Score: ' + act.score + '%)';
+      var time = document.createElement('div');
+      time.className = 'activity-time';
+      var d = new Date(act.date);
+      time.textContent = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+      
+      content.appendChild(text);
+      content.appendChild(time);
+      li.appendChild(icon);
+      li.appendChild(content);
+      activityList.appendChild(li);
     });
   }
 
   /* ---------- Init ---------- */
-  function init() {
-    renderWelcome();
-    renderStats();
-    renderConfidenceChart();
-    renderSubjectRadar();
-    renderSubjects();
-    renderRecommended();
-    renderActivity();
-  }
-
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', loadDashboard);
   } else {
-    init();
+    loadDashboard();
   }
 
 })();

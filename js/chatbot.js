@@ -279,9 +279,9 @@
       });
     })
     .then(function(result) {
-      if (result.status === 200 && result.data.reply) {
+      if (result.status === 200 && result.data && result.data.success && result.data.data && result.data.data.reply) {
         // Grok API success
-        callback(result.data.reply, true);
+        callback(result.data.data.reply, true);
       } else {
         // API error — fallback to local response
         var fallback = getAIResponse(userText);

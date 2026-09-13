@@ -233,28 +233,84 @@
 
       /* ---------- Data ---------- */
       var SUBJECTS_META = [
-        { key: 'math',          name: 'Mathematics',    icon: '📐', size: '45 MB' },
-        { key: 'science',       name: 'Science',        icon: '🔬', size: '52 MB' },
-        { key: 'english',       name: 'English',        icon: '📚', size: '38 MB' },
-        { key: 'socialScience', name: 'Social Science',  icon: '🌍', size: '41 MB' },
-        { key: 'hindi',         name: 'हिंदी',           icon: '📖', size: '35 MB' },
-        { key: 'physics',       name: 'Physics',        icon: '⚛️', size: '58 MB' },
-        { key: 'chemistry',     name: 'Chemistry',      icon: '🧪', size: '55 MB' },
-        { key: 'computerScience', name: 'Computer Science', icon: '💻', size: '62 MB' },
-        { key: 'biology',       name: 'Biology',        icon: '🧬', size: '50 MB' },
-        { key: 'economics',     name: 'Economics',      icon: '📈', size: '40 MB' }
+        { key: 'math',          name: 'Mathematics',    icon: '📐' },
+        { key: 'science',       name: 'Science',        icon: '🌿' },
+        { key: 'english',       name: 'English',        icon: '📖' },
+        { key: 'socialScience', name: 'Social Science',  icon: '🏛️' },
+        { key: 'physics',       name: 'Physics',        icon: '⚛️' },
+        { key: 'chemistry',     name: 'Chemistry',      icon: '🧪' },
+        { key: 'computerScience', name: 'Computer Science', icon: '💻' },
+        { key: 'biology',       name: 'Biology',        icon: '🧬' },
+        { key: 'economics',     name: 'Economics',      icon: '📈' }
       ];
 
       var GRADES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'UG'];
 
-      /* ---------- Load user prefs ---------- */
-      function loadPrefs() {
-        var prefs = EduSetu.getUserPrefs();
-        return prefs;
+      var CURRENT_PREFS = null;
+      
+      // Toast message helper
+      function showToast(msg, isError) {
+        var toast = document.createElement('div');
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.background = isError ? '#F87171' : '#34D399';
+        toast.style.color = '#fff';
+        toast.style.padding = '12px 24px';
+        toast.style.borderRadius = '8px';
+        toast.style.zIndex = '9999';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3000);
       }
 
-      function savePrefs(prefs) {
-        localStorage.setItem('edusetu_user_prefs', JSON.stringify(prefs));
+      /* ---------- API Loading ---------- */
+      function loadProfile() {
+        var avatarEl = document.getElementById('profileAvatar');
+        avatarEl.innerHTML = '<span style="font-size: 1rem">⏳</span>'; // Loading state
+        
+        fetch('/api/profile')
+          .then(function(res) {
+            if (res.status === 401) {
+              // Automatically login as development user
+              return fetch('/api/auth/dev-login').then(function() { return fetch('/api/profile'); });
+            }
+            return res;
+          })
+          .then(function(res) { return res.json(); })
+          .then(function(result) {
+            if (result.success && result.data) {
+              CURRENT_PREFS = result.data;
+              initUI(CURRENT_PREFS);
+              showToast('Profile loaded from database', false);
+            } else {
+              showToast(result.message || 'Error loading profile', true);
+            }
+          })
+          .catch(function(err) {
+            showToast('Network error loading profile', true);
+          });
+      }
+
+      function saveProfile(updates, successMsg) {
+        fetch('/api/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(result) {
+          if (result.success) {
+            CURRENT_PREFS = result.data;
+            renderProfileHeader(CURRENT_PREFS);
+            if (successMsg) showToast(successMsg, false);
+          } else {
+            showToast(result.message || 'Error saving profile', true);
+          }
+        })
+        .catch(function(err) {
+          showToast('Network error saving profile', true);
+        });
       }
 
       /* ---------- Render Profile Header ---------- */
@@ -264,17 +320,59 @@
         var gradeBadge = document.getElementById('profileGradeBadge');
         var roleBadge = document.getElementById('profileRoleBadge');
 
+        if (!prefs || !prefs.name) return;
+
         var initials = prefs.name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase();
         avatarEl.textContent = initials;
         nameEl.textContent = prefs.name;
-        gradeBadge.textContent = 'Class ' + prefs.grade;
-        roleBadge.textContent = prefs.role === 'mentor' ? 'Mentor' : 'Student';
+        if (gradeBadge) gradeBadge.textContent = 'Class ' + prefs.grade;
+        if (roleBadge) roleBadge.textContent = prefs.role === 'mentor' ? 'Mentor' : 'Student';
+      }
+
+      /* ---------- Personal Information ---------- */
+      function setupPersonalInfo(prefs) {
+        var nameInput = document.getElementById('inputName');
+        var emailInput = document.getElementById('inputEmail');
+        var schoolInput = document.getElementById('inputSchool');
+        var saveBtn = document.getElementById('savePersonalInfo');
+        var saveStatus = document.getElementById('saveStatus');
+
+        if (!nameInput) return;
+
+        // Load existing values from API
+        nameInput.value = prefs.name || '';
+        emailInput.value = prefs.email || '';
+        if (schoolInput) schoolInput.value = prefs.school || ''; // DB doesn't have school yet, but UI does
+
+        // Disable email editing because it's linked to the auth token
+        emailInput.disabled = true;
+        emailInput.style.opacity = '0.7';
+
+        saveBtn.addEventListener('click', function() {
+          var newName = nameInput.value.trim();
+          if (!newName) {
+            nameInput.style.borderColor = '#F87171';
+            setTimeout(function() { nameInput.style.borderColor = ''; }, 2000);
+            return;
+          }
+
+          var newSchool = schoolInput ? schoolInput.value.trim() : '';
+
+          saveProfile({ name: newName, school: newSchool }, 'Personal information updated in database!');
+          
+          if (saveStatus) {
+            saveStatus.textContent = '✓ Saved!';
+            saveStatus.classList.add('show');
+            setTimeout(function() { saveStatus.classList.remove('show'); }, 2500);
+          }
+        });
       }
 
       /* ---------- Language Selection ---------- */
       function setupLanguage(prefs) {
         var enBtn = document.getElementById('langEn');
         var hiBtn = document.getElementById('langHi');
+        if (!enBtn || !hiBtn) return;
 
         function updateLangUI(lang) {
           if (lang === 'hi') {
@@ -289,104 +387,47 @@
         updateLangUI(prefs.language);
 
         enBtn.addEventListener('click', function() {
-          prefs.language = 'en';
-          savePrefs(prefs);
           updateLangUI('en');
+          saveProfile({ language: 'en' }, 'Language preference saved');
         });
 
         hiBtn.addEventListener('click', function() {
-          prefs.language = 'hi';
-          savePrefs(prefs);
           updateLangUI('hi');
+          saveProfile({ language: 'hi' }, 'Language preference saved');
         });
       }
 
       /* ---------- Grade Selector ---------- */
       function setupGrade(prefs) {
         var container = document.getElementById('gradeSelector');
+        if (!container) return;
         container.replaceChildren();
 
         GRADES.forEach(function(g) {
           var btn = document.createElement('button');
-          btn.className = 'grade-btn' + (prefs.grade === g ? ' active' : '');
-          btn.setAttribute('aria-label', 'Select Class ' + g);
+          btn.className = 'grade-btn' + (prefs.grade == g ? ' active' : '');
           btn.textContent = 'Class ' + g;
           btn.addEventListener('click', function() {
-            prefs.grade = g;
-            savePrefs(prefs);
-            // Update UI
             var allBtns = container.querySelectorAll('.grade-btn');
             allBtns.forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
-            // Update header badge
-            var gradeBadge = document.getElementById('profileGradeBadge');
-            gradeBadge.textContent = g === 'UG' ? 'Undergraduate' : 'Class ' + g;
+            
+            saveProfile({ grade: g }, 'Grade level updated to ' + g);
           });
           container.appendChild(btn);
         });
       }
 
-      /* ---------- Subjects Enrolled ---------- */
-      function setupSubjects(prefs) {
-        var container = document.getElementById('subjectsGrid');
-        container.replaceChildren();
-
-        SUBJECTS_META.forEach(function(subj) {
-          var isChecked = prefs.subjects && prefs.subjects.indexOf(subj.key) !== -1;
-
-          var label = document.createElement('label');
-          label.className = 'subject-checkbox' + (isChecked ? ' checked' : '');
-          label.setAttribute('for', 'subj-' + subj.key);
-
-          var checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.id = 'subj-' + subj.key;
-          checkbox.checked = isChecked;
-          checkbox.setAttribute('aria-label', subj.name);
-
-          var iconSpan = document.createElement('span');
-          iconSpan.className = 'subject-icon';
-          iconSpan.textContent = subj.icon;
-
-          var nameSpan = document.createElement('span');
-          nameSpan.className = 'subject-name';
-          nameSpan.textContent = subj.name;
-
-          var checkmark = document.createElement('span');
-          checkmark.className = 'subject-checkmark';
-          checkmark.textContent = '✓';
-
-          label.appendChild(checkbox);
-          label.appendChild(iconSpan);
-          label.appendChild(nameSpan);
-          label.appendChild(checkmark);
-
-          checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-              if (prefs.subjects.indexOf(subj.key) === -1) {
-                prefs.subjects.push(subj.key);
-              }
-              label.classList.add('checked');
-            } else {
-              prefs.subjects = prefs.subjects.filter(function(s) { return s !== subj.key; });
-              label.classList.remove('checked');
-            }
-            savePrefs(prefs);
-          });
-
-          container.appendChild(label);
-        });
-      }
-
-      /* ---------- Offline Content ---------- */
+      /* ---------- Offline Content (LocalStorage Only) ---------- */
       function setupOffline() {
         var container = document.getElementById('offlineList');
+        if (!container) return;
         container.replaceChildren();
 
         var offlineState = {};
         var stored = localStorage.getItem('edusetu_offline');
         if (stored) {
-          try { offlineState = JSON.parse(stored); } catch(e) { /* ignore */ }
+          try { offlineState = JSON.parse(stored); } catch(e) { }
         }
 
         SUBJECTS_META.forEach(function(subj) {
@@ -395,21 +436,18 @@
 
           var infoDiv = document.createElement('div');
           infoDiv.className = 'offline-info';
-
           var icon = document.createElement('span');
           icon.className = 'offline-icon';
           icon.textContent = subj.icon;
-
           var details = document.createElement('div');
           var nameEl = document.createElement('span');
           nameEl.className = 'offline-name';
           nameEl.textContent = subj.name;
           var sizeEl = document.createElement('span');
-          sizeEl.className = 'offline-size text-muted text-xs';
-          sizeEl.textContent = subj.size;
+          sizeEl.className = 'offline-size';
+          sizeEl.textContent = '40 MB';
           details.appendChild(nameEl);
           details.appendChild(sizeEl);
-
           infoDiv.appendChild(icon);
           infoDiv.appendChild(details);
 
@@ -417,7 +455,6 @@
           statusDiv.className = 'offline-status';
 
           var isDownloaded = offlineState[subj.key] === true;
-
           var statusText = document.createElement('span');
           statusText.className = 'offline-status-text' + (isDownloaded ? ' downloaded' : '');
           statusText.textContent = isDownloaded ? '✓ Downloaded' : 'Not downloaded';
@@ -427,7 +464,6 @@
           var toggleInput = document.createElement('input');
           toggleInput.type = 'checkbox';
           toggleInput.checked = isDownloaded;
-          toggleInput.setAttribute('aria-label', 'Download ' + subj.name + ' for offline');
           var toggleSlider = document.createElement('span');
           toggleSlider.className = 'toggle-slider';
           toggleLabel.appendChild(toggleInput);
@@ -437,193 +473,49 @@
             offlineState[subj.key] = toggleInput.checked;
             localStorage.setItem('edusetu_offline', JSON.stringify(offlineState));
             statusText.textContent = toggleInput.checked ? '✓ Downloaded' : 'Not downloaded';
-            if (toggleInput.checked) {
-              statusText.classList.add('downloaded');
-            } else {
-              statusText.classList.remove('downloaded');
-            }
+            if (toggleInput.checked) statusText.classList.add('downloaded');
+            else statusText.classList.remove('downloaded');
           });
 
           statusDiv.appendChild(statusText);
           statusDiv.appendChild(toggleLabel);
-
           row.appendChild(infoDiv);
           row.appendChild(statusDiv);
           container.appendChild(row);
         });
       }
-
-      /* ---------- Role Switch ---------- */
-      function setupRole(prefs) {
-        var container = document.getElementById('roleCards');
-        container.replaceChildren();
-
-        var roles = [
-          { key: 'student', name: 'Student', icon: '🎒', desc: 'Access your learning dashboard, quizzes, and AI tutor' },
-          { key: 'mentor', name: 'Mentor', icon: '👨‍🏫', desc: 'View student progress, weekly insights, and dropout risk' }
-        ];
-
-        roles.forEach(function(role) {
-          var card = document.createElement('div');
-          card.className = 'role-card' + (prefs.role === role.key ? ' active' : '');
-          card.setAttribute('role', 'button');
-          card.setAttribute('tabindex', '0');
-          card.setAttribute('aria-label', 'Switch to ' + role.name + ' role');
-
-          var iconEl = document.createElement('div');
-          iconEl.className = 'role-icon';
-          iconEl.textContent = role.icon;
-
-          var nameEl = document.createElement('h4');
-          nameEl.textContent = role.name;
-
-          var descEl = document.createElement('p');
-          descEl.className = 'text-sm text-muted';
-          descEl.textContent = role.desc;
-
-          var selectedBadge = document.createElement('span');
-          selectedBadge.className = 'role-selected-badge';
-          selectedBadge.textContent = 'Current';
-
-          card.appendChild(iconEl);
-          card.appendChild(nameEl);
-          card.appendChild(descEl);
-          card.appendChild(selectedBadge);
-
-          card.addEventListener('click', function() {
-            prefs.role = role.key;
-            savePrefs(prefs);
-            var allCards = container.querySelectorAll('.role-card');
-            allCards.forEach(function(c) { c.classList.remove('active'); });
-            card.classList.add('active');
-            // Update header
-            var roleBadge = document.getElementById('profileRoleBadge');
-            roleBadge.textContent = role.key === 'mentor' ? 'Mentor' : 'Student';
-            // If mentor selected, offer navigation
-            if (role.key === 'mentor') {
-              window.location.href = 'mentor.html';
-            }
-          });
-
-          card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              card.click();
-            }
-          });
-
-          container.appendChild(card);
-        });
-      }
-
-      /* ---------- Reset Data ---------- */
-      function setupReset() {
-        var btn = document.getElementById('resetDataBtn');
-        btn.addEventListener('click', function() {
-          // Create confirmation modal
-          var overlay = document.createElement('div');
-          overlay.className = 'modal-overlay';
-
-          var modal = document.createElement('div');
-          modal.className = 'modal-box';
-
-          var title = document.createElement('h3');
-          title.textContent = 'Reset All Data?';
-
-          var msg = document.createElement('p');
-          msg.textContent = 'This will clear all your progress, quiz history, mastery records, and preferences. This cannot be undone.';
-
-          var actions = document.createElement('div');
-          actions.className = 'modal-actions';
-
-          var cancelBtn = document.createElement('button');
-          cancelBtn.className = 'btn btn-secondary btn-sm';
-          cancelBtn.textContent = 'Cancel';
-          cancelBtn.addEventListener('click', function() {
-            document.body.removeChild(overlay);
-          });
-
-          var confirmBtn = document.createElement('button');
-          confirmBtn.className = 'btn btn-danger-outline btn-sm';
-          confirmBtn.textContent = 'Yes, Reset Everything';
-          confirmBtn.addEventListener('click', function() {
-            localStorage.clear();
-            window.location.reload();
-          });
-
-          actions.appendChild(cancelBtn);
-          actions.appendChild(confirmBtn);
-
-          modal.appendChild(title);
-          modal.appendChild(msg);
-          modal.appendChild(actions);
-          overlay.appendChild(modal);
-
-          overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-              document.body.removeChild(overlay);
-            }
-          });
-
-          document.body.appendChild(overlay);
-        });
-      }
-
-      /* ---------- Personal Information ---------- */
-      function setupPersonalInfo(prefs) {
-        var nameInput = document.getElementById('inputName');
-        var emailInput = document.getElementById('inputEmail');
-        var schoolInput = document.getElementById('inputSchool');
-        var saveBtn = document.getElementById('savePersonalInfo');
-        var saveStatus = document.getElementById('saveStatus');
-
-        // Load existing values
-        nameInput.value = prefs.name || '';
-        emailInput.value = prefs.email || '';
-        schoolInput.value = prefs.school || '';
-
-        saveBtn.addEventListener('click', function() {
-          var newName = nameInput.value.trim();
-          if (!newName) {
-            nameInput.style.borderColor = '#F87171';
-            setTimeout(function() { nameInput.style.borderColor = ''; }, 2000);
-            return;
+      
+      /* ---------- Logout ---------- */
+      function setupLogout() {
+        var logoutBtn = document.getElementById('resetDataBtn'); // Hook into existing Reset button or Logout button
+        if (!logoutBtn) return;
+        logoutBtn.textContent = "Logout";
+        
+        logoutBtn.addEventListener('click', function() {
+          if (confirm('Are you sure you want to log out?')) {
+            fetch('/api/auth/logout', { method: 'POST' })
+              .then(function() { 
+                localStorage.clear(); // Clear harmless UI preferences
+                window.location.href = 'index.html'; 
+              });
           }
-
-          prefs.name = newName;
-          prefs.email = emailInput.value.trim();
-          prefs.school = schoolInput.value.trim();
-          savePrefs(prefs);
-
-          // Update profile header live
-          renderProfileHeader(prefs);
-
-          // Show success feedback
-          saveStatus.textContent = '✓ Saved!';
-          saveStatus.classList.add('show');
-          setTimeout(function() {
-            saveStatus.classList.remove('show');
-          }, 2500);
         });
       }
 
       /* ---------- Init ---------- */
-      function init() {
-        var prefs = loadPrefs();
+      function initUI(prefs) {
         renderProfileHeader(prefs);
         setupPersonalInfo(prefs);
         setupLanguage(prefs);
         setupGrade(prefs);
-        setupSubjects(prefs);
         setupOffline();
-        setupRole(prefs);
-        setupReset();
+        setupLogout();
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', loadProfile);
       } else {
-        init();
+        loadProfile();
       }
     })();
   </script>

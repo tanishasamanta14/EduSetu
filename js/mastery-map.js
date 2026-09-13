@@ -8,14 +8,18 @@
 
   var STATUS_COLORS = {
     mastered:    '#34D399',
+    developing:  '#60A5FA',
     shaky:       '#FBBF24',
+    weak:        '#F87171',
     unattempted: '#6B7280',
-    recommended: '#60A5FA'
+    recommended: '#A78BFA'
   };
 
   var STATUS_LABELS = {
     mastered: 'Mastered',
+    developing: 'Developing',
     shaky: 'Shaky',
+    weak: 'Weak',
     unattempted: 'Unattempted',
     recommended: 'Recommended'
   };

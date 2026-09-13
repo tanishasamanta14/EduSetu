@@ -1,220 +1,231 @@
 /* ============================================================
-   EduSetu — Mentor View JavaScript
-   Student cards, class chart, weekly insights
+   EduSetu — Mentor Dashboard JavaScript
+   Database-driven fetching for authorized mentors
    ============================================================ */
 
 (function() {
   'use strict';
+  
+  var chartInstance = null;
 
-  /* ---------- Mock Student Data ---------- */
-  var STUDENTS = [
-    {
-      name: 'Riya Patel', grade: 8, avatar: 'RP', color: '#7C3AED', risk: 'medium',
-      mastery: { mastered: 8, shaky: 5, unattempted: 4 },
-      note: 'Riya is shaky on Algebraic Expressions (sign errors) and Refraction. Suggested: 10-min revision on sign rules with worked examples.'
-    },
-    {
-      name: 'Aarav Sharma', grade: 8, avatar: 'AS', color: '#2563EB', risk: 'low',
-      mastery: { mastered: 12, shaky: 3, unattempted: 2 },
-      note: 'Aarav is performing well overall. Focus area: Ratios & Proportions — suggest additional practice problems with real-world contexts.'
-    },
-    {
-      name: 'Priya Singh', grade: 7, avatar: 'PS', color: '#059669', risk: 'high',
-      mastery: { mastered: 4, shaky: 6, unattempted: 7 },
-      note: 'Priya needs immediate attention — multiple concepts shaky in Math and Science. Risk of disengagement is high. Suggested: 1-on-1 session on Fractions basics and Cell Structure.'
-    },
-    {
-      name: 'Karan Mehta', grade: 8, avatar: 'KM', color: '#DC2626', risk: 'low',
-      mastery: { mastered: 10, shaky: 4, unattempted: 3 },
-      note: 'Karan is strong in Science. Shaky on Active/Passive Voice in English. Suggested: grammar exercises with sentence conversion practice.'
+  function showToast(msg, isError) {
+    var toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    toast.style.background = isError ? '#F87171' : '#34D399';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 24px';
+    toast.style.borderRadius = '8px';
+    toast.style.zIndex = '9999';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.remove(); }, 3000);
+  }
+
+  function loadDashboard() {
+    var main = document.querySelector('.main-content');
+    main.style.opacity = '0.5';
+
+    fetch('/api/dashboard/mentor')
+      .then(function(res) {
+        if (res.status === 401) {
+          return fetch('/api/auth/dev-login-mentor').then(function() { return fetch('/api/dashboard/mentor'); });
+        }
+        if (res.status === 403) {
+          throw new Error('Forbidden: Only mentors can access this data.');
+        }
+        return res;
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(result) {
+        main.style.opacity = '1';
+        if (result.success && result.data) {
+          renderDashboard(result.data);
+        } else {
+          showToast(result.message || 'Error loading dashboard', true);
+        }
+      })
+      .catch(function(err) {
+        main.style.opacity = '1';
+        showToast(err.message || 'Network error loading mentor dashboard', true);
+      });
+  }
+
+  function renderDashboard(data) {
+    // 1. Top Metrics
+    var classAvgEl = document.getElementById('classAvg');
+    var activeEl = document.getElementById('activeStudents');
+    var riskEl = document.getElementById('atRiskCount');
+
+    if (classAvgEl) classAvgEl.textContent = data.classAverage + '%';
+    if (activeEl) activeEl.textContent = data.assignedStudents.length;
+    if (riskEl) riskEl.textContent = data.atRiskStudents.length;
+
+    renderStudents(data);
+    renderInsights(data);
+    renderChart(data);
+  }
+
+  function renderStudents(data) {
+    var list = document.getElementById('studentList');
+    if (!list) return;
+    list.replaceChildren();
+
+    if (data.assignedStudents.length === 0) {
+      list.innerHTML = '<div style="color:var(--text-muted); padding:1rem;">No students assigned yet.</div>';
+      return;
     }
-  ];
 
-  var INSIGHTS = [
-    {
-      icon: '⚠️',
-      title: 'At-Risk Student Alert',
-      text: 'Priya Singh shows declining engagement with 7 unattempted concepts. Schedule a 1-on-1 session this week to prevent dropout risk.'
-    },
-    {
-      icon: '📈',
-      title: 'Class Strength: Science',
-      text: 'Average mastery in Science is highest at 65%. Consider advancing to more complex topics for top performers like Karan.'
-    },
-    {
-      icon: '🎯',
-      title: 'Common Misconception',
-      text: '"Sign errors" in Algebraic Expressions appear across 3 of 4 students. A focused 15-minute class exercise could help.'
-    },
-    {
-      icon: '💡',
-      title: 'Suggested Activity',
-      text: 'Run a group quiz on Ratios & Proportions — 2 students are shaky, 1 has not attempted. Great for peer learning.'
-    }
-  ];
-
-  /* ---------- Render Students ---------- */
-  function renderStudents() {
-    var container = document.getElementById('studentsGrid');
-    container.replaceChildren();
-
-    STUDENTS.forEach(function(s) {
+    data.assignedStudents.forEach(function(s) {
       var card = document.createElement('div');
       card.className = 'student-card';
 
-      // Header
-      var header = document.createElement('div');
-      header.className = 'student-header';
-
       var avatar = document.createElement('div');
       avatar.className = 'student-avatar';
-      avatar.style.background = s.color;
-      avatar.textContent = s.avatar;
+      avatar.textContent = s.name.charAt(0);
 
       var info = document.createElement('div');
-      var nameEl = document.createElement('span');
-      nameEl.className = 'student-name';
-      nameEl.textContent = s.name;
-      var gradeEl = document.createElement('span');
-      gradeEl.className = 'student-grade';
-      gradeEl.textContent = 'Class ' + s.grade;
-      info.appendChild(nameEl);
-      info.appendChild(gradeEl);
+      info.className = 'student-info';
+      var name = document.createElement('div');
+      name.className = 'student-name';
+      name.textContent = s.name;
+      var details = document.createElement('div');
+      details.className = 'student-details';
+      details.textContent = 'Class ' + s.grade + ' • Score: ' + s.overallConfidence + '%';
+      
+      info.appendChild(name);
+      info.appendChild(details);
 
-      var riskBadge = document.createElement('span');
-      riskBadge.className = 'risk-badge ' + s.risk;
-      riskBadge.textContent = s.risk.charAt(0).toUpperCase() + s.risk.slice(1) + ' Risk';
+      var badge = document.createElement('span');
+      // If student is in atRisk array
+      var isAtRisk = data.atRiskStudents.some(function(r) { return r.name === s.name; });
+      if (isAtRisk) {
+        badge.className = 'badge badge-weak';
+        badge.textContent = 'At Risk';
+      } else if (s.overallConfidence >= 80) {
+        badge.className = 'badge badge-mastered';
+        badge.textContent = 'Mastered';
+      } else {
+        badge.className = 'badge badge-developing';
+        badge.textContent = 'On Track';
+      }
 
-      header.appendChild(avatar);
-      header.appendChild(info);
-      header.appendChild(riskBadge);
+      card.appendChild(avatar);
+      card.appendChild(info);
+      card.appendChild(badge);
+      list.appendChild(card);
+    });
+  }
 
-      // Mastery summary
-      var mastery = document.createElement('div');
-      mastery.className = 'student-mastery';
+  function renderInsights(data) {
+    var container = document.getElementById('insightsGrid');
+    if (!container) return;
+    container.replaceChildren();
 
-      var b1 = document.createElement('span');
-      b1.className = 'badge badge-mastered';
-      b1.textContent = s.mastery.mastered + ' mastered';
-      var b2 = document.createElement('span');
-      b2.className = 'badge badge-shaky';
-      b2.textContent = s.mastery.shaky + ' shaky';
-      var b3 = document.createElement('span');
-      b3.className = 'badge badge-unattempted';
-      b3.textContent = s.mastery.unattempted + ' unattempted';
-      mastery.appendChild(b1);
-      mastery.appendChild(b2);
-      mastery.appendChild(b3);
+    if (data.interventions.length === 0 && data.weakTopics.length === 0) {
+      container.innerHTML = '<div style="color:var(--text-muted); padding:1rem;">No immediate insights. Class is performing well!</div>';
+      return;
+    }
 
-      // Weekly note
-      var note = document.createElement('div');
-      note.className = 'student-note';
-      note.textContent = s.note;
+    // Interventions
+    data.interventions.forEach(function(inv) {
+      var card = document.createElement('div');
+      card.className = 'insight-card';
+      var icon = document.createElement('div');
+      icon.className = 'insight-icon';
+      icon.textContent = '⚠️';
+      icon.style.background = 'rgba(248, 113, 113, 0.2)';
+      var text = document.createElement('div');
+      text.className = 'insight-text';
+      text.textContent = inv;
+      card.appendChild(icon);
+      card.appendChild(text);
+      container.appendChild(card);
+    });
 
-      card.appendChild(header);
-      card.appendChild(mastery);
-      card.appendChild(note);
+    // Weak Topics
+    data.weakTopics.forEach(function(wt) {
+      var card = document.createElement('div');
+      card.className = 'insight-card';
+      var icon = document.createElement('div');
+      icon.className = 'insight-icon';
+      icon.textContent = '📉';
+      icon.style.background = 'rgba(251, 191, 36, 0.2)';
+      var text = document.createElement('div');
+      text.className = 'insight-text';
+      text.textContent = wt.studentCount + ' students struggling with ' + wt.name;
+      card.appendChild(icon);
+      card.appendChild(text);
       container.appendChild(card);
     });
   }
 
-  /* ---------- Class Overview Chart ---------- */
-  function renderClassChart() {
-    var canvas = document.getElementById('classChart');
-    var ctx = canvas.getContext('2d');
+  function renderChart(data) {
+    var ctx = document.getElementById('classChart');
+    if (!ctx) return;
+    if (chartInstance) chartInstance.destroy();
 
-    // Calculate average mastery % per subject across students
-    var subjects = ['Math', 'Science', 'English', 'Social Science', 'Hindi'];
-    var avgScores = [52, 65, 48, 55, 45]; // Mock averages
+    var labels = data.assignedStudents.map(function(s) { return s.name; });
+    var scores = data.assignedStudents.map(function(s) { return s.overallConfidence; });
+    var avgData = data.assignedStudents.map(function() { return data.classAverage; });
 
-    new Chart(ctx, {
+    chartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: subjects,
-        datasets: [{
-          label: 'Average Mastery %',
-          data: avgScores,
-          backgroundColor: [
-            'rgba(129,140,248,0.7)',
-            'rgba(52,211,153,0.7)',
-            'rgba(251,191,36,0.7)',
-            'rgba(167,139,250,0.7)',
-            'rgba(248,113,113,0.7)'
-          ],
-          borderColor: [
-            '#818CF8', '#34D399', '#FBBF24', '#A78BFA', '#F87171'
-          ],
-          borderWidth: 2,
-          borderRadius: 6,
-          borderSkipped: false,
-          barPercentage: 0.6
-        }]
+        labels: labels,
+        datasets: [
+          {
+            label: 'Class Average',
+            data: avgData,
+            type: 'line',
+            borderColor: '#FBBF24',
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false,
+            order: 1
+          },
+          {
+            label: 'Student Score',
+            data: scores,
+            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+            borderColor: '#3B82F6',
+            borderWidth: 1,
+            borderRadius: 4,
+            order: 2
+          }
+        ]
       },
       options: {
         indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function(ctx2) { return ctx2.dataset.label + ': ' + ctx2.parsed.x + '%'; }
-            }
+        scales: {
+          x: { 
+            beginAtZero: true, 
+            max: 100,
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            ticks: { color: '#9CA3AF' }
+          },
+          y: { 
+            grid: { display: false },
+            ticks: { color: '#9CA3AF' }
           }
         },
-        scales: {
-          x: {
-            beginAtZero: true,
-            max: 100,
-            ticks: { font: { family: 'Inter', size: 11 }, color: '#6B7280', callback: function(v) { return v + '%'; } },
-            grid: { color: 'rgba(255,255,255,0.04)' }
-          },
-          y: {
-            ticks: { font: { family: 'Inter', size: 12, weight: 600 }, color: '#D1D5DB' },
-            grid: { display: false }
+        plugins: {
+          legend: {
+            labels: { color: '#D1D5DB' }
           }
         }
       }
     });
   }
 
-  /* ---------- Weekly Insights ---------- */
-  function renderInsights() {
-    var container = document.getElementById('insightsContainer');
-    container.replaceChildren();
-
-    INSIGHTS.forEach(function(ins) {
-      var card = document.createElement('div');
-      card.className = 'insight-card';
-
-      var icon = document.createElement('span');
-      icon.className = 'insight-icon';
-      icon.textContent = ins.icon;
-
-      var title = document.createElement('h5');
-      title.textContent = ins.title;
-
-      var text = document.createElement('p');
-      text.textContent = ins.text;
-
-      card.appendChild(icon);
-      card.appendChild(title);
-      card.appendChild(text);
-      container.appendChild(card);
-    });
-  }
-
   /* ---------- Init ---------- */
-  function init() {
-    renderStudents();
-    renderClassChart();
-    renderInsights();
-  }
-
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', loadDashboard);
   } else {
-    init();
+    loadDashboard();
   }
 
 })();

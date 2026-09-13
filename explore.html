@@ -38,6 +38,17 @@
             <input type="text" id="searchInput" class="search-input" placeholder="Search any topic... e.g. Photosynthesis, Calculus, Data Structures" autocomplete="off" aria-label="Search topics">
             <button class="search-clear" id="searchClear" aria-label="Clear search" style="display:none">✕</button>
           </div>
+          <div class="extra-filters" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+            <select id="subjectFilter" class="glass-select" aria-label="Filter by subject" style="padding: 8px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;">
+              <option value="">All Subjects</option>
+            </select>
+            <select id="difficultyFilter" class="glass-select" aria-label="Filter by difficulty" style="padding: 8px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;">
+              <option value="">All Difficulties</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
           <!-- Level Filter -->
           <div class="level-filters" id="levelFilters">
             <button class="level-btn active" data-level="all">All Levels</button>
