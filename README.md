@@ -1,6 +1,5 @@
 # EduSetu — AI-Powered Learning Companion
 
-
 ## 1. Problem Statement
 
 In rural and semi-urban regions of India, students face significant barriers to quality education: a shortage of trained teachers, lack of personalized attention due to large class sizes, language barriers in understanding complex concepts, and absence of doubt-resolution support outside classroom hours. Dropout rates increase sharply after Class 8 due to disengagement, repeated academic failure, and lack of timely intervention.
@@ -15,7 +14,7 @@ There is a need for an affordable, multilingual, **diagnostic-first** AI learnin
 
 ---
 
-## 2. Our Solution — What Makes EduSetu Different
+## 2. Our Solution — What Makes EduSetu Different 
 
 EduSetu is an AI learning companion built around one core idea: **"Don't just answer the question — find the gap."**
 
