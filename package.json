@@ -2,12 +2,12 @@
   "name": "edusetu_project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node server/scripts/seed.js"
+    "seed": "node backend/scripts/seed.js"
   },
   "keywords": [],
   "author": "",

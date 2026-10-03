@@ -104,7 +104,44 @@ This gives students, teachers, and parents an honest, at-a-glance picture of *re
    - Grade level, subjects enrolled
    - Offline content download manager
 
-### 3.3 Data Model (simplified)
+### 3.3 Project Structure
+
+```
+EduSetu/
+│
+├── frontend/
+│   ├── pages/
+│   │   ├── index.html
+│   │   ├── explore.html
+│   │   ├── chatbot.html
+│   │   ├── dashboard.html
+│   │   ├── quiz.html
+│   │   ├── mastery-map.html
+│   │   ├── mentor.html
+│   │   └── profile.html
+│   ├── css/
+│   ├── js/
+│   ├── assets/
+│   └── locales/
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── validators/
+│   ├── utils/
+│   └── ai/
+│
+├── .env.example
+├── .gitignore
+├── README.md
+└── package.json
+```
+
+### 3.4 Data Model (simplified)
 
 ```
 User {
@@ -133,7 +170,7 @@ ChatMessage {
 }
 ```
 
-### 3.4 Tech Stack
+### 3.5 Tech Stack
 
 | Layer | Choice | Notes |
 |---|---|---|

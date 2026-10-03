@@ -14,7 +14,12 @@ app.use(cookieParser()); // Cookie parser
 app.use(securityMiddleware); // Security headers
 
 // 2. Static File Serving (Frontend)
-app.use(express.static(path.join(__dirname, '../'), {
+app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../frontend/pages'), {
+  extensions: ['html'],
+  index: 'index.html'
+}));
+app.use('/pages', express.static(path.join(__dirname, '../frontend/pages'), {
   extensions: ['html'],
   index: 'index.html'
 }));
