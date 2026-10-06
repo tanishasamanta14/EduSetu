@@ -26,6 +26,7 @@
 
   var currentSubject = 'math';
   var network = null;
+  var backendMapData = null;
 
   var graphContainer = document.getElementById('masteryGraph');
   var sidePanel = document.getElementById('sidePanel');
@@ -34,10 +35,46 @@
   var sidePanelOverlay = document.getElementById('sidePanelOverlay');
   var subjectTabs = document.getElementById('subjectTabs');
 
+  /* ---------- Fetch Real Database Mastery Map ---------- */
+  function loadBackendMap(callback) {
+    fetch('/api/mastery/map')
+      .then(function(res) {
+        if (res.status === 401) {
+          return fetch('/api/auth/dev-login').then(function() { return fetch('/api/mastery/map'); });
+        }
+        return res;
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(result) {
+        if (result.success && result.data) {
+          backendMapData = result.data;
+        }
+        if (callback) callback();
+      })
+      .catch(function(err) {
+        console.warn('Backend mastery map load fallback:', err);
+        if (callback) callback();
+      });
+  }
+
   /* ---------- Build vis-network ---------- */
   function renderGraph(subject) {
     var concepts = getMasteryConcepts(subject);
     if (!concepts || concepts.length === 0) return;
+
+    // Sync live database mastery data from Supabase if available
+    if (backendMapData && backendMapData.nodes) {
+      concepts.forEach(function(c) {
+        var bNode = backendMapData.nodes.find(function(n) {
+          return n.id === c.id || n.topicId === c.id || (n.name && n.name.toLowerCase() === c.name.toLowerCase());
+        });
+        if (bNode) {
+          c.status = bNode.status || c.status;
+          if (bNode.confidence !== undefined) c.confidenceScore = bNode.confidence;
+          if (bNode.lastScore !== null && bNode.lastScore !== undefined) c.lastScore = bNode.lastScore;
+        }
+      });
+    }
 
     // Build nodes
     var nodes = [];
@@ -286,6 +323,8 @@
   });
 
   /* ---------- Init ---------- */
-  renderGraph('math');
+  loadBackendMap(function() {
+    renderGraph('math');
+  });
 
 })();

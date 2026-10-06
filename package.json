@@ -6,21 +6,18 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node backend/scripts/seed.js"
+    "test": "node test_supabase_migration.js",
+    "seed": "echo \"See supabase/seed/seed.sql and supabase/README.md for Supabase database migrations and seed execution.\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.10.0"
-  },
-  "devDependencies": {
-    "mongodb-memory-server": "^11.2.0"
+    "jsonwebtoken": "^9.0.3"
   }
 }

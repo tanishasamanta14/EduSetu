@@ -55,6 +55,86 @@
       <section class="section-sm">
         <div class="container container-sm">
 
+          <!-- Supabase Account & Authentication -->
+          <div class="card settings-card reveal" id="authSection" style="margin-bottom: var(--space-6);">
+            <div class="settings-card-header">
+              <div class="settings-icon">🔐</div>
+              <div>
+                <h3>Supabase Account &amp; Access</h3>
+                <p class="text-muted text-sm">Register a new student account or switch active session</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                  <span class="text-muted text-xs">CURRENT ACTIVE USER:</span>
+                  <div style="font-weight: 600; color: var(--clr-marigold);" id="activeUserEmail">Checking session...</div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button class="btn btn-secondary btn-sm" id="quickStudentLoginBtn">Demo Student</button>
+                  <button class="btn btn-secondary btn-sm" id="quickMentorLoginBtn">Demo Mentor</button>
+                  <button class="btn btn-danger-outline btn-sm" id="cardLogoutBtn">Logout</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Auth Tabs (Login / Register) -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+              <button class="btn btn-primary btn-sm" id="tabShowLogin" style="flex: 1;">Login to Account</button>
+              <button class="btn btn-secondary btn-sm" id="tabShowRegister" style="flex: 1;">Register New Student</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginFormContainer" class="personal-info-form">
+              <div class="form-group">
+                <label class="form-label" for="loginEmail">Email Address</label>
+                <input type="email" class="form-input" id="loginEmail" placeholder="student1@edusetu.in" autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="loginPassword">Password</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnSubmitLogin" style="width: 100%;">🔑 Log In</button>
+              <div id="loginAuthStatus" class="save-status" style="margin-top: 0.5rem; display: block;"></div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerFormContainer" class="personal-info-form" style="display: none;">
+              <div class="form-group">
+                <label class="form-label" for="regName">Full Name</label>
+                <input type="text" class="form-input" id="regName" placeholder="Ananya Sen" autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regEmail">Email Address</label>
+                <input type="email" class="form-input" id="regEmail" placeholder="ananya@edusetu.in" autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regPassword">Password</label>
+                <input type="password" class="form-input" id="regPassword" placeholder="••••••••" autocomplete="new-password">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regGrade">Grade Level</label>
+                <select class="form-input" id="regGrade">
+                  <option value="6">Class 6</option>
+                  <option value="7">Class 7</option>
+                  <option value="8" selected>Class 8</option>
+                  <option value="9">Class 9</option>
+                  <option value="10">Class 10</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regRole">Role</label>
+                <select class="form-input" id="regRole">
+                  <option value="student" selected>Student</option>
+                  <option value="mentor">Mentor</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnSubmitRegister" style="width: 100%;">✨ Create Student Account</button>
+              <div id="regAuthStatus" class="save-status" style="margin-top: 0.5rem; display: block;"></div>
+            </div>
+          </div>
+
           <!-- Personal Information -->
           <div class="card settings-card reveal" id="personalInfoSection">
             <div class="settings-card-header">
@@ -485,9 +565,179 @@
         });
       }
       
+      /* ---------- Supabase Auth Controls ---------- */
+      function setupAuthUI(prefs) {
+        var emailEl = document.getElementById('activeUserEmail');
+        if (emailEl && prefs) {
+          emailEl.textContent = (prefs.email || 'student1@edusetu.in') + ' (' + (prefs.role || 'student').toUpperCase() + ')';
+        }
+
+        // Tab switching
+        var tabLogin = document.getElementById('tabShowLogin');
+        var tabRegister = document.getElementById('tabShowRegister');
+        var formLogin = document.getElementById('loginFormContainer');
+        var formRegister = document.getElementById('registerFormContainer');
+
+        if (tabLogin && tabRegister) {
+          tabLogin.addEventListener('click', function() {
+            tabLogin.className = 'btn btn-primary btn-sm';
+            tabRegister.className = 'btn btn-secondary btn-sm';
+            formLogin.style.display = 'block';
+            formRegister.style.display = 'none';
+          });
+          tabRegister.addEventListener('click', function() {
+            tabRegister.className = 'btn btn-primary btn-sm';
+            tabLogin.className = 'btn btn-secondary btn-sm';
+            formRegister.style.display = 'block';
+            formLogin.style.display = 'none';
+          });
+        }
+
+        // Login submit
+        var btnLogin = document.getElementById('btnSubmitLogin');
+        var loginStatus = document.getElementById('loginAuthStatus');
+        if (btnLogin) {
+          btnLogin.addEventListener('click', function() {
+            var email = (document.getElementById('loginEmail').value || '').trim();
+            var password = (document.getElementById('loginPassword').value || '').trim();
+            if (!email || !password) {
+              if (loginStatus) {
+                loginStatus.textContent = '⚠️ Please enter both email and password';
+                loginStatus.style.color = '#F87171';
+              }
+              return;
+            }
+
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Logging in...';
+
+            fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email, password: password })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(result) {
+              btnLogin.disabled = false;
+              btnLogin.textContent = '🔑 Log In';
+              if (result.success) {
+                showToast('Logged in successfully as ' + result.data.user.email, false);
+                loadProfile();
+              } else {
+                if (loginStatus) {
+                  loginStatus.textContent = '❌ ' + (result.message || 'Login failed');
+                  loginStatus.style.color = '#F87171';
+                }
+              }
+            })
+            .catch(function(err) {
+              btnLogin.disabled = false;
+              btnLogin.textContent = '🔑 Log In';
+              if (loginStatus) {
+                loginStatus.textContent = '❌ Network error during login';
+                loginStatus.style.color = '#F87171';
+              }
+            });
+          });
+        }
+
+        // Register submit
+        var btnReg = document.getElementById('btnSubmitRegister');
+        var regStatus = document.getElementById('regAuthStatus');
+        if (btnReg) {
+          btnReg.addEventListener('click', function() {
+            var name = (document.getElementById('regName').value || '').trim();
+            var email = (document.getElementById('regEmail').value || '').trim();
+            var password = (document.getElementById('regPassword').value || '').trim();
+            var grade = document.getElementById('regGrade').value;
+            var role = document.getElementById('regRole').value;
+
+            if (!name || !email || !password) {
+              if (regStatus) {
+                regStatus.textContent = '⚠️ Please provide name, email, and password';
+                regStatus.style.color = '#F87171';
+              }
+              return;
+            }
+
+            btnReg.disabled = true;
+            btnReg.textContent = 'Creating account...';
+
+            fetch('/api/auth/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name: name, email: email, password: password, grade: Number(grade), role: role })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(result) {
+              btnReg.disabled = false;
+              btnReg.textContent = '✨ Create Student Account';
+              if (result.success) {
+                showToast('Registration successful! Welcome ' + name, false);
+                loadProfile();
+              } else {
+                if (regStatus) {
+                  regStatus.textContent = '❌ ' + (result.message || 'Registration failed');
+                  regStatus.style.color = '#F87171';
+                }
+              }
+            })
+            .catch(function(err) {
+              btnReg.disabled = false;
+              btnReg.textContent = '✨ Create Student Account';
+              if (regStatus) {
+                regStatus.textContent = '❌ Network error during registration';
+                regStatus.style.color = '#F87171';
+              }
+            });
+          });
+        }
+
+        // Quick demo logins
+        var demoStudentBtn = document.getElementById('quickStudentLoginBtn');
+        if (demoStudentBtn) {
+          demoStudentBtn.addEventListener('click', function() {
+            fetch('/api/auth/dev-login')
+              .then(function(r) { return r.json(); })
+              .then(function(res) {
+                if (res.success) {
+                  showToast('Switched to Demo Student session', false);
+                  loadProfile();
+                }
+              });
+          });
+        }
+
+        var demoMentorBtn = document.getElementById('quickMentorLoginBtn');
+        if (demoMentorBtn) {
+          demoMentorBtn.addEventListener('click', function() {
+            fetch('/api/auth/dev-login-mentor')
+              .then(function(r) { return r.json(); })
+              .then(function(res) {
+                if (res.success) {
+                  showToast('Switched to Demo Mentor session', false);
+                  loadProfile();
+                }
+              });
+          });
+        }
+
+        // Card logout
+        var cardLogout = document.getElementById('cardLogoutBtn');
+        if (cardLogout) {
+          cardLogout.addEventListener('click', function() {
+            fetch('/api/auth/logout', { method: 'POST' })
+              .then(function() {
+                showToast('Logged out successfully', false);
+                loadProfile();
+              });
+          });
+        }
+      }
+
       /* ---------- Logout ---------- */
       function setupLogout() {
-        var logoutBtn = document.getElementById('resetDataBtn'); // Hook into existing Reset button or Logout button
+        var logoutBtn = document.getElementById('resetDataBtn');
         if (!logoutBtn) return;
         logoutBtn.textContent = "Logout";
         
@@ -495,7 +745,7 @@
           if (confirm('Are you sure you want to log out?')) {
             fetch('/api/auth/logout', { method: 'POST' })
               .then(function() { 
-                localStorage.clear(); // Clear harmless UI preferences
+                localStorage.clear();
                 window.location.href = 'index.html'; 
               });
           }
@@ -505,6 +755,7 @@
       /* ---------- Init ---------- */
       function initUI(prefs) {
         renderProfileHeader(prefs);
+        setupAuthUI(prefs);
         setupPersonalInfo(prefs);
         setupLanguage(prefs);
         setupGrade(prefs);

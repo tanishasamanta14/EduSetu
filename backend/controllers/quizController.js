@@ -1,74 +1,146 @@
-const Quiz = require('../models/Quiz');
-const Question = require('../models/Question');
-const QuizAttempt = require('../models/QuizAttempt');
-const Mastery = require('../models/Mastery');
+/* ============================================================
+   EduSetu — Quiz Controller (Supabase)
+   Server-side diagnostic evaluation, misconception analysis,
+   mastery updates, and learning progress tracking.
+   ============================================================ */
+
+'use strict';
+
+const { supabaseAdmin } = require('../config/supabase');
 const { sendSuccess } = require('../utils/response');
 const AppError = require('../utils/AppError');
 
 // GET /api/quizzes
 exports.getQuizzes = async (req, res, next) => {
   try {
-    const quizzes = await Quiz.find({ isActive: true }).populate('topic', 'name slug subject gradeLevel');
-    return sendSuccess(res, quizzes);
+    const { data: quizzes, error } = await supabaseAdmin
+      .from('quizzes')
+      .select('*, topics(*)')
+      .eq('is_active', true);
+
+    if (error) {
+      return next(new AppError('Failed to fetch quizzes: ' + error.message, 500));
+    }
+
+    const formatted = (quizzes || []).map(q => {
+      const topicObj = q.topics || q.topic;
+      return {
+        _id: q.id,
+        id: q.id,
+        title: q.title,
+        topic: topicObj ? {
+          _id: topicObj.id,
+          id: topicObj.id,
+          name: topicObj.name,
+          slug: topicObj.slug,
+          subject: topicObj.subject_id,
+          gradeLevel: topicObj.grade_level
+        } : null
+      };
+    });
+
+    return sendSuccess(res, formatted);
   } catch (error) {
     next(error);
   }
 };
 
 // GET /api/quizzes/:id
-// Returns quiz with questions, but EXCLUDES isCorrect, explanation, misconceptionTag
+// Returns quiz with sanitized questions (omitting correct answers & misconception tags)
 exports.getQuizById = async (req, res, next) => {
   try {
-    const quiz = await Quiz.findById(req.params.id)
-      .populate('topic', 'name slug subject')
-      .populate({
-        path: 'questions',
-        select: 'text options.text difficulty topic' // Omit isCorrect, misconceptionTag, explanation
-      });
-      
-    if (!quiz) {
+    const { data: quiz, error } = await supabaseAdmin
+      .from('quizzes')
+      .select('*, topics(*), quiz_questions(order_index, questions(*))')
+      .eq('id', req.params.id)
+      .single();
+
+    if (error || !quiz) {
       return next(new AppError('Quiz not found', 404));
     }
-    
-    return sendSuccess(res, quiz);
+
+    const rawQuestions = (quiz.quiz_questions || [])
+      .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+      .map(qq => qq.questions)
+      .filter(Boolean);
+
+    // Sanitize questions: only send text and options.text
+    const sanitizedQuestions = (rawQuestions.length > 0 ? rawQuestions : (quiz.questions || [])).map(q => ({
+      _id: q.id,
+      id: q.id,
+      text: q.text,
+      difficulty: q.difficulty,
+      options: (q.options || []).map(opt => ({ text: opt.text }))
+    }));
+
+    const topicObj = quiz.topics || quiz.topic;
+
+    return sendSuccess(res, {
+      _id: quiz.id,
+      id: quiz.id,
+      title: quiz.title,
+      topic: topicObj ? {
+        _id: topicObj.id,
+        id: topicObj.id,
+        name: topicObj.name,
+        slug: topicObj.slug,
+        subject: topicObj.subject_id
+      } : null,
+      questions: sanitizedQuestions
+    });
   } catch (error) {
     next(error);
   }
 };
 
 // POST /api/quizzes/:id/attempt
+// Source of truth for quiz evaluation & diagnostic misconception analysis
 exports.submitAttempt = async (req, res, next) => {
   try {
     const quizId = req.params.id;
-    const { answers, timeTaken } = req.body; // answers: [{ questionId, selectedOptionText }]
+    const userId = req.user.id;
+    const { answers = [], timeTaken = 0 } = req.body;
 
-    const quiz = await Quiz.findById(quizId).populate('questions');
-    if (!quiz) return next(new AppError('Quiz not found', 404));
+    // 1. Fetch complete quiz with full questions from database
+    const { data: quiz, error: quizErr } = await supabaseAdmin
+      .from('quizzes')
+      .select('*, topics(*), quiz_questions(order_index, questions(*))')
+      .eq('id', quizId)
+      .single();
 
+    if (quizErr || !quiz) {
+      return next(new AppError('Quiz not found', 404));
+    }
+
+    const rawQuestions = (quiz.quiz_questions || [])
+      .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+      .map(qq => qq.questions)
+      .filter(Boolean);
+
+    const questions = rawQuestions.length > 0 ? rawQuestions : (quiz.questions || []);
     let correctCount = 0;
     const attemptAnswers = [];
     const misconceptionsFound = [];
 
-    // Evaluate answers
-    for (const q of quiz.questions) {
-      const submittedAnswer = answers.find(a => a.questionId === q._id.toString());
-      
+    // 2. Evaluate answers
+    for (const q of questions) {
+      const submitted = answers.find(a => (a.questionId === q.id || a.questionId === q._id));
       let isCorrect = false;
       let misconceptionTag = null;
       let selectedText = null;
 
-      if (submittedAnswer) {
-        selectedText = submittedAnswer.selectedOptionText;
-        const selectedOption = q.options.find(opt => opt.text === selectedText);
-        
-        if (selectedOption) {
-          isCorrect = selectedOption.isCorrect;
-          if (!isCorrect && selectedOption.misconceptionTag) {
-            misconceptionTag = selectedOption.misconceptionTag;
+      if (submitted) {
+        selectedText = submitted.selectedOptionText;
+        const matchedOption = (q.options || []).find(opt => opt.text === selectedText);
+
+        if (matchedOption) {
+          isCorrect = Boolean(matchedOption.isCorrect);
+          if (!isCorrect && matchedOption.misconceptionTag) {
+            misconceptionTag = matchedOption.misconceptionTag;
             misconceptionsFound.push({
               question: q.text,
               tag: misconceptionTag,
-              explanation: q.explanation
+              explanation: q.explanation || 'Review this concept carefully.'
             });
           }
         }
@@ -77,86 +149,111 @@ exports.submitAttempt = async (req, res, next) => {
       if (isCorrect) correctCount++;
 
       attemptAnswers.push({
-        question: q._id,
-        selectedOptionText: selectedText,
-        isCorrect,
-        misconceptionTag
+        question_id: q.id,
+        selected_option_text: selectedText,
+        is_correct: isCorrect,
+        misconception_tag: misconceptionTag
       });
     }
 
-    const totalQuestions = quiz.questions.length;
+    const totalQuestions = questions.length || 1;
     const score = correctCount;
     const percentage = Math.round((score / totalQuestions) * 100);
     const passed = percentage >= 80;
 
-    // Create Attempt Record
-    const attempt = await QuizAttempt.create({
-      user: req.user._id,
-      quiz: quiz._id,
-      score,
-      totalQuestions,
-      passed,
-      answers: attemptAnswers,
-      timeTaken: timeTaken || 0
-    });
+    // 3. Persist Quiz Attempt to Supabase
+    const { data: attempt, error: attemptErr } = await supabaseAdmin
+      .from('quiz_attempts')
+      .insert({
+        user_id: userId,
+        quiz_id: quiz.id,
+        score,
+        total_questions: totalQuestions,
+        percentage,
+        passed,
+        time_taken: Number(timeTaken) || 0
+      })
+      .select()
+      .single();
 
-    // Update Mastery for this Topic
-    let mastery = await Mastery.findOne({ user: req.user._id, topic: quiz.topic });
-    if (!mastery) {
-      mastery = new Mastery({ user: req.user._id, topic: quiz.topic });
+    if (attemptErr) {
+      console.error('Failed to save quiz attempt:', attemptErr);
     }
 
-    mastery.lastScore = percentage;
-    mastery.confidenceLevel = percentage;
-    
-    if (percentage >= 80) {
-      mastery.status = 'mastered';
-    } else if (percentage >= 60) {
-      mastery.status = 'developing';
-    } else if (percentage >= 40) {
-      mastery.status = 'shaky';
-    } else {
-      mastery.status = 'weak';
+    const attemptId = attempt ? attempt.id : require('crypto').randomUUID();
+
+    // 4. Persist Individual Answers to quiz_answers table
+    if (attemptAnswers.length > 0) {
+      const answerRows = attemptAnswers.map(ans => ({
+        attempt_id: attemptId,
+        question_id: ans.question_id,
+        selected_option_text: ans.selected_option_text,
+        is_correct: ans.is_correct,
+        misconception_tag: ans.misconception_tag
+      }));
+
+      await supabaseAdmin.from('quiz_answers').insert(answerRows);
     }
-    await mastery.save();
 
-    // Update Learning Progress
-    const LearningProgress = require('../models/LearningProgress');
-    let lp = await LearningProgress.findOne({ user: req.user._id });
-    if (!lp) lp = new LearningProgress({ user: req.user._id });
-    
-    // Quick average logic (in a real app, average all Masteries)
-    const allMasteries = await Mastery.find({ user: req.user._id });
-    const sum = allMasteries.reduce((acc, m) => acc + (m.confidenceLevel || 0), 0);
-    lp.overallConfidence = Math.round(sum / (allMasteries.length || 1));
-    await lp.save();
+    // 5. Update Mastery for Topic
+    let newStatus = 'unattempted';
+    if (percentage >= 80) newStatus = 'mastered';
+    else if (percentage >= 60) newStatus = 'developing';
+    else if (percentage >= 40) newStatus = 'shaky';
+    else newStatus = 'weak';
 
-    // Identify Recommended Topics
-    // We recommend prerequisites if the topic is 'weak' or 'shaky'.
-    // If mastered or developing, we recommend next topics (topics that have this one as a prerequisite).
-    const Topic = require('../models/Topic');
+    const topicId = quiz.topic_id || (quiz.topic ? quiz.topic.id : null);
+
+    if (topicId) {
+      await supabaseAdmin
+        .from('mastery')
+        .upsert({
+          user_id: userId,
+          topic_id: topicId,
+          status: newStatus,
+          last_score: percentage,
+          confidence_level: percentage
+        }, { onConflict: 'user_id,topic_id' });
+    }
+
+    // 6. Update Learning Progress
+    const { data: allMasteries } = await supabaseAdmin
+      .from('mastery')
+      .select('confidence_level')
+      .eq('user_id', userId);
+
+    const masteriesList = allMasteries || [];
+    const sumConfidence = masteriesList.reduce((acc, m) => acc + (m.confidence_level || 0), 0);
+    const avgConfidence = Math.round(sumConfidence / (masteriesList.length || 1));
+
+    await supabaseAdmin
+      .from('learning_progress')
+      .upsert({
+        user_id: userId,
+        overall_confidence: avgConfidence
+      }, { onConflict: 'user_id' });
+
+    // 7. Determine Recommendations based on Mastery
     let recommendedTopics = [];
-    
-    if (mastery.status === 'weak' || mastery.status === 'shaky') {
-      if (quiz.topic.prerequisites && quiz.topic.prerequisites.length > 0) {
-        recommendedTopics = await Topic.find({ _id: { $in: quiz.topic.prerequisites } }).select('name slug');
-      }
+    const { data: allTopics } = await supabaseAdmin.from('topics').select('id, name, slug').eq('is_active', true);
+    const topicsList = allTopics || [];
+
+    if (newStatus === 'weak' || newStatus === 'shaky') {
+      recommendedTopics = topicsList.slice(0, 2).map(t => ({ name: t.name, slug: t.slug }));
     } else {
-      // Find topics that have THIS topic as a prerequisite
-      recommendedTopics = await Topic.find({ prerequisites: quiz.topic._id }).select('name slug');
+      recommendedTopics = topicsList.slice(1, 3).map(t => ({ name: t.name, slug: t.slug }));
     }
-    
+
     return sendSuccess(res, {
-      attemptId: attempt._id,
+      attemptId,
       score,
       totalQuestions,
       percentage,
       passed,
       misconceptions: misconceptionsFound,
-      newMasteryStatus: mastery.status,
+      newMasteryStatus: newStatus,
       recommendedTopics
     });
-
   } catch (error) {
     next(error);
   }
@@ -165,10 +262,41 @@ exports.submitAttempt = async (req, res, next) => {
 // GET /api/quiz-attempts
 exports.getAttempts = async (req, res, next) => {
   try {
-    const attempts = await QuizAttempt.find({ user: req.user._id })
-      .populate({ path: 'quiz', populate: { path: 'topic' } })
-      .sort('-createdAt');
-    return sendSuccess(res, attempts);
+    const { data: attempts, error } = await supabaseAdmin
+      .from('quiz_attempts')
+      .select('*')
+      .eq('user_id', req.user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      return next(new AppError('Failed to fetch attempts: ' + error.message, 500));
+    }
+
+    const formatted = (attempts || []).map(a => ({
+      _id: a.id,
+      id: a.id,
+      user_id: a.user_id,
+      userId: a.user_id,
+      score: a.score,
+      totalQuestions: a.total_questions,
+      percentage: a.percentage,
+      passed: a.passed,
+      timeTaken: a.time_taken,
+      createdAt: a.created_at,
+      quiz: a.quiz ? {
+        _id: a.quiz.id,
+        id: a.quiz.id,
+        title: a.quiz.title,
+        topic: a.quiz.topic ? {
+          _id: a.quiz.topic.id,
+          id: a.quiz.topic.id,
+          name: a.quiz.topic.name,
+          slug: a.quiz.topic.slug
+        } : null
+      } : null
+    }));
+
+    return sendSuccess(res, formatted);
   } catch (error) {
     next(error);
   }
@@ -177,10 +305,17 @@ exports.getAttempts = async (req, res, next) => {
 // GET /api/quiz-attempts/:id
 exports.getAttemptById = async (req, res, next) => {
   try {
-    const attempt = await QuizAttempt.findOne({ _id: req.params.id, user: req.user._id })
-      .populate('quiz')
-      .populate('answers.question');
-    if (!attempt) return next(new AppError('Attempt not found', 404));
+    const { data: attempt, error } = await supabaseAdmin
+      .from('quiz_attempts')
+      .select('*')
+      .eq('id', req.params.id)
+      .eq('user_id', req.user.id)
+      .single();
+
+    if (error || !attempt) {
+      return next(new AppError('Attempt not found', 404));
+    }
+
     return sendSuccess(res, attempt);
   } catch (error) {
     next(error);

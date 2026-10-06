@@ -64,9 +64,8 @@ This gives students, teachers, and parents an honest, at-a-glance picture of *re
 |  +-----------+  +--------------+  +----------------+  +-----------+ |
 +----------------------------+----------------------------------------+
                                |
-+------------------------------v--------------------------------------+
-|                     DATABASE (MongoDB / Firebase)                    |
-|   Users | Concepts Graph | Quiz Attempts | Chat History | Mastery    |
+|                  DATABASE & AUTH (Supabase PostgreSQL + RLS)         |
+|   Profiles | Subjects | Topics | Questions | Quizzes | Mastery | Attempts |
 +-----------------------------------------------------------------------+
 ```
 
@@ -178,10 +177,9 @@ ChatMessage {
 | Styling | Existing tokens: Indigo `#1E3A5F`, Marigold `#F4A300`, Cream `#FAF7F2` | Extend with status colors: green (mastered), amber (shaky), gray (unattempted), blue (recommended) |
 | Visualization | D3.js or vis-network for Concept Mastery Map graph; Chart.js for dashboard charts (already used) | |
 | AI Engine | Claude API (`/v1/messages`) for chatbot; mock responses as fallback (already implemented) | Extend system prompt to also return a structured "misconception tag" when grading quiz answers |
-| Backend | Node.js + Express (or serverless functions on Vercel) | |
-| Database | Firebase Firestore (fastest for student project) or MongoDB | |
-| Hosting | Vercel/Netlify (static + serverless functions) | |
-| Auth | Simple email/PIN login or Firebase Auth (mentor-student linking via invite code) | |
+| Backend | Node.js + Express (Business Logic, Diagnostic Engine, AI Proxy) | |
+| Database | Supabase (PostgreSQL with Row Level Security) | Relational schema with 11 tables |
+| Auth | Supabase Auth (JWT, Role-based Profiles) | Student, Mentor, Admin roles |
 
 ---
 

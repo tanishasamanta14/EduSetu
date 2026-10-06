@@ -6,44 +6,9 @@
 (function() {
   'use strict';
 
-  /* ---------- Initialize mock data on first visit ---------- */
+  /* ---------- Initialize application state ---------- */
   function initializeMockData() {
-    if (localStorage.getItem('edusetu_initialized')) return;
-
-    // Confidence score history (last 4 weeks)
-    var confidenceHistory = [
-      { week: 'Week 1', score: 45 },
-      { week: 'Week 2', score: 55 },
-      { week: 'Week 3', score: 62 },
-      { week: 'Week 4', score: 71 }
-    ];
-    localStorage.setItem('edusetu_confidence_history', JSON.stringify(confidenceHistory));
-
-    // Chat ratings for confidence score
-    var chatRatings = { gotIt: 15, kindOf: 8, confused: 4 };
-    localStorage.setItem('edusetu_chat_ratings', JSON.stringify(chatRatings));
-
-    // User preferences
-    var userPrefs = {
-      name: 'Aarav Sharma',
-      grade: 8,
-      language: 'en',
-      role: 'student',
-      subjects: ['math', 'science', 'english', 'socialScience', 'hindi']
-    };
-    localStorage.setItem('edusetu_user_prefs', JSON.stringify(userPrefs));
-
-    // Quiz history for dashboard
-    var quizHistory = [
-      { concept: 'Fractions', subject: 'math', score: 80, date: '2025-04-01', misconceptions: [] },
-      { concept: 'Photosynthesis', subject: 'science', score: 60, date: '2025-04-03', misconceptions: ['organelle-pigment-confusion'] },
-      { concept: 'Algebraic Expressions', subject: 'math', score: 40, date: '2025-04-05', misconceptions: ['sign-error', 'term-combination-error'] },
-      { concept: 'Active & Passive Voice', subject: 'english', score: 55, date: '2025-04-07', misconceptions: ['tense-shift-error'] },
-      { concept: 'Ratios & Proportions', subject: 'math', score: 55, date: '2025-04-08', misconceptions: ['ratio-reversal'] }
-    ];
-    localStorage.setItem('edusetu_quiz_history', JSON.stringify(quizHistory));
-
-    localStorage.setItem('edusetu_initialized', 'true');
+    // Zero-mock policy: Supabase PostgreSQL and Supabase Auth are the sole sources of truth
   }
 
   /* ---------- Get user prefs ---------- */

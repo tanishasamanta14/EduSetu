@@ -1,103 +1,51 @@
 /* ============================================================
-   EduSetu — Main Server Entry Point
-   Initializes configurations and starts the Express application.
+   EduSetu — Main Server Entry Point (Supabase Architecture)
    ============================================================ */
 
 'use strict';
 
 const app = require('./app');
 const config = require('./config/env');
-const { connectDB } = require('./config/db');
+const { checkConnection, isRealSupabase } = require('./config/supabase');
 
-// Connect to Database and start server
-connectDB().then(async () => {
-  // If memory server is used, seed it automatically so frontend has data
-  if (config.mongoUri.includes('localhost')) {
-    console.log('Detected Memory Server. Auto-seeding for development...');
-    try {
-      const User = require('./models/User');
-      if (await User.countDocuments() === 0) {
-        // Quick seed
-        const Subject = require('./models/Subject');
-        const Topic = require('./models/Topic');
-        const StudentProfile = require('./models/StudentProfile');
-        
-        const testUser = await User.create({ email: 'student1@edusetu.in', password: 'password123', role: 'student' });
-        await StudentProfile.create({ user: testUser._id, name: 'Aarav Sharma', grade: 8, language: 'en' });
+async function startServer() {
+  const connection = await checkConnection();
+  const hasGrok = !!(config.grokApiKey && config.grokApiKey !== 'your-grok-api-key-here');
 
-        const math = await Subject.create({ name: 'Mathematics', slug: 'math', icon: '📐', gradeLevel: 8 });
-        const algebraTopic = await Topic.create({ name: 'Algebraic Expressions', slug: 'algebraic-expressions', subject: math._id, gradeLevel: 8, difficulty: 'intermediate', description: 'Variables and equations.' });
-        await Topic.create({ name: 'Calculus', slug: 'calculus', subject: math._id, gradeLevel: 12, difficulty: 'advanced', description: 'Differentiation and integration.' });
-        
-        // Seed Quiz & Questions
-        const Quiz = require('./models/Quiz');
-        const Question = require('./models/Question');
-        
-        const q1 = await Question.create({
-          topic: algebraTopic._id,
-          text: 'What is the value of x in 2x = 10?',
-          options: [
-            { text: '5', isCorrect: true },
-            { text: '8', isCorrect: false, misconceptionTag: 'subtraction-error' },
-            { text: '20', isCorrect: false, misconceptionTag: 'multiplication-error' }
-          ],
-          difficulty: 'easy'
-        });
+  const server = app.listen(config.port, '127.0.0.1', () => {
+    console.log('');
+    console.log('  ╔══════════════════════════════════════════════════════╗');
+    console.log(`  ║   EduSetu Server running on port ${config.port.toString().padEnd(4)}                ║`);
+    console.log(`  ║   http://localhost:${config.port.toString().padEnd(34)}║`);
+    console.log('  ╠══════════════════════════════════════════════════════╣');
+    
+    if (isRealSupabase) {
+      console.log('  ║   ✅ Connected to Cloud Supabase (PostgreSQL + Auth) ║');
+    } else {
+      console.log('  ║   ⚡ Local Supabase Adapter Active (Zero-config dev) ║');
+      console.log('  ║   → Add SUPABASE_URL & keys to .env for cloud DB     ║');
+    }
 
-        const q2 = await Question.create({
-          topic: algebraTopic._id,
-          text: 'Simplify: 3x + 2x',
-          options: [
-            { text: '5x', isCorrect: true },
-            { text: '6x', isCorrect: false, misconceptionTag: 'multiplication-instead' },
-            { text: '5x^2', isCorrect: false, misconceptionTag: 'exponent-error' }
-          ],
-          difficulty: 'easy'
-        });
+    if (hasGrok) {
+      console.log('  ║   ✅ Grok AI Tutor API loaded                        ║');
+    } else {
+      console.log('  ║   ⚠️  Grok API key NOT configured                    ║');
+    }
 
-        await Quiz.create({
-          title: 'Algebra Basics Quiz',
-          topic: algebraTopic._id,
-          questions: [q1._id, q2._id]
-        });
-
-        // Seed Mentor
-        const MentorStudent = require('./models/MentorStudent');
-        const mentorUser = await User.create({ email: 'mentor1@edusetu.in', password: 'password123', role: 'mentor' });
-        await MentorStudent.create({ mentor: mentorUser._id, student: testUser._id });
-        
-      }
-    } catch(e) { console.error('Auto-seed failed', e); }
-  }
-
-// Start Server
-const server = app.listen(config.port, '127.0.0.1', () => {
-  const hasKey = !!(config.grokApiKey && config.grokApiKey !== 'your-grok-api-key-here');
-  
-  console.log('');
-  console.log('  ╔══════════════════════════════════════════╗');
-  console.log(`  ║   EduSetu Server running on port ${config.port.toString().padEnd(4)}    ║`);
-  console.log(`  ║   http://localhost:${config.port.toString().padEnd(20)}  ║`);
-  console.log('  ╠══════════════════════════════════════════╣');
-  
-  if (hasKey) {
-    console.log('  ║   ✅ Grok API key loaded                 ║');
-  } else {
-    console.log('  ║   ⚠️  Grok API key NOT configured        ║');
-    console.log('  ║   → Edit .env and add your key           ║');
-  }
-  
-  console.log('  ╚══════════════════════════════════════════╝');
-  console.log('');
-});
-
-}); // End of connectDB().then()
-
-// Handle unhandled promise rejections globally
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.error(err.name, err.message);
-  server.close(() => {
-    process.exit(1);
+    console.log('  ╚══════════════════════════════════════════════════════╝');
+    console.log('');
   });
+
+  process.on('unhandledRejection', (err) => {
+    console.error('UNHANDLED REJECTION! 💥 Shutting down...');
+    console.error(err.name, err.message);
+    server.close(() => {
+      process.exit(1);
+    });
+  });
+}
+
+startServer().catch((err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
