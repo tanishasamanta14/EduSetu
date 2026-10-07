@@ -3,486 +3,1037 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EduSetu — AI-Powered Learning Companion bridging education gaps for students in India. Multilingual, diagnostic-first learning platform.">
-  <title>EduSetu — AI-Powered Learning Companion</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* ---- Landing Page Specific Styles ---- */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(135deg, #070A12 0%, #0B0F19 30%, #111827 60%, #0F172A 100%);
-      overflow: hidden;
-      padding-top: 72px;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -200px; right: -200px;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(244,163,0,0.2) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 8s ease-in-out infinite;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -150px; left: -100px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(55,138,221,0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-    .hero-shapes .shape {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.08;
-      background: var(--clr-marigold);
-    }
-    .hero-shapes .shape-1 { width: 120px; height: 120px; top: 15%; left: 10%; animation: float 6s ease-in-out infinite; }
-    .hero-shapes .shape-2 { width: 80px; height: 80px; top: 60%; right: 15%; animation: float 8s ease-in-out infinite 1s; border-radius: var(--radius-xl); }
-    .hero-shapes .shape-3 { width: 60px; height: 60px; bottom: 20%; left: 30%; animation: float 7s ease-in-out infinite 2s; }
-    .hero-shapes .shape-4 { width: 100px; height: 100px; top: 30%; right: 30%; animation: float 9s ease-in-out infinite 0.5s; border-radius: var(--radius-2xl); }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: var(--space-8) var(--space-6);
-    }
-    .hero-overline {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      padding: var(--space-2) var(--space-5);
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius-full);
-      font-size: var(--fs-xs);
-      font-weight: 600;
-      color: var(--clr-marigold-light);
-      margin-bottom: var(--space-6);
-      letter-spacing: 0.05em;
-      animation: fadeInUp 0.8s ease forwards;
-    }
-    .hero h1 {
-      color: var(--clr-white);
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.1;
-      margin-bottom: var(--space-6);
-      animation: fadeInUp 0.8s ease 0.1s forwards;
-      opacity: 0;
-    }
-    .hero h1 .accent { color: var(--clr-marigold); }
-    .hero-subtitle {
-      color: rgba(255,255,255,0.75);
-      font-size: var(--fs-md);
-      max-width: 580px;
-      margin: 0 auto var(--space-8);
-      line-height: 1.7;
-      animation: fadeInUp 0.8s ease 0.2s forwards;
-      opacity: 0;
-    }
-    .hero-ctas {
-      display: flex;
-      gap: var(--space-4);
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease 0.3s forwards;
-      opacity: 0;
-    }
-    .hero-ctas .btn-primary { padding: 1rem 2.5rem; font-size: var(--fs-base); }
-    .hero-ctas .btn-hero-outline {
-      padding: 1rem 2.5rem;
-      font-size: var(--fs-base);
-      border: 2px solid rgba(255,255,255,0.3);
-      color: var(--clr-white);
-      border-radius: var(--radius-lg);
-      font-family: var(--font-heading);
-      font-weight: 600;
-      transition: all var(--transition-normal);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-    .hero-ctas .btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); color: var(--clr-white); }
+  <meta name="description" content="EduSetu — AI-Powered Learning Companion bridging education gaps for students across India. Multilingual, diagnostic-first AI tutoring.">
+  <title>EduSetu — Your AI Learning Companion</title>
 
-    /* Stats Bar */
-    .stats-bar {
-      background: var(--surface-1);
-      padding: var(--space-10) 0;
-      position: relative;
-      z-index: 5;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-8);
-      text-align: center;
-    }
-    .stat-item .stat-number {
-      font-family: var(--font-heading);
-      font-size: var(--fs-3xl);
-      font-weight: 800;
-      color: var(--clr-indigo);
-      display: block;
-    }
-    .stat-item .stat-label {
-      font-size: var(--fs-sm);
-      color: var(--clr-gray-500);
-      margin-top: var(--space-2);
-      display: block;
-    }
+  <!-- Google Fonts: Inter & Sora for SaaS typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    /* Problem Section */
-    .problem-section { background: var(--surface-0); }
-
-    /* Features */
-    .features-section { background: var(--surface-0); }
-    .feature-card {
-      text-align: center;
-      padding: var(--space-8) var(--space-6);
-    }
-    .feature-card .feature-icon {
-      width: 72px; height: 72px;
-      margin: 0 auto var(--space-5);
-      background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(244,163,0,0.1));
-      border-radius: var(--radius-xl);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      transition: all var(--transition-normal);
-    }
-    .feature-card:hover .feature-icon {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 0 30px rgba(59,130,246,0.2);
-    }
-    .feature-card h4 { margin-bottom: var(--space-3); font-size: var(--fs-md); }
-    .feature-card p { color: var(--clr-gray-500); font-size: var(--fs-sm); line-height: 1.6; }
-
-    /* How it Works */
-    .how-section { background: var(--surface-1); }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-6);
-      position: relative;
-    }
-    .steps-grid::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      left: 12%;
-      right: 12%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--clr-indigo), var(--clr-marigold));
-      border-radius: 2px;
-      z-index: 0;
-    }
-    .step-card {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .step-number {
-      width: 56px; height: 56px;
-      margin: 0 auto var(--space-5);
-      background: linear-gradient(135deg, #3B82F6, #60A5FA);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-heading);
-      font-size: var(--fs-xl);
-      font-weight: 800;
-      color: #F9FAFB;
-      box-shadow: 0 4px 20px rgba(59,130,246,0.3);
-      border: 4px solid var(--surface-1);
-    }
-    .step-card .step-icon { font-size: 1.5rem; margin-bottom: var(--space-3); display: block; }
-    .step-card h4 { font-size: var(--fs-sm); margin-bottom: var(--space-2); }
-    .step-card p { font-size: var(--fs-xs); color: var(--clr-gray-500); }
-
-    /* SDG Section */
-    .sdg-section { background: var(--surface-0); }
-    .sdg-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
-    .sdg-card { padding: var(--space-8); border-radius: var(--radius-xl); position: relative; overflow: hidden; }
-    .sdg-card.sdg4-card { background: linear-gradient(135deg, rgba(220,38,38,0.08), rgba(220,38,38,0.04)); border: 1px solid rgba(220,38,38,0.15); }
-    .sdg-card.sdg10-card { background: linear-gradient(135deg, rgba(219,39,119,0.08), rgba(219,39,119,0.04)); border: 1px solid rgba(219,39,119,0.15); }
-    .sdg-card .sdg-number { font-family: var(--font-heading); font-size: var(--fs-5xl); font-weight: 800; opacity: 0.08; position: absolute; top: -10px; right: 20px; }
-    .sdg-card .sdg-badge-lg { display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); font-size: var(--fs-xs); font-weight: 700; margin-bottom: var(--space-4); }
-    .sdg4-card .sdg-badge-lg { background: rgba(200,30,30,0.15); color: #DC2626; }
-    .sdg10-card .sdg-badge-lg { background: rgba(221,44,108,0.15); color: #DB2777; }
-    .sdg-card h3 { font-size: var(--fs-xl); margin-bottom: var(--space-3); }
-    .sdg-card p { color: var(--clr-gray-600); font-size: var(--fs-sm); line-height: 1.7; }
-
-    /* CTA Bottom */
-    .cta-section {
-      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
-      text-align: center;
-      padding: var(--space-20) 0;
-      position: relative;
-      overflow: hidden;
-      border-top: 1px solid rgba(59,130,246,0.15);
-    }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(244,163,0,0.15) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .cta-section h2 { color: var(--clr-white); margin-bottom: var(--space-4); }
-    .cta-section p { color: rgba(255,255,255,0.7); margin-bottom: var(--space-8); max-width: 500px; margin-left: auto; margin-right: auto; }
-
-    @media (max-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid::before { display: none; }
-      .sdg-cards { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <!-- Core & Landing Stylesheet -->
+  <link rel="stylesheet" href="../css/landing.css">
 </head>
-<body>
-  <div class="page-wrapper">
+<body class="landing-body">
 
-    <!-- Navbar -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-      <div class="navbar-inner">
-        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
-          <div class="logo-icon">E</div>
-          Edu<span class="logo-accent">Setu</span>
-        </a>
-        <div class="navbar-links" id="navLinks">
-          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
-          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
-          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
-          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>`n          <a href="explore.html"><span class="nav-icon">??</span> Explore</a>
-          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
-          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
-          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
+  <!-- Subtle ambient background elements -->
+  <div class="landing-grid-bg"></div>
+  <div class="ambient-glow ambient-glow--top"></div>
+  <div class="ambient-glow ambient-glow--right"></div>
+  <div class="ambient-glow ambient-glow--left"></div>
+
+  <!-- ============================================================
+       NAVBAR (Public Marketing Header with Dynamic Auth State)
+       ============================================================ -->
+  <nav class="landing-navbar" id="landingNavbar" role="navigation" aria-label="Main navigation">
+    <div class="landing-navbar-inner">
+
+      <!-- LEFT: EduSetu Brand Logo -->
+      <a href="index.html" class="landing-logo" aria-label="EduSetu Home">
+        <div class="landing-logo-badge">E</div>
+        <div class="landing-logo-text">Edu<span>Setu</span></div>
+        <span class="landing-logo-tag">AI Beta</span>
+      </a>
+
+      <!-- CENTER: Public Marketing Anchor Links -->
+      <div class="landing-nav-center" id="navCenterLinks">
+        <a href="#hero" class="landing-nav-link active">Home</a>
+        <a href="#features" class="landing-nav-link">Features</a>
+        <a href="#how-it-works" class="landing-nav-link">How It Works</a>
+        <a href="#subjects" class="landing-nav-link">Subjects</a>
+        <a href="#about" class="landing-nav-link">About</a>
+      </div>
+
+      <!-- RIGHT: Language Selector & Dynamic Auth Action Buttons -->
+      <div class="landing-nav-right">
+        <!-- Language Selector -->
+        <div class="lang-selector-wrap" id="langSelectorWrap">
+          <button class="lang-selector-btn" id="langSelectorBtn" aria-label="Select Language" type="button">
+            <span>🌐</span>
+            <span id="currentLangLabel">EN</span>
+            <span style="font-size: 0.65rem; opacity: 0.7;">▾</span>
+          </button>
+          <div class="lang-dropdown-menu" id="langDropdownMenu" role="menu">
+            <button class="lang-dropdown-item active" data-lang="en" type="button">
+              <span>English</span>
+              <span style="font-size:0.75rem; opacity:0.7;">EN</span>
+            </button>
+            <button class="lang-dropdown-item" data-lang="hi" type="button">
+              <span>हिन्दी</span>
+              <span style="font-size:0.75rem; opacity:0.7;">HI</span>
+            </button>
+          </div>
         </div>
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+
+        <!-- Logged-out state buttons (Default) -->
+        <div class="nav-auth-logged-out" id="navAuthLoggedOut" style="display: flex; align-items: center; gap: 10px;">
+          <button class="btn-nav-signin" id="navSignInBtn" type="button">Sign In</button>
+          <button class="btn-nav-getstarted" id="navGetStartedBtn" type="button">Get Started →</button>
+        </div>
+
+        <!-- Logged-in state buttons (Populated via /api/auth/me) -->
+        <div class="nav-auth-logged-in" id="navAuthLoggedIn" style="display: none; align-items: center; gap: 12px;">
+          <a href="dashboard.html" class="btn-nav-dashboard">Go to Dashboard →</a>
+          <div class="user-menu-wrap" id="userMenuWrap">
+            <button class="user-menu-btn" id="userMenuBtn" aria-label="User profile options" type="button">
+              <div class="user-menu-avatar" id="navUserAvatar">S</div>
+              <span id="navUserName">Student</span>
+              <span style="font-size: 0.65rem; opacity: 0.7;">▾</span>
+            </button>
+            <div class="user-dropdown-menu" id="userDropdownMenu" role="menu">
+              <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="userDropdownName">Student</div>
+                <div class="user-dropdown-email" id="userDropdownEmail">student@edusetu.in</div>
+              </div>
+              <a href="dashboard.html" class="user-dropdown-item">📊 Dashboard</a>
+              <a href="profile.html" class="user-dropdown-item">⚙️ Profile &amp; Settings</a>
+              <button class="user-dropdown-item danger" id="navLogoutBtn" type="button">🚪 Log Out</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Drawer Toggle -->
+        <button class="landing-mobile-toggle" id="landingMobileToggle" aria-label="Toggle navigation menu" type="button">
           <span></span><span></span><span></span>
         </button>
       </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-      <div class="hero-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-      </div>
-      <div class="container hero-content">
-        <div class="hero-overline">🎓 SDG 4 &amp; SDG 10 · AI-Powered Education</div>
-        <h1>Your <span class="accent">AI Learning</span> Companion</h1>
-        <p class="hero-subtitle">Bridging the education gap with diagnostic-first, multilingual AI tutoring. Don't just answer the question — find the gap.</p>
-        <div class="hero-ctas">
-          <a href="chatbot.html" class="btn btn-primary">🚀 Start Learning</a>
-          <a href="#features" class="btn-hero-outline">Explore Features ↓</a>
-        </div>
-      </div>
-    </section>
+    </div>
+  </nav>
 
-    <!-- Impact Stats Bar -->
-    <section class="stats-bar">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item reveal">
-            <span class="stat-number" data-count="10" data-suffix="M+">0</span>
-            <span class="stat-label">Students affected by learning gaps</span>
-          </div>
-          <div class="stat-item reveal">
-            <span class="stat-number" data-count="30" data-suffix="%">0</span>
-            <span class="stat-label">Dropout rate after Class 8</span>
-          </div>
-          <div class="stat-item reveal">
-            <span class="stat-number" data-count="22" data-suffix=":1">0</span>
-            <span class="stat-label">Student-teacher ratio</span>
-          </div>
-          <div class="stat-item reveal">
-            <span class="stat-number" data-count="6000" data-suffix="+">0</span>
-            <span class="stat-label">Schools without internet</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section section" id="features">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="overline">What Makes Us Different</span>
-          <h2>Powerful Features</h2>
-          <p>Built for students who need more than just video lectures</p>
-        </div>
-        <div class="grid grid-3">
-          <div class="card feature-card reveal">
-            <div class="feature-icon">🤖</div>
-            <h4>AI Tutor</h4>
-            <p>Instant doubt-solving in Hindi &amp; English. Step-by-step explanations adapted to your grade level.</p>
-          </div>
-          <div class="card feature-card reveal">
-            <div class="feature-icon">🗺️</div>
-            <h4>Concept Mastery Map</h4>
-            <p>Visual graph showing which concepts you've mastered, which are shaky, and what to study next.</p>
-          </div>
-          <div class="card feature-card reveal">
-            <div class="feature-icon">🎯</div>
-            <h4>Adaptive Quiz</h4>
-            <p>Diagnoses <em>why</em> you got it wrong — misconception tagging, not just scores.</p>
-          </div>
-          <div class="card feature-card reveal">
-            <div class="feature-icon">👨‍🏫</div>
-            <h4>Mentor View</h4>
-            <p>Auto-generated weekly insights for teachers &amp; parents. Know exactly where each student needs help.</p>
-          </div>
-          <div class="card feature-card reveal">
-            <div class="feature-icon">🌐</div>
-            <h4>Multilingual</h4>
-            <p>Learn in your own language. Hindi &amp; English support with more languages coming soon.</p>
-          </div>
-          <div class="card feature-card reveal">
-            <div class="feature-icon">📡</div>
-            <h4>Offline First</h4>
-            <p>Works on low-bandwidth connections. Download lessons for offline access on any device.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-section section" id="how-it-works">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="overline">Simple &amp; Effective</span>
-          <h2>How EduSetu Works</h2>
-          <p>Four steps to better understanding</p>
-        </div>
-        <div class="steps-grid">
-          <div class="step-card reveal">
-            <div class="step-number">1</div>
-            <span class="step-icon">💬</span>
-            <h4>Ask a Doubt</h4>
-            <p>Type your question in Hindi or English. No question is too basic.</p>
-          </div>
-          <div class="step-card reveal">
-            <div class="step-number">2</div>
-            <span class="step-icon">🔍</span>
-            <h4>AI Diagnoses the Gap</h4>
-            <p>Our AI finds the exact misconception causing confusion.</p>
-          </div>
-          <div class="step-card reveal">
-            <div class="step-number">3</div>
-            <span class="step-icon">📖</span>
-            <h4>Learn at Your Pace</h4>
-            <p>Get step-by-step explanations adapted to your level.</p>
-          </div>
-          <div class="step-card reveal">
-            <div class="step-number">4</div>
-            <span class="step-icon">📊</span>
-            <h4>Track Your Mastery</h4>
-            <p>Watch your Concept Mastery Map turn green as you grow.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SDG Section -->
-    <section class="sdg-section section" id="sdg">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="overline">United Nations SDGs</span>
-          <h2>Aligned with Global Goals</h2>
-          <p>Contributing directly to Sustainable Development Goals</p>
-        </div>
-        <div class="sdg-cards">
-          <div class="sdg-card sdg4-card card reveal">
-            <div class="sdg-number">4</div>
-            <span class="sdg-badge-lg">SDG 4 — Quality Education</span>
-            <h3>Ensuring inclusive and equitable quality education</h3>
-            <p>EduSetu provides free, diagnostic-first AI tutoring that adapts to each student's level and language, making quality education accessible to students in rural and semi-urban India who lack trained teachers.</p>
-          </div>
-          <div class="sdg-card sdg10-card card reveal">
-            <div class="sdg-number">10</div>
-            <span class="sdg-badge-lg">SDG 10 — Reduced Inequalities</span>
-            <h3>Reducing the urban-rural learning gap</h3>
-            <p>By offering multilingual support, offline access, and low-bandwidth compatibility, EduSetu bridges the educational divide between privileged urban students and underserved rural communities.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Bottom -->
-    <section class="cta-section">
-      <div class="container reveal">
-        <h2>Ready to Bridge the Learning Gap?</h2>
-        <p>Start your journey with EduSetu's AI-powered diagnostic tutoring — completely free.</p>
-        <a href="chatbot.html" class="btn btn-primary btn-lg">🚀 Start Learning Now</a>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <div class="footer-logo">Edu<span>Setu</span></div>
-            <p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p>
-          </div>
-          <div>
-            <h4>Platform</h4>
-            <ul class="footer-links">
-              <li><a href="chatbot.html">AI Tutor</a></li>
-              <li><a href="mastery-map.html">Mastery Map</a></li>
-              <li><a href="quiz.html">Adaptive Quiz</a></li>
-              <li><a href="explore.html">Explore</a></li>
-              <li><a href="dashboard.html">Dashboard</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>For Mentors</h4>
-            <ul class="footer-links">
-              <li><a href="mentor.html">Mentor View</a></li>
-              <li><a href="profile.html">Settings</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>About</h4>
-            <ul class="footer-links">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">SDG Goals</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 EduSetu. All rights reserved.</p>
-          <div class="footer-sdg">
-            <span class="sdg-badge sdg4">SDG 4</span>
-            <span class="sdg-badge sdg10">SDG 10</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-
+  <!-- Mobile Drawer -->
+  <div class="landing-mobile-drawer" id="landingMobileDrawer">
+    <a href="#hero" class="landing-nav-link">Home</a>
+    <a href="#features" class="landing-nav-link">Features</a>
+    <a href="#how-it-works" class="landing-nav-link">How It Works</a>
+    <a href="#subjects" class="landing-nav-link">Subjects</a>
+    <a href="#about" class="landing-nav-link">About</a>
+    <div class="mobile-actions" id="mobileAuthContainer">
+      <!-- Injected dynamically based on auth state -->
+    </div>
   </div>
 
-  <script src="../js/main.js"></script>
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="landing-hero" id="hero">
+    <div class="landing-hero-container">
+
+      <!-- Pill Badge -->
+      <div class="hero-badge-pill">
+        <span>🎓</span>
+        <span>SDG 4 &amp; SDG 10 · AI-Powered Education</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero-main-title">
+        Your <span class="text-gold-gradient">AI Learning</span> Companion
+      </h1>
+
+      <!-- Supporting Subtitle -->
+      <p class="hero-description">
+        Bridging the education gap with diagnostic-first, multilingual AI tutoring. Don't just answer the question — find the gap.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="hero-cta-wrap">
+        <button class="hero-btn-primary" id="heroGetStartedBtn" type="button">
+          🚀 Get Started
+        </button>
+        <a href="#how-it-works" class="hero-btn-secondary">
+          ▶ Watch Demo / How It Works
+        </a>
+      </div>
+
+      <!-- SaaS Interactive Product Mockup Showcase -->
+      <div class="hero-mockup-wrapper">
+        <div class="hero-mockup-card">
+          <div class="mockup-header-bar">
+            <div class="mockup-dots">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+            </div>
+            <div class="mockup-title">EduSetu Diagnostic Engine v2.4 · Real-time AI Socratic Session</div>
+            <div class="mockup-status-badge">
+              <span class="mockup-status-dot"></span>
+              <span>Live Engine Connected</span>
+            </div>
+          </div>
+
+          <div class="mockup-body-grid">
+            <!-- Simulated AI Tutor Dialogue -->
+            <div class="mockup-chat-panel">
+              <div class="chat-bubble student">
+                <div class="sender">Student (Class 8)</div>
+                <div>Why is 1/2 + 1/3 not equal to 2/5? My classmate said we can just add the numerators and denominators directly!</div>
+              </div>
+
+              <div class="chat-bubble ai">
+                <div class="sender">
+                  <span>🤖</span> EduSetu AI Tutor (Diagnostic Mode)
+                </div>
+                <div>
+                  Great question! That is one of the most common misconceptions in mathematics (adding across denominators). 
+                  Remember: fractions represent portions of different slice sizes. 1/2 slice is much larger than 1/3 slice, so you can't add them directly without finding a <strong>common denominator</strong> (6ths) first!
+                  <br>
+                  <span class="misconception-tag-pill">
+                    🔍 Tagged Misconception: <code>fraction_addition_denominator</code>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Diagnostic Analytics Preview -->
+            <div class="mockup-analytics-panel">
+              <div class="analytics-widget-header">
+                <span>Concept Mastery Live</span>
+                <span style="color: #60A5FA;">CBSE Class 8</span>
+              </div>
+
+              <div class="progress-metric-item">
+                <div class="metric-meta">
+                  <span>Rational Numbers</span>
+                  <span style="color: var(--lp-gold);">78% Mastered</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill gold" style="width: 78%;"></div>
+                </div>
+              </div>
+
+              <div class="progress-metric-item">
+                <div class="metric-meta">
+                  <span>Algebraic Equations</span>
+                  <span style="color: #34D399;">92% Mastered</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill green" style="width: 92%;"></div>
+                </div>
+              </div>
+
+              <div class="mockup-badges-row">
+                <div class="mockup-mini-badge">
+                  <div class="val">14</div>
+                  <div class="lbl">Concept Streaks</div>
+                </div>
+                <div class="mockup-mini-badge">
+                  <div class="val">98%</div>
+                  <div class="lbl">Diagnostic Accuracy</div>
+                </div>
+                <div class="mockup-mini-badge">
+                  <div class="val">Zero</div>
+                  <div class="lbl">Mock Data Policy</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4 FEATURE CARDS SECTION (Directly Below Hero)
+       ============================================================ -->
+  <section class="section-features-cards" id="features">
+    <div class="features-cards-container">
+      <div class="features-cards-grid">
+
+        <!-- Card 1: AI Tutor -->
+        <a href="chatbot.html" class="feature-glass-card">
+          <div class="card-top-content">
+            <div class="card-icon-box gold">🤖</div>
+            <h3 class="card-title">AI Tutor</h3>
+            <p class="card-description">
+              Instant doubt-solving in Hindi &amp; English. Step-by-step Socratic explanations adapted to your grade and learning pace.
+            </p>
+          </div>
+          <div class="card-bottom-action">
+            <span class="card-action-text">Launch AI Tutor</span>
+            <div class="card-arrow-circle">→</div>
+          </div>
+        </a>
+
+        <!-- Card 2: Adaptive Quizzes -->
+        <a href="quiz.html" class="feature-glass-card">
+          <div class="card-top-content">
+            <div class="card-icon-box blue">🎯</div>
+            <h3 class="card-title">Adaptive Quizzes</h3>
+            <p class="card-description">
+              Pinpoint root misconceptions instead of only calculating test marks with diagnostic tagging and targeted re-testing.
+            </p>
+          </div>
+          <div class="card-bottom-action">
+            <span class="card-action-text">Take Diagnostic Quiz</span>
+            <div class="card-arrow-circle">→</div>
+          </div>
+        </a>
+
+        <!-- Card 3: Mastery Tracking -->
+        <a href="mastery-map.html" class="feature-glass-card">
+          <div class="card-top-content">
+            <div class="card-icon-box green">🗺️</div>
+            <h3 class="card-title">Mastery Tracking</h3>
+            <p class="card-description">
+              Visual knowledge map revealing mastered and unmastered concepts across your full state board or NCERT syllabus.
+            </p>
+          </div>
+          <div class="card-bottom-action">
+            <span class="card-action-text">View Mastery Map</span>
+            <div class="card-arrow-circle">→</div>
+          </div>
+        </a>
+
+        <!-- Card 4: Personalized Learning -->
+        <a href="explore.html" class="feature-glass-card">
+          <div class="card-top-content">
+            <div class="card-icon-box purple">⚡</div>
+            <h3 class="card-title">Personalized Learning</h3>
+            <p class="card-description">
+              Diagnostic-first step-by-step guidance tailored for every student to transform stumbling blocks into strengths.
+            </p>
+          </div>
+          <div class="card-bottom-action">
+            <span class="card-action-text">Explore Curriculum</span>
+            <div class="card-arrow-circle">→</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SUBJECTS / CURRICULUM SECTION (#subjects)
+       ============================================================ -->
+  <section class="section-subjects" id="subjects">
+    <div class="section-header">
+      <span class="section-tag-pill">Comprehensive Curriculum</span>
+      <h2 class="section-title">Subjects Covered</h2>
+      <p class="section-subtitle">
+        Structured syllabus coverage aligned with NCERT and Indian State Boards for Classes 6 through 10.
+      </p>
+    </div>
+
+    <div class="subjects-grid">
+      <!-- Mathematics -->
+      <a href="explore.html?subject=math" class="subject-glass-pill">
+        <span class="subject-icon-big">📐</span>
+        <span class="subject-name-big">Mathematics</span>
+        <span class="subject-class-tag">Classes 6 - 10</span>
+      </a>
+
+      <!-- Science -->
+      <a href="explore.html?subject=science" class="subject-glass-pill">
+        <span class="subject-icon-big">🔬</span>
+        <span class="subject-name-big">Science</span>
+        <span class="subject-class-tag">Physics, Chem, Bio</span>
+      </a>
+
+      <!-- Social Science -->
+      <a href="explore.html?subject=social" class="subject-glass-pill">
+        <span class="subject-icon-big">🌍</span>
+        <span class="subject-name-big">Social Science</span>
+        <span class="subject-class-tag">History, Civics, Geo</span>
+      </a>
+
+      <!-- English -->
+      <a href="explore.html?subject=english" class="subject-glass-pill">
+        <span class="subject-icon-big">📚</span>
+        <span class="subject-name-big">English</span>
+        <span class="subject-class-tag">Grammar &amp; Lit</span>
+      </a>
+
+      <!-- Hindi -->
+      <a href="explore.html?subject=hindi" class="subject-glass-pill">
+        <span class="subject-icon-big">🇮🇳</span>
+        <span class="subject-name-big">हिन्दी</span>
+        <span class="subject-class-tag">व्याकरण और साहित्य</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HOW IT WORKS SECTION (#how-it-works)
+       ============================================================ -->
+  <section class="section-how" id="how-it-works">
+    <div class="section-header">
+      <span class="section-tag-pill">Simple &amp; Effective</span>
+      <h2 class="section-title">How EduSetu Works</h2>
+      <p class="section-subtitle">
+        Four evidence-backed steps bridging the gap from conceptual doubt to proven mastery.
+      </p>
+    </div>
+
+    <div class="how-steps-grid">
+      <!-- Step 1 -->
+      <div class="how-step-card">
+        <div class="step-num-badge">1</div>
+        <h4 class="step-card-title">Ask a Doubt</h4>
+        <p class="step-card-desc">
+          Type or dictate your confusion in Hindi or English. No question is too basic, and you receive instant patient attention.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="how-step-card">
+        <div class="step-num-badge">2</div>
+        <h4 class="step-card-title">AI Diagnoses the Gap</h4>
+        <p class="step-card-desc">
+          Rather than just giving away the final answer, our diagnostic system identifies the exact misconception causing confusion.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="how-step-card">
+        <div class="step-num-badge">3</div>
+        <h4 class="step-card-title">Learn at Your Pace</h4>
+        <p class="step-card-desc">
+          Receive step-by-step Socratic explanations with localized analogies, interactive diagrams, and confidence checks.
+        </p>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="how-step-card">
+        <div class="step-num-badge">4</div>
+        <h4 class="step-card-title">Master &amp; Retain</h4>
+        <p class="step-card-desc">
+          Track your real-time mastery growth on your concept graph and demonstrate proven retention with diagnostic quizzes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT & SDG IMPACT SECTION (#about)
+       ============================================================ -->
+  <section class="section-about" id="about">
+    <div class="about-container">
+      <div class="section-header">
+        <span class="section-tag-pill">United Nations SDGs</span>
+        <h2 class="section-title">Aligned with Global Goals</h2>
+        <p class="section-subtitle">
+          Dedicated to dismantling educational inequality across India through cutting-edge accessible AI.
+        </p>
+      </div>
+
+      <!-- Stats Metric Counters -->
+      <div class="stats-counter-strip">
+        <div class="stat-metric-card">
+          <div class="stat-metric-number">10M+</div>
+          <div class="stat-metric-label">Students affected by learning gaps</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-metric-number">30%</div>
+          <div class="stat-metric-label">Dropout rate after Class 8 mitigated</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-metric-number">22:1</div>
+          <div class="stat-metric-label">Impact multiplier for overburdened classrooms</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-metric-number">6,000+</div>
+          <div class="stat-metric-label">Low-bandwidth rural schools reachable</div>
+        </div>
+      </div>
+
+      <!-- Dual SDG Impact Cards -->
+      <div class="sdg-duo-grid">
+        <!-- SDG 4 Card -->
+        <div class="sdg-glass-card">
+          <span class="sdg-tag sdg4">SDG 4 — Quality Education</span>
+          <h3 class="sdg-card-heading">Inclusive &amp; Equitable Learning</h3>
+          <p class="sdg-card-body">
+            EduSetu democratizes high-quality, 1-on-1 tutoring by combining diagnostic assessment with multilingual intelligence. 
+            Students in underserved semi-urban and rural areas receive the same level of personalized pedagogical guidance as high-cost private coaching institutes.
+          </p>
+        </div>
+
+        <!-- SDG 10 Card -->
+        <div class="sdg-glass-card">
+          <span class="sdg-tag sdg10">SDG 10 — Reduced Inequalities</span>
+          <h3 class="sdg-card-heading">Closing the Urban-Rural Divide</h3>
+          <p class="sdg-card-body">
+            Language barriers and bandwidth limitations often deepen educational inequality. 
+            EduSetu features vernacular language support, low-bandwidth optimization, and responsive design so every student can learn effectively on any device.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BOTTOM CTA BANNER
+       ============================================================ -->
+  <section class="section-cta-bottom">
+    <div class="cta-banner-glass">
+      <h2>Ready to Bridge the Learning Gap?</h2>
+      <p>
+        Start your diagnostic journey today with EduSetu's AI-powered educational companion — completely free.
+      </p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <button class="hero-btn-primary" id="ctaBannerBtn" type="button">
+          🚀 Start Learning Now
+        </button>
+        <a href="chatbot.html" class="hero-btn-secondary">
+          💬 Try AI Doubt Solver
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="landing-footer">
+    <div class="landing-footer-container">
+      <div class="footer-top-grid">
+
+        <!-- Column 1: Brand -->
+        <div>
+          <div class="landing-logo">
+            <div class="landing-logo-badge">E</div>
+            <div class="landing-logo-text">Edu<span>Setu</span></div>
+          </div>
+          <p class="footer-brand-p">
+            Bridging India's educational divide with diagnostic-first, multilingual AI tutoring and real-time concept mastery tracking.
+          </p>
+        </div>
+
+        <!-- Column 2: Platform -->
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links-list">
+            <li><a href="chatbot.html">AI Tutor</a></li>
+            <li><a href="quiz.html">Adaptive Quizzes</a></li>
+            <li><a href="mastery-map.html">Mastery Map</a></li>
+            <li><a href="explore.html">Explore Curriculum</a></li>
+            <li><a href="dashboard.html">Student Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Mentors & Educators -->
+        <div>
+          <div class="footer-col-title">For Mentors</div>
+          <ul class="footer-links-list">
+            <li><a href="mentor.html">Mentor Dashboard</a></li>
+            <li><a href="profile.html">Account Settings</a></li>
+            <li><a href="#about">SDG Mission</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Quick Links -->
+        <div>
+          <div class="footer-col-title">Quick Links</div>
+          <ul class="footer-links-list">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#subjects">Subjects</a></li>
+            <li><a href="#about">About &amp; Impact</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 EduSetu. Aligned with SDG 4 &amp; SDG 10. All rights reserved.</div>
+        <div style="display: flex; gap: 10px;">
+          <span style="color: #F87171; font-weight: 600; font-size: 0.75rem;">● SDG 4 Quality Education</span>
+          <span style="color: #F472B6; font-weight: 600; font-size: 0.75rem;">● SDG 10 Reduced Inequalities</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       AUTHENTICATION MODAL (Sign In & Get Started)
+       ============================================================ -->
+  <div class="auth-modal-overlay" id="authModalOverlay" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" id="authModalCloseBtn" aria-label="Close dialog" type="button">✕</button>
+
+      <div class="auth-modal-header">
+        <h3 id="authModalTitle">Welcome to EduSetu</h3>
+        <p id="authModalSubtitle">Sign in or create an account to start your learning journey</p>
+      </div>
+
+      <!-- Switch Tabs -->
+      <div class="auth-tabs-toggle">
+        <button class="auth-tab-btn active" id="tabSignInBtn" type="button">Sign In</button>
+        <button class="auth-tab-btn" id="tabRegisterBtn" type="button">Create Account</button>
+      </div>
+
+      <!-- Form Status Message -->
+      <div class="auth-status-msg" id="authStatusMsg"></div>
+
+      <!-- SIGN IN FORM -->
+      <form id="signInForm" novalidate>
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" class="auth-form-input" placeholder="student@edusetu.in" required autocomplete="email">
+        </div>
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="auth-form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-submit-btn" id="signInSubmitBtn">
+          Sign In to EduSetu →
+        </button>
+
+        <div class="auth-demo-footer">
+          <button type="button" class="auth-demo-btn" id="demoFillBtn">
+            ⚡ Fill Test Student Account
+          </button>
+        </div>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" style="display: none;" novalidate>
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="regName">Full Name</label>
+          <input type="text" id="regName" class="auth-form-input" placeholder="Arjun Sharma" required autocomplete="name">
+        </div>
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" class="auth-form-input" placeholder="arjun@edusetu.in" required autocomplete="email">
+        </div>
+        <div class="auth-form-group">
+          <label class="auth-form-label" for="regPassword">Password</label>
+          <input type="password" id="regPassword" class="auth-form-input" placeholder="Minimum 6 characters" minlength="6" required autocomplete="new-password">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="regGrade">Class / Grade</label>
+            <select id="regGrade" class="auth-form-input">
+              <option value="6">Class 6</option>
+              <option value="7">Class 7</option>
+              <option value="8" selected>Class 8</option>
+              <option value="9">Class 9</option>
+              <option value="10">Class 10</option>
+            </select>
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="regRole">Role</label>
+            <select id="regRole" class="auth-form-input">
+              <option value="student" selected>Student</option>
+              <option value="mentor">Mentor</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
+          Create Account &amp; Start →
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LANDING PAGE CLIENT-SIDE JAVASCRIPT
+       ============================================================ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // Elements
+      const navbar = document.getElementById('landingNavbar');
+      const navAuthLoggedOut = document.getElementById('navAuthLoggedOut');
+      const navAuthLoggedIn = document.getElementById('navAuthLoggedIn');
+      const navUserName = document.getElementById('navUserName');
+      const navUserAvatar = document.getElementById('navUserAvatar');
+      const userMenuWrap = document.getElementById('userMenuWrap');
+      const userMenuBtn = document.getElementById('userMenuBtn');
+      const userDropdownMenu = document.getElementById('userDropdownMenu');
+      const userDropdownName = document.getElementById('userDropdownName');
+      const userDropdownEmail = document.getElementById('userDropdownEmail');
+      const navSignInBtn = document.getElementById('navSignInBtn');
+      const navGetStartedBtn = document.getElementById('navGetStartedBtn');
+      const navLogoutBtn = document.getElementById('navLogoutBtn');
+      const heroGetStartedBtn = document.getElementById('heroGetStartedBtn');
+      const ctaBannerBtn = document.getElementById('ctaBannerBtn');
+
+      // Modal elements
+      const authModalOverlay = document.getElementById('authModalOverlay');
+      const authModalCloseBtn = document.getElementById('authModalCloseBtn');
+      const tabSignInBtn = document.getElementById('tabSignInBtn');
+      const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+      const signInForm = document.getElementById('signInForm');
+      const registerForm = document.getElementById('registerForm');
+      const authStatusMsg = document.getElementById('authStatusMsg');
+      const authModalTitle = document.getElementById('authModalTitle');
+      const authModalSubtitle = document.getElementById('authModalSubtitle');
+      const demoFillBtn = document.getElementById('demoFillBtn');
+
+      // Language selector elements
+      const langSelectorWrap = document.getElementById('langSelectorWrap');
+      const langSelectorBtn = document.getElementById('langSelectorBtn');
+      const langDropdownMenu = document.getElementById('langDropdownMenu');
+      const currentLangLabel = document.getElementById('currentLangLabel');
+
+      // Mobile drawer elements
+      const landingMobileToggle = document.getElementById('landingMobileToggle');
+      const landingMobileDrawer = document.getElementById('landingMobileDrawer');
+      const mobileAuthContainer = document.getElementById('mobileAuthContainer');
+
+      let currentUser = null;
+
+      /* ---------- 1. Navbar Scroll Effect ---------- */
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }, { passive: true });
+
+      /* ---------- 2. Check Real Authentication State (/api/auth/me) ---------- */
+      async function checkAuthSession() {
+        try {
+          const res = await fetch('/api/auth/me', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            const result = await res.json();
+            if (result.success && result.data && result.data.user) {
+              currentUser = result.data.user;
+              renderAuthState(true, currentUser);
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('Auth check silent fail:', err);
+        }
+        currentUser = null;
+        renderAuthState(false);
+      }
+
+      function renderAuthState(isLoggedIn, user) {
+        if (isLoggedIn && user) {
+          navAuthLoggedOut.style.display = 'none';
+          navAuthLoggedIn.style.display = 'flex';
+
+          const displayName = user.name || user.email.split('@')[0];
+          navUserName.textContent = displayName;
+          userDropdownName.textContent = displayName;
+          userDropdownEmail.textContent = user.email || '';
+          navUserAvatar.textContent = (displayName.charAt(0) || 'S').toUpperCase();
+
+          // Hero buttons redirect to dashboard
+          heroGetStartedBtn.onclick = function() {
+            window.location.href = 'dashboard.html';
+          };
+          if (ctaBannerBtn) {
+            ctaBannerBtn.onclick = function() {
+              window.location.href = 'dashboard.html';
+            };
+          }
+
+          // Mobile Drawer actions for logged-in
+          mobileAuthContainer.innerHTML = `
+            <a href="dashboard.html" class="btn-nav-dashboard" style="text-align: center; justify-content: center;">
+              Go to Dashboard →
+            </a>
+            <button type="button" class="btn-nav-signin" id="mobileLogoutBtn" style="color: #F87171;">
+              Log Out (${displayName})
+            </button>
+          `;
+          const mobileLogout = document.getElementById('mobileLogoutBtn');
+          if (mobileLogout) mobileLogout.onclick = handleLogout;
+        } else {
+          navAuthLoggedOut.style.display = 'flex';
+          navAuthLoggedIn.style.display = 'none';
+
+          heroGetStartedBtn.onclick = function() {
+            openAuthModal('register');
+          };
+          if (ctaBannerBtn) {
+            ctaBannerBtn.onclick = function() {
+              openAuthModal('register');
+            };
+          }
+
+          // Mobile Drawer actions for logged-out
+          mobileAuthContainer.innerHTML = `
+            <button type="button" class="btn-nav-signin" id="mobileSignInBtn">Sign In</button>
+            <button type="button" class="btn-nav-getstarted" id="mobileGetStartedBtn" style="justify-content: center;">
+              Get Started →
+            </button>
+          `;
+          const mobileSign = document.getElementById('mobileSignInBtn');
+          const mobileGet = document.getElementById('mobileGetStartedBtn');
+          if (mobileSign) mobileSign.onclick = () => { closeMobileDrawer(); openAuthModal('signin'); };
+          if (mobileGet) mobileGet.onclick = () => { closeMobileDrawer(); openAuthModal('register'); };
+        }
+      }
+
+      /* ---------- 3. User Dropdown Menu ---------- */
+      userMenuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdownMenu.classList.toggle('show');
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!userMenuWrap.contains(e.target)) {
+          userDropdownMenu.classList.remove('show');
+        }
+        if (!langSelectorWrap.contains(e.target)) {
+          langDropdownMenu.classList.remove('show');
+        }
+      });
+
+      /* ---------- 4. Language Selector Dropdown ---------- */
+      langSelectorBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        langDropdownMenu.classList.toggle('show');
+      });
+
+      langDropdownMenu.querySelectorAll('.lang-dropdown-item').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+          langDropdownMenu.querySelectorAll('.lang-dropdown-item').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentLangLabel.textContent = lang.toUpperCase();
+          langDropdownMenu.classList.remove('show');
+          try {
+            localStorage.setItem('edusetu_lang', lang);
+          } catch(e) {}
+        });
+      });
+
+      /* ---------- 5. Mobile Toggle & Drawer ---------- */
+      landingMobileToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        landingMobileDrawer.classList.toggle('open');
+      });
+
+      function closeMobileDrawer() {
+        landingMobileToggle.classList.remove('active');
+        landingMobileDrawer.classList.remove('open');
+      }
+
+      landingMobileDrawer.querySelectorAll('.landing-nav-link').forEach(link => {
+        link.addEventListener('click', closeMobileDrawer);
+      });
+
+      /* ---------- 6. Auth Modal Controls ---------- */
+      function openAuthModal(mode) {
+        authStatusMsg.className = 'auth-status-msg';
+        authStatusMsg.style.display = 'none';
+        authStatusMsg.textContent = '';
+        authModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        if (mode === 'register') {
+          switchTab('register');
+        } else {
+          switchTab('signin');
+        }
+      }
+
+      function closeAuthModal() {
+        authModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function switchTab(mode) {
+        authStatusMsg.style.display = 'none';
+        if (mode === 'register') {
+          tabRegisterBtn.classList.add('active');
+          tabSignInBtn.classList.remove('active');
+          registerForm.style.display = 'block';
+          signInForm.style.display = 'none';
+          authModalTitle.textContent = 'Create Student Account';
+          authModalSubtitle = 'Join EduSetu to begin your personalized learning journey';
+          document.getElementById('regName').focus();
+        } else {
+          tabSignInBtn.classList.add('active');
+          tabRegisterBtn.classList.remove('active');
+          signInForm.style.display = 'block';
+          registerForm.style.display = 'none';
+          authModalTitle.textContent = 'Welcome Back';
+          authModalSubtitle = 'Sign in with your email and password';
+          document.getElementById('loginEmail').focus();
+        }
+      }
+
+      navSignInBtn.addEventListener('click', () => openAuthModal('signin'));
+      navGetStartedBtn.addEventListener('click', () => openAuthModal('register'));
+      authModalCloseBtn.addEventListener('click', closeAuthModal);
+      tabSignInBtn.addEventListener('click', () => switchTab('signin'));
+      tabRegisterBtn.addEventListener('click', () => switchTab('register'));
+
+      // Outside click close
+      authModalOverlay.addEventListener('click', function(e) {
+        if (e.target === authModalOverlay) {
+          closeAuthModal();
+        }
+      });
+
+      // Escape key close
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && authModalOverlay.classList.contains('active')) {
+          closeAuthModal();
+        }
+      });
+
+      // Quick test credentials fill button
+      demoFillBtn.addEventListener('click', function() {
+        document.getElementById('loginEmail').value = 'student1@edusetu.in';
+        document.getElementById('loginPassword').value = 'Password123!';
+      });
+
+      /* ---------- 7. Sign In Form Submission (POST /api/auth/login) ---------- */
+      signInForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const submitBtn = document.getElementById('signInSubmitBtn');
+
+        if (!email || !password) {
+          showAuthStatus('Please enter your email and password.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+        showAuthStatus('', '');
+
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showAuthStatus('Signed in successfully! Redirecting...', 'success');
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 500);
+          } else {
+            showAuthStatus(data.message || 'Invalid email or password.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In to EduSetu →';
+          }
+        } catch (err) {
+          showAuthStatus('Network error while connecting to server.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In to EduSetu →';
+        }
+      });
+
+      /* ---------- 8. Register Form Submission (POST /api/auth/register) ---------- */
+      registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const grade = document.getElementById('regGrade').value;
+        const role = document.getElementById('regRole').value;
+        const submitBtn = document.getElementById('registerSubmitBtn');
+
+        if (!name || !email || !password) {
+          showAuthStatus('Please fill in all required fields.', 'error');
+          return;
+        }
+
+        if (password.length < 6) {
+          showAuthStatus('Password must be at least 6 characters.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating account...';
+        showAuthStatus('', '');
+
+        try {
+          const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ name, email, password, grade: Number(grade), role })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showAuthStatus('Account created! Entering your dashboard...', 'success');
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 600);
+          } else {
+            showAuthStatus(data.message || 'Failed to register account.', 'error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Account & Start →';
+          }
+        } catch (err) {
+          showAuthStatus('Network error while communicating with server.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account & Start →';
+        }
+      });
+
+      function showAuthStatus(message, type) {
+        if (!message) {
+          authStatusMsg.style.display = 'none';
+          authStatusMsg.textContent = '';
+          return;
+        }
+        authStatusMsg.className = `auth-status-msg ${type}`;
+        authStatusMsg.textContent = message;
+        authStatusMsg.style.display = 'block';
+      }
+
+      /* ---------- 9. Logout Action (/api/auth/logout) ---------- */
+      async function handleLogout() {
+        try {
+          await fetch('/api/auth/logout', {
+            method: 'GET',
+            credentials: 'include'
+          });
+        } catch (e) {
+          console.warn('Logout error:', e);
+        }
+        userDropdownMenu.classList.remove('show');
+        checkAuthSession();
+      }
+
+      navLogoutBtn.addEventListener('click', handleLogout);
+
+      /* ---------- 10. Smooth Scroll & Active Nav Highlighter ---------- */
+      const navLinks = document.querySelectorAll('.landing-nav-center .landing-nav-link');
+      const sections = document.querySelectorAll('section[id]');
+
+      window.addEventListener('scroll', function() {
+        let currentSection = '';
+        const scrollPos = window.scrollY + 120;
+
+        sections.forEach(sec => {
+          const top = sec.offsetTop;
+          const height = sec.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            currentSection = sec.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      }, { passive: true });
+
+      // Run on page load
+      checkAuthSession();
+
+    })();
+  </script>
 </body>
 </html>
-
