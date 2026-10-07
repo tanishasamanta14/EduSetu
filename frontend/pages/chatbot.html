@@ -3,14 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EduSetu AI Tutor — Get instant doubt-solving in Hindi and English with step-by-step explanations.">
+  <meta name="description" content="EduSetu AI Tutor — Real diagnostic-first, Socratic educational AI tutoring in English and Hindi.">
   <title>AI Tutor — EduSetu</title>
+
+  <!-- Google Fonts: Inter & Sora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/chatbot.css">
 </head>
 <body>
   <div class="page-wrapper">
 
+    <!-- Top Navigation Bar -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
       <div class="navbar-inner">
         <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
@@ -19,7 +26,7 @@
         </a>
         <div class="navbar-links" id="navLinks">
           <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
-          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
+          <a href="chatbot.html" class="active"><span class="nav-icon">🤖</span> AI Tutor</a>
           <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
           <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>
           <a href="explore.html"><span class="nav-icon">🔍</span> Explore</a>
@@ -33,45 +40,103 @@
       </div>
     </nav>
 
+    <!-- Chat Page Body -->
     <main class="page-content chat-page">
-      <div class="chat-container">
-        <!-- Chat Header -->
-        <div class="chat-header">
-          <div class="chat-header-left">
-            <div class="chat-avatar-header">🤖</div>
-            <div>
-              <h2 class="chat-title">AI Tutor</h2>
-              <span class="chat-status">Online · Ready to help</span>
-            </div>
-          </div>
-          <div class="chat-header-right">
-            <div class="confidence-widget" id="confidenceWidget" aria-label="Confidence Score">
-              <svg class="confidence-ring" viewBox="0 0 36 36">
-                <path class="confidence-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                <path class="confidence-fill" id="confidenceRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              </svg>
-              <span class="confidence-value" id="confidenceValue">0%</span>
-            </div>
-            <div class="lang-toggle" id="langToggle">
-              <button class="lang-btn active" id="btnEN" data-lang="en" aria-label="English">EN</button>
-              <button class="lang-btn" id="btnHI" data-lang="hi" aria-label="Hindi">HI</button>
-            </div>
-          </div>
-        </div>
+      <div class="chat-ambient-glow chat-ambient-glow--top"></div>
 
-        <!-- Chat Messages -->
-        <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
-          <!-- Messages rendered by JS -->
-        </div>
-
-        <!-- Chat Input -->
-        <div class="chat-input-area">
-          <div class="chat-input-wrapper">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about your studies..." aria-label="Type your question" autocomplete="off">
-            <button class="chat-send-btn" id="chatSend" aria-label="Send message">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <div class="chat-layout">
+        <!-- Sidebar: Conversation History -->
+        <aside class="chat-sidebar" id="chatSidebar" aria-label="Chat Sessions History">
+          <div class="chat-sidebar-header">
+            <span class="sidebar-title">
+              <span>💬</span> Previous Sessions
+            </span>
+            <button class="btn-new-chat-sidebar" id="sidebarNewChatBtn" type="button" title="Start a fresh learning session">
+              <span>+</span> New
             </button>
           </div>
+          <div class="history-list" id="historyList">
+            <!-- Populated dynamically via /api/chat/conversations -->
+            <div class="history-empty-state">
+              Loading your previous sessions...
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Chat Container -->
+        <div class="chat-container">
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <div class="chat-header-left">
+              <button class="sidebar-toggle-btn" id="sidebarToggleBtn" type="button" aria-label="Toggle sessions history" title="Toggle session history">
+                ☰
+              </button>
+              <div class="chat-avatar-header">
+                🤖
+                <span class="header-status-indicator" title="Connected to AI Tutor"></span>
+              </div>
+              <div class="chat-title-wrap">
+                <div class="chat-title">
+                  <span>AI Tutor</span>
+                  <span class="chat-title-tag">Socratic AI</span>
+                </div>
+                <div class="chat-student-context-badge" id="studentContextBadge">
+                  <span>🎓</span>
+                  <span id="studentContextText">Personalized for your grade</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-header-right">
+              <!-- New Chat Action -->
+              <button class="btn-header-newchat" id="headerNewChatBtn" type="button" title="Start a fresh conversation">
+                <span>✨</span>
+                <span>New Chat</span>
+              </button>
+
+              <!-- Language Switcher Pill -->
+              <div class="lang-toggle" id="langToggle">
+                <button class="lang-btn active" id="btnEN" data-lang="en" aria-label="Switch to English" type="button">EN</button>
+                <button class="lang-btn" id="btnHI" data-lang="hi" aria-label="Switch to Hindi" type="button">HI</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Messages Area -->
+          <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <!-- Messages rendered dynamically by chatbot.js -->
+          </div>
+
+          <!-- Non-intrusive Error Banner -->
+          <div id="chatErrorBanner" class="chat-error-banner" style="display: none;">
+            <span id="chatErrorMessage">Unable to send message. Please try again.</span>
+            <button class="chat-error-retry-btn" id="chatErrorRetryBtn" type="button">Retry</button>
+          </div>
+
+          <!-- Chat Input Area -->
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <textarea 
+                class="chat-input" 
+                id="chatInput" 
+                rows="1" 
+                placeholder="Ask your doubt in English or Hindi... (Shift + Enter for new line)" 
+                aria-label="Type your doubt or question"
+                maxlength="2000"
+              ></textarea>
+              <button class="chat-send-btn" id="chatSend" aria-label="Send message" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+            <div class="input-helper-row">
+              <span>Press <strong>Enter</strong> to send &middot; <strong>Shift + Enter</strong> for new line</span>
+              <span id="charCount">0/2000</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </main>
@@ -82,4 +147,3 @@
   <script src="../js/chatbot.js"></script>
 </body>
 </html>
-

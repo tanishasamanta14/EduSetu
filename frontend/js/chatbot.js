@@ -1,120 +1,143 @@
 /* ============================================================
-   EduSetu — Chatbot JavaScript
-   Mock AI responses, chat logic, confidence score, ratings
+   EduSetu — AI Tutor Client Engine (Production Socratic AI)
+   Zero-mock architecture connecting to Grok API & Supabase
    ============================================================ */
 
 (function() {
   'use strict';
 
-  /* ---------- Mock AI Responses ---------- */
-  var RESPONSES = {
-    en: {
-      'fractions': "Great question about fractions! 🎯\n\nA fraction represents a part of a whole. It has two parts:\n• **Numerator** (top) — how many parts you have\n• **Denominator** (bottom) — how many equal parts the whole is divided into\n\n**Example:** 3/4 means you have 3 out of 4 equal parts.\n\n**To add fractions with the same denominator:**\nJust add the numerators and keep the denominator.\n2/5 + 1/5 = 3/5\n\n**To add fractions with different denominators:**\nFind a common denominator first!\n1/3 + 1/4 = 4/12 + 3/12 = 7/12\n\nWould you like to try a quick quiz on fractions?",
-      'algebraic-expressions': "Let me explain Algebraic Expressions! 📐\n\n**What is an algebraic expression?**\nIt's a mathematical phrase combining numbers, variables (like x, y), and operations (+, −, ×, ÷).\n\n**Examples:** 3x + 5, 2y² − 7, 4ab + 2a − b\n\n**Key concepts:**\n1. **Terms** — parts separated by + or −. In '3x + 5y − 2', there are 3 terms\n2. **Like terms** — same variables with same powers. 3x and 5x are like terms\n3. **Coefficient** — the number before a variable. In 5x, the coefficient is 5\n\n**Simplifying:** Combine like terms!\n3x + 5x − 2 = 8x − 2\n\n**Common mistakes to watch:**\n❌ Adding unlike terms (3x + 5y ≠ 8xy)\n❌ Forgetting sign rules (−2 stays −2, don't make it +2)\n\nWant me to explain more about expanding brackets?",
-      'linear-equations': "Let's break down Linear Equations! ✨\n\n**What is a linear equation?**\nAn equation where the highest power of the variable is 1.\nExample: 2x + 3 = 7\n\n**How to solve:**\nGoal: Get the variable alone on one side!\n\n**Step-by-step for 2x + 3 = 7:**\n1. Subtract 3 from both sides: 2x = 4\n2. Divide both sides by 2: x = 2\n3. Check: 2(2) + 3 = 7 ✓\n\n**Golden Rule:** Whatever you do to one side, do to the other side too!\n\nShall I show you a harder example?",
-      'photosynthesis': "Let's understand Photosynthesis! 🌿\n\n**What is it?**\nThe process by which green plants make their own food using sunlight.\n\n**The equation:**\nCO₂ + H₂O + Sunlight → Glucose + O₂\n(Carbon dioxide + Water + Light energy → Sugar + Oxygen)\n\n**Where does it happen?**\nIn the **chloroplast** — a cell organelle that contains the green pigment **chlorophyll**.\n\n**Key points:**\n• Plants absorb CO₂ through tiny pores called **stomata**\n• Water is absorbed through roots\n• Sunlight is the energy source\n• Oxygen is released as a byproduct (which we breathe!)\n\n**Common confusion:** Don't mix up photosynthesis and respiration!\n• Photosynthesis: CO₂ in → O₂ out (makes food)\n• Respiration: O₂ in → CO₂ out (uses food for energy)\n\nWant me to explain the light and dark reactions?",
-      'active-passive': "Let me explain Active and Passive Voice! 📝\n\n**Active Voice:** The subject DOES the action.\n→ \"The cat caught the mouse.\"\n\n**Passive Voice:** The subject RECEIVES the action.\n→ \"The mouse was caught by the cat.\"\n\n**How to convert Active → Passive:**\n1. Object becomes the new subject\n2. Add appropriate form of 'be' (is/was/are/were)\n3. Use past participle of the verb\n4. Original subject goes after 'by'\n\n**Tense changes:**\n• Simple Present: writes → is written\n• Simple Past: wrote → was written\n• Present Continuous: is writing → is being written\n\n**Example:**\nActive: She writes a letter.\nPassive: A letter is written by her.\n\n**Tip:** Not all sentences can become passive. You need a transitive verb (one with an object)!\n\"He laughed\" — can't be made passive (no object).\n\nWant to practice some conversions?",
-      'default': "That's a great question! 🤔\n\nI'd love to help you understand this concept better. Here are some things we can explore:\n\n• **Math:** Fractions, Algebra, Linear Equations, Geometry, Statistics\n• **Science:** Photosynthesis, Acids & Bases, Light & Refraction\n• **English:** Active/Passive Voice, Direct/Indirect Speech, Tenses\n• **Social Science:** Modern India, Constitution, Geography\n• **Hindi:** क्रिया, वाक्य रचना, मुहावरे\n\nTry asking something specific like:\n- \"Explain fractions\"\n- \"How does photosynthesis work?\"\n- \"What is active voice?\"\n\nI'm here to help! 😊"
-    },
-    hi: {
-      'fractions': "भिन्न (Fractions) के बारे में अच्छा सवाल! 🎯\n\nभिन्न एक पूर्ण का हिस्सा दर्शाती है। इसके दो भाग हैं:\n• **अंश** (ऊपर) — आपके पास कितने भाग हैं\n• **हर** (नीचे) — पूर्ण को कितने बराबर भागों में बाँटा गया है\n\n**उदाहरण:** 3/4 का मतलब 4 बराबर भागों में से 3 भाग।\n\n**समान हर वाली भिन्नों को जोड़ना:**\nबस अंश जोड़ो, हर वही रहता है।\n2/5 + 1/5 = 3/5\n\nक्या आप भिन्न पर एक छोटी परीक्षा लेना चाहेंगे?",
-      'algebraic-expressions': "बीजीय व्यंजक (Algebraic Expressions) समझते हैं! 📐\n\n**बीजीय व्यंजक क्या है?**\nसंख्याओं, चरों (जैसे x, y) और गणित के चिन्हों (+, −, ×, ÷) का मिश्रण।\n\n**मुख्य बातें:**\n1. **पद** — + या − से अलग होते हैं। '3x + 5y − 2' में 3 पद हैं\n2. **समान पद** — एक जैसे चर। 3x और 5x समान पद हैं\n3. **गुणांक** — चर के आगे की संख्या। 5x में गुणांक 5 है\n\n**सरल करना:** समान पदों को जोड़ो!\n3x + 5x − 2 = 8x − 2\n\nक्या आप कोष्ठक खोलना सीखना चाहेंगे?",
-      'photosynthesis': "प्रकाश संश्लेषण (Photosynthesis) समझते हैं! 🌿\n\n**यह क्या है?**\nवह प्रक्रिया जिसमें हरे पौधे सूर्य के प्रकाश का उपयोग करके अपना भोजन बनाते हैं।\n\n**समीकरण:**\nCO₂ + H₂O + सूर्य का प्रकाश → ग्लूकोज़ + O₂\n\n**यह कहाँ होता है?**\n**हरित लवक (Chloroplast)** में — जिसमें हरा वर्णक **क्लोरोफिल** होता है।\n\n**याद रखें:**\n• पौधे CO₂ रंध्रों (Stomata) से लेते हैं\n• पानी जड़ों से आता है\n• ऑक्सीजन बाहर निकलती है\n\nक्या और विस्तार से समझना है?",
-      'default': "बहुत अच्छा सवाल! 🤔\n\nमैं आपकी मदद करने के लिए तैयार हूँ। आप पूछ सकते हैं:\n\n• **गणित:** भिन्न, बीजगणित, रेखीय समीकरण\n• **विज्ञान:** प्रकाश संश्लेषण, अम्ल और क्षार\n• **अंग्रेज़ी:** Active/Passive Voice\n• **हिंदी:** क्रिया, वाक्य रचना\n\nकुछ विशिष्ट पूछें जैसे:\n- \"भिन्न समझाओ\"\n- \"प्रकाश संश्लेषण कैसे काम करता है?\"\n\nमैं यहाँ हूँ! 😊"
-    }
-  };
-
-  /* ---------- State ---------- */
-  var currentLang = 'en';
-  var chatHistory = [];
+  /* ---------- Application State ---------- */
+  let currentConversationId = null;
+  let currentLang = 'en';
+  let currentUser = null;
+  let isSending = false;
+  let lastFailedMessage = null;
 
   /* ---------- DOM References ---------- */
-  var chatMessages = document.getElementById('chatMessages');
-  var chatInput = document.getElementById('chatInput');
-  var chatSend = document.getElementById('chatSend');
-  var confidenceRing = document.getElementById('confidenceRing');
-  var confidenceValue = document.getElementById('confidenceValue');
-  var btnEN = document.getElementById('btnEN');
-  var btnHI = document.getElementById('btnHI');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
+  const btnEN = document.getElementById('btnEN');
+  const btnHI = document.getElementById('btnHI');
+  const headerNewChatBtn = document.getElementById('headerNewChatBtn');
+  const sidebarNewChatBtn = document.getElementById('sidebarNewChatBtn');
+  const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+  const chatSidebar = document.getElementById('chatSidebar');
+  const historyList = document.getElementById('historyList');
+  const studentContextText = document.getElementById('studentContextText');
+  const chatErrorBanner = document.getElementById('chatErrorBanner');
+  const chatErrorMessage = document.getElementById('chatErrorMessage');
+  const chatErrorRetryBtn = document.getElementById('chatErrorRetryBtn');
+  const charCount = document.getElementById('charCount');
 
-  /* ---------- Update Confidence Score Display ---------- */
-  function updateConfidence() {
-    var score = EduSetu.getConfidenceScore();
-    confidenceValue.textContent = score + '%';
-    confidenceRing.setAttribute('stroke-dasharray', score + ', 100');
+  /* ---------- 1. Safe HTML & Markdown Parser ---------- */
+  function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
   }
 
-  /* ---------- Create Message Element ---------- */
-  function createMessageEl(text, sender) {
-    var msg = document.createElement('div');
-    msg.className = 'message ' + sender;
+  function renderFormattedContent(rawText) {
+    if (!rawText) return '';
 
-    var avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.textContent = sender === 'ai' ? '🤖' : '👤';
+    // First escape raw HTML
+    let text = escapeHTML(rawText);
 
-    var content = document.createElement('div');
-    content.className = 'message-content';
-
-    var bubble = document.createElement('div');
-    bubble.className = 'message-bubble';
-
-    // Parse simple markdown-like formatting safely
-    var lines = text.split('\n');
-    lines.forEach(function(line, i) {
-      if (i > 0) {
-        content.appendChild(document.createElement('br'));
-      }
-      var lineEl = document.createElement('span');
-      // Strip markdown bold markers for display
-      var cleaned = line.replace(/\*\*/g, '');
-      lineEl.textContent = cleaned;
-      bubble.appendChild(lineEl);
-      if (i < lines.length - 1) {
-        bubble.appendChild(document.createElement('br'));
-      }
+    // Code blocks ```code```
+    text = text.replace(/```([\s\S]*?)```/g, function(match, p1) {
+      return '<pre style="background:rgba(0,0,0,0.4); padding:10px 14px; border-radius:8px; overflow-x:auto; margin:8px 0; border:1px solid rgba(255,255,255,0.06); font-family:monospace; font-size:0.85em;"><code>' + p1 + '</code></pre>';
     });
 
+    // Inline code `code`
+    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Bold **text**
+    text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+    // Italic *text*
+    text = text.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+
+    // Bullet points (lines starting with • or - or *)
+    const lines = text.split('\n');
+    let formattedLines = [];
+    let inList = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith('• ') || line.startsWith('- ') || line.startsWith('* ')) {
+        if (!inList) {
+          formattedLines.push('<ul>');
+          inList = true;
+        }
+        formattedLines.push('<li>' + line.substring(2) + '</li>');
+      } else {
+        if (inList) {
+          formattedLines.push('</ul>');
+          inList = false;
+        }
+        if (line) {
+          formattedLines.push('<p>' + line + '</p>');
+        }
+      }
+    }
+    if (inList) {
+      formattedLines.push('</ul>');
+    }
+
+    return formattedLines.join('');
+  }
+
+  /* ---------- 2. Message Bubble Factory ---------- */
+  function createMessageEl(text, sender, timestamp) {
+    const msg = document.createElement('div');
+    msg.className = 'message ' + sender;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = sender === 'assistant' || sender === 'ai' ? '🤖' : '👤';
+
+    const content = document.createElement('div');
+    content.className = 'message-content';
+
+    const meta = document.createElement('div');
+    meta.className = 'message-meta';
+    const timeStr = timestamp ? new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    meta.textContent = (sender === 'assistant' || sender === 'ai' ? 'EduSetu AI Tutor · ' : 'You · ') + timeStr;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    bubble.innerHTML = renderFormattedContent(text);
+
+    content.appendChild(meta);
     content.appendChild(bubble);
 
-    // Add rating buttons for AI messages
-    if (sender === 'ai') {
-      var ratingRow = document.createElement('div');
-      ratingRow.className = 'rating-buttons';
+    // Follow-up pedagogical reflection buttons on AI responses
+    if (sender === 'assistant' || sender === 'ai') {
+      const reflectionRow = document.createElement('div');
+      reflectionRow.className = 'rating-buttons';
 
-      var ratings = [
-        { text: '😊 Got it', cls: 'got-it', key: 'gotIt' },
-        { text: '🤔 Kind of', cls: 'kind-of', key: 'kindOf' },
-        { text: '😕 Still confused', cls: 'confused', key: 'confused' }
+      const options = [
+        { label: '😊 Got it clearly', prompt: 'I understand this now! Can we try a practice question?' },
+        { label: '💡 Give an example', prompt: 'Can you give me another simple real-world example of this?' },
+        { label: '🤔 Explain step-by-step', prompt: 'Could you break down the first step in more detail?' }
       ];
 
-      ratings.forEach(function(r) {
-        var btn = document.createElement('button');
-        btn.className = 'rating-btn ' + r.cls;
-        btn.textContent = r.text;
-        btn.setAttribute('aria-label', 'Rate: ' + r.text);
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'rating-btn';
+        btn.textContent = opt.label;
         btn.addEventListener('click', function() {
-          // Mark as selected
-          var siblings = ratingRow.querySelectorAll('.rating-btn');
-          siblings.forEach(function(s) { s.classList.remove('selected'); s.disabled = true; });
           btn.classList.add('selected');
-
-          // Update localStorage ratings
-          var stored = localStorage.getItem('edusetu_chat_ratings');
-          var ratings_data = { gotIt: 0, kindOf: 0, confused: 0 };
-          if (stored) {
-            try { ratings_data = JSON.parse(stored); } catch(e) { /* ignore */ }
-          }
-          ratings_data[r.key] = (ratings_data[r.key] || 0) + 1;
-          localStorage.setItem('edusetu_chat_ratings', JSON.stringify(ratings_data));
-
-          // Update confidence display
-          updateConfidence();
+          reflectionRow.querySelectorAll('.rating-btn').forEach(b => {
+            if (b !== btn) b.disabled = true;
+          });
+          sendMessage(opt.prompt);
         });
-        ratingRow.appendChild(btn);
+        reflectionRow.appendChild(btn);
       });
 
-      content.appendChild(ratingRow);
+      content.appendChild(reflectionRow);
     }
 
     msg.appendChild(avatar);
@@ -122,231 +145,419 @@
     return msg;
   }
 
-  /* ---------- Create Typing Indicator ---------- */
-  function showTyping() {
-    var typing = document.createElement('div');
-    typing.className = 'typing-indicator';
-    typing.id = 'typingIndicator';
-    for (var i = 0; i < 3; i++) {
-      var dot = document.createElement('div');
+  /* ---------- 3. Typing Indicator ---------- */
+  function showTypingIndicator() {
+    hideTypingIndicator();
+
+    const indicator = document.createElement('div');
+    indicator.className = 'typing-indicator';
+    indicator.id = 'activeTypingIndicator';
+
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'typing-dots-wrap';
+    for (let i = 0; i < 3; i++) {
+      const dot = document.createElement('div');
       dot.className = 'typing-dot';
-      typing.appendChild(dot);
+      dotsWrap.appendChild(dot);
     }
-    chatMessages.appendChild(typing);
+
+    const label = document.createElement('span');
+    label.className = 'typing-label';
+    label.textContent = currentLang === 'hi' ? 'AI शिक्षक सोच रहे हैं...' : 'AI Tutor is thinking...';
+
+    indicator.appendChild(dotsWrap);
+    indicator.appendChild(label);
+
+    chatMessages.appendChild(indicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  function hideTyping() {
-    var typing = document.getElementById('typingIndicator');
-    if (typing) typing.remove();
+  function hideTypingIndicator() {
+    const existing = document.getElementById('activeTypingIndicator');
+    if (existing) existing.remove();
   }
 
-  /* ---------- Find matching response ---------- */
-  function getAIResponse(userText) {
-    var text = userText.toLowerCase();
-    var responses = RESPONSES[currentLang];
+  /* ---------- 4. Starter Welcome Card ---------- */
+  function renderStarterCard() {
+    chatMessages.innerHTML = '';
 
-    // Check for keyword matches
-    var keywords = {
-      'fractions': ['fraction', 'भिन्न', 'numerator', 'denominator', 'अंश', 'हर'],
-      'algebraic-expressions': ['algebra', 'algebraic', 'expression', 'बीजीय', 'व्यंजक', 'variable', 'simplify'],
-      'linear-equations': ['linear equation', 'solve equation', 'समीकरण', 'रेखीय'],
-      'photosynthesis': ['photosynthesis', 'प्रकाश संश्लेषण', 'chlorophyll', 'chloroplast', 'हरित लवक'],
-      'active-passive': ['active voice', 'passive voice', 'कर्मवाच्य'],
-      'refraction': ['refraction', 'अपवर्तन', 'snell', 'light bend'],
-      'acids-bases': ['acid', 'base', 'pH', 'अम्ल', 'क्षार', 'litmus']
-    };
+    const card = document.createElement('div');
+    card.className = 'chat-welcome-card';
 
-    for (var concept in keywords) {
-      for (var k = 0; k < keywords[concept].length; k++) {
-        if (text.indexOf(keywords[concept][k]) !== -1) {
-          return responses[concept] || responses['default'];
+    const studentName = currentUser ? currentUser.name : 'Student';
+    const gradeVal = currentUser ? currentUser.grade : 8;
+
+    const title = currentLang === 'hi' 
+      ? `नमस्ते ${studentName}! 👋 मैं आपका Socratic AI Tutor हूँ`
+      : `Hello ${studentName}! 👋 I'm your Socratic AI Tutor`;
+
+    const desc = currentLang === 'hi'
+      ? `Class ${gradeVal} पाठ्यक्रम के आधार पर किसी भी विषय या समस्या पर सवाल पूछें। मैं सीधे उत्तर देने के बजाय आपको अवधारणा को चरण-दर-चरण समझाऊँगा।`
+      : `Ask any doubt or question from your Class ${gradeVal} syllabus. Rather than just giving answers, I'll guide you step-by-step so you truly master the concept.`;
+
+    const chips = currentLang === 'hi' ? [
+      { text: '🌱 प्रकाश संश्लेषण क्या है?', val: 'प्रकाश संश्लेषण (Photosynthesis) की प्रक्रिया सरल भाषा में समझाओ।' },
+      { text: '📐 भिन्न (Fractions) का जोड़', val: 'भिन्न (Fractions) को जोड़ने के मूल नियम क्या हैं?' },
+      { text: '⚡ रेखीय समीकरण (Linear Equations)', val: 'Linear Equations को हल करने का तरीका समझाओ।' },
+      { text: '💡 न्यूटन का तीसरा नियम', val: 'न्यूटन का तीसरा नियम (Newton\'s 3rd Law) उदाहरण सहित समझाओ।' }
+    ] : [
+      { text: '🌱 What is Photosynthesis?', val: 'What is photosynthesis and how do plants make glucose?' },
+      { text: '📐 Explain Adding Fractions', val: 'Why do we need a common denominator to add fractions like 1/2 and 1/3?' },
+      { text: '⚡ How to Solve Linear Equations?', val: 'Explain step-by-step how to solve a linear equation like 2x + 5 = 15.' },
+      { text: '💡 Newton\'s 3rd Law of Motion', val: 'Explain Newton\'s Third Law of Motion with everyday examples.' }
+    ];
+
+    let chipsHTML = chips.map((c, idx) => 
+      `<button type="button" class="starter-chip" data-idx="${idx}">${c.text}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <h3>${title}</h3>
+      <p>${desc}</p>
+      <div class="starter-chips-grid">
+        ${chipsHTML}
+      </div>
+    `;
+
+    chatMessages.appendChild(card);
+
+    // Bind chips
+    card.querySelectorAll('.starter-chip').forEach(chipBtn => {
+      chipBtn.addEventListener('click', function() {
+        const idx = Number(this.getAttribute('data-idx'));
+        if (chips[idx]) {
+          sendMessage(chips[idx].val);
+        }
+      });
+    });
+  }
+
+  /* ---------- 5. Send Message (Real Grok API via Backend) ---------- */
+  async function sendMessage(text) {
+    if (isSending) return;
+    const cleanText = (text || '').trim();
+    if (!cleanText) return;
+
+    // Clear welcome card if present
+    const welcomeCard = chatMessages.querySelector('.chat-welcome-card');
+    if (welcomeCard) welcomeCard.remove();
+
+    // Hide previous error banner
+    hideErrorBanner();
+
+    // Render user message immediately
+    const userMsgEl = createMessageEl(cleanText, 'user');
+    chatMessages.appendChild(userMsgEl);
+    chatInput.value = '';
+    adjustTextareaHeight();
+    updateCharCount();
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Lock controls
+    isSending = true;
+    chatSend.disabled = true;
+    chatInput.disabled = true;
+    showTypingIndicator();
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          message: cleanText,
+          conversationId: currentConversationId,
+          language: currentLang
+        })
+      });
+
+      const result = await response.json();
+      hideTypingIndicator();
+
+      if (response.ok && result.success && result.data && result.data.reply) {
+        // Successful real AI response
+        const aiMsgEl = createMessageEl(result.data.reply, 'assistant');
+        chatMessages.appendChild(aiMsgEl);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Track active conversation ID
+        if (result.data.conversationId) {
+          currentConversationId = result.data.conversationId;
+        }
+
+        // Refresh conversation history in sidebar
+        loadConversationHistory();
+      } else {
+        // Server or API error
+        const errorMsg = result.message || 'AI Tutor service is temporarily unavailable. Please try again.';
+        showErrorBanner(errorMsg, cleanText);
+      }
+    } catch (netErr) {
+      console.error('[AI Tutor] Network request failure:', netErr);
+      hideTypingIndicator();
+      showErrorBanner('Could not connect to EduSetu server. Check your connection.', cleanText);
+    } finally {
+      isSending = false;
+      chatSend.disabled = false;
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  /* ---------- 6. Error Banner Handling ---------- */
+  function showErrorBanner(msg, failedText) {
+    lastFailedMessage = failedText;
+    chatErrorMessage.textContent = msg;
+    chatErrorBanner.style.display = 'flex';
+  }
+
+  function hideErrorBanner() {
+    chatErrorBanner.style.display = 'none';
+    lastFailedMessage = null;
+  }
+
+  chatErrorRetryBtn.addEventListener('click', function() {
+    if (lastFailedMessage) {
+      const textToRetry = lastFailedMessage;
+      hideErrorBanner();
+      sendMessage(textToRetry);
+    }
+  });
+
+  /* ---------- 7. Conversation History Management (Supabase) ---------- */
+  async function loadConversationHistory() {
+    try {
+      const res = await fetch('/api/chat/conversations', {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        historyList.innerHTML = '<div class="history-empty-state">Sign in to save and review past sessions.</div>';
+        return;
+      }
+
+      const result = await res.json();
+      if (!result.success || !Array.isArray(result.data.conversations) || result.data.conversations.length === 0) {
+        historyList.innerHTML = '<div class="history-empty-state">No previous sessions yet. Ask your first doubt!</div>';
+        return;
+      }
+
+      historyList.innerHTML = '';
+      result.data.conversations.forEach(conv => {
+        const item = document.createElement('div');
+        item.className = 'history-item' + (conv.id === currentConversationId ? ' active' : '');
+        item.setAttribute('data-id', conv.id);
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'history-item-text';
+        textSpan.textContent = conv.title || 'Learning Session';
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'history-item-delete';
+        delBtn.textContent = '✕';
+        delBtn.title = 'Delete session';
+
+        delBtn.addEventListener('click', async function(e) {
+          e.stopPropagation();
+          if (confirm('Delete this conversation session?')) {
+            await deleteSession(conv.id);
+          }
+        });
+
+        item.appendChild(textSpan);
+        item.appendChild(delBtn);
+
+        item.addEventListener('click', function() {
+          loadSession(conv.id);
+        });
+
+        historyList.appendChild(item);
+      });
+
+    } catch (e) {
+      console.warn('Failed to load conversation history:', e);
+      historyList.innerHTML = '<div class="history-empty-state">Could not load session history.</div>';
+    }
+  }
+
+  async function loadSession(conversationId) {
+    if (isSending) return;
+
+    try {
+      showTypingIndicator();
+      const res = await fetch(`/api/chat/conversations/${conversationId}`, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        credentials: 'include'
+      });
+
+      hideTypingIndicator();
+      if (!res.ok) return;
+
+      const result = await res.json();
+      if (result.success && result.data && result.data.conversation) {
+        currentConversationId = result.data.conversation.id;
+        const messages = result.data.conversation.messages || [];
+
+        chatMessages.innerHTML = '';
+        messages.forEach(m => {
+          const sender = (m.role === 'user') ? 'user' : 'assistant';
+          const msgEl = createMessageEl(m.content, sender, m.timestamp);
+          chatMessages.appendChild(msgEl);
+        });
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Highlight active session in sidebar
+        historyList.querySelectorAll('.history-item').forEach(el => {
+          if (el.getAttribute('data-id') === currentConversationId) {
+            el.classList.add('active');
+          } else {
+            el.classList.remove('active');
+          }
+        });
+
+        // Close sidebar on mobile after selection
+        chatSidebar.classList.remove('open');
+      }
+    } catch (e) {
+      hideTypingIndicator();
+      console.error('Failed to load session:', e);
+    }
+  }
+
+  async function deleteSession(conversationId) {
+    try {
+      const res = await fetch(`/api/chat/conversations/${conversationId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        if (currentConversationId === conversationId) {
+          startNewChat();
+        } else {
+          loadConversationHistory();
         }
       }
+    } catch (e) {
+      console.error('Delete session error:', e);
     }
-
-    // If no keyword matched, generate a dynamic response for the unknown topic
-    return generateSmartResponse(text, currentLang);
   }
 
-  /* ---------- Smart Response Generator for Unknown Topics ---------- */
-  function generateSmartResponse(userText, lang) {
-    // Extract the topic from common question patterns
-    var topic = userText
-      .replace(/^(what is|what are|explain|tell me about|how does|how do|how to|define|describe|who is|who was|why is|why do|why does|when did|where is|where do|can you explain|please explain|help me understand|i want to learn|teach me|मुझे बताओ|समझाओ|क्या है|कैसे)\s*/i, '')
-      .replace(/[?.!]+$/g, '')
-      .trim();
-
-    if (!topic) topic = userText.trim();
-
-    // Capitalize topic nicely
-    var topicDisplay = topic.split(' ').map(function(w) {
-      return w.charAt(0).toUpperCase() + w.slice(1);
-    }).join(' ');
-
-    // Build a structured educational response
-    if (lang === 'hi') {
-      return '📘 **' + topicDisplay + '** — अच्छा सवाल!\n\n' +
-        'यह एक महत्वपूर्ण विषय है। आइए इसे समझते हैं:\n\n' +
-        '**' + topicDisplay + ' क्या है?**\n' +
-        'यह एक ऐसा विषय है जो आपकी पढ़ाई में बहुत महत्वपूर्ण है। इसे समझने के लिए, हमें इसके मूल सिद्धांतों को जानना होगा।\n\n' +
-        '**मुख्य बिंदु:**\n' +
-        '• इस विषय की मूल अवधारणाओं को पहले समझें\n' +
-        '• उदाहरणों के साथ अभ्यास करें\n' +
-        '• सम्बंधित विषयों से जोड़कर समझें\n' +
-        '• नियमित रूप से दोहराते रहें\n\n' +
-        '**सुझाव:**\n' +
-        '📝 इस विषय पर **Quiz** पेज पर अभ्यास करें\n' +
-        '🗺️ **Mastery Map** में इससे जुड़े concepts देखें\n' +
-        '🔍 **Explore** पेज पर "' + topicDisplay + '" खोजकर और जानें\n\n' +
-        'क्या आप इस विषय पर कोई विशिष्ट सवाल पूछना चाहेंगे? 😊';
-    }
-
-    return '📘 **' + topicDisplay + '** — Great question!\n\n' +
-      'Let me help you understand this topic.\n\n' +
-      '**What is ' + topicDisplay + '?**\n' +
-      topicDisplay + ' is an important concept in your studies. Understanding it well will help you build a strong foundation for related topics.\n\n' +
-      '**Key things to know about ' + topicDisplay + ':**\n' +
-      '• Start by understanding the basic definition and core principles\n' +
-      '• Look at real-world examples to see how it applies\n' +
-      '• Practice problems from simple to complex\n' +
-      '• Connect it with related concepts you already know\n' +
-      '• Use diagrams or visual aids when possible\n\n' +
-      '**Study Tips:**\n' +
-      '📝 Head to the **Quiz** page to test your understanding\n' +
-      '🗺️ Check the **Mastery Map** to see how this connects with other concepts\n' +
-      '🔍 Search "' + topicDisplay + '" on the **Explore** page for detailed key points and resources\n\n' +
-      '**Want to go deeper?** Try asking me something specific like:\n' +
-      '• "What are the key formulas for ' + topicDisplay + '?"\n' +
-      '• "Give me an example of ' + topicDisplay + '"\n' +
-      '• "Why is ' + topicDisplay + ' important?"\n\n' +
-      'I\'m here to help you master this! 💪';
+  function startNewChat() {
+    currentConversationId = null;
+    historyList.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
+    renderStarterCard();
+    hideErrorBanner();
+    chatSidebar.classList.remove('open');
+    chatInput.focus();
   }
 
-  /* ---------- Send Message ---------- */
-  function sendMessage(text) {
-    if (!text || !text.trim()) return;
-    text = text.trim();
-
-    // Add user message
-    var userMsg = createMessageEl(text, 'user');
-    chatMessages.appendChild(userMsg);
-    chatInput.value = '';
-
-    chatHistory.push({ sender: 'user', text: text });
-
-    // Scroll to bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    // Disable input while waiting
-    chatInput.disabled = true;
-    chatSend.disabled = true;
-
-    // Show typing
-    showTyping();
-
-    // Try Grok API first, fallback to local mock
-    callGrokAPI(text, function(response, isGrok) {
-      hideTyping();
-
-      var aiMsg = createMessageEl(response, 'ai');
-      chatMessages.appendChild(aiMsg);
-
-      chatHistory.push({ sender: 'ai', text: response });
-
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      // Re-enable input
-      chatInput.disabled = false;
-      chatSend.disabled = false;
-      chatInput.focus();
-    });
+  /* ---------- 8. Textarea Autoresize & Input Helpers ---------- */
+  function adjustTextareaHeight() {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + 'px';
   }
 
-  /* ---------- Call Grok API via Backend Proxy ---------- */
-  function callGrokAPI(userText, callback) {
-    fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: userText,
-        language: currentLang
-      })
-    })
-    .then(function(res) {
-      return res.json().then(function(data) {
-        return { status: res.status, data: data };
-      });
-    })
-    .then(function(result) {
-      if (result.status === 200 && result.data && result.data.success && result.data.data && result.data.data.reply) {
-        // Grok API success
-        callback(result.data.data.reply, true);
-      } else {
-        // API error — fallback to local response
-        var fallback = getAIResponse(userText);
-        callback(fallback, false);
-      }
-    })
-    .catch(function() {
-      // Network error — fallback to local response
-      var fallback = getAIResponse(userText);
-      callback(fallback, false);
-    });
+  function updateCharCount() {
+    const len = chatInput.value.length;
+    charCount.textContent = `${len}/2000`;
   }
 
-  /* ---------- Event Listeners ---------- */
-  chatSend.addEventListener('click', function() {
-    sendMessage(chatInput.value);
+  chatInput.addEventListener('input', function() {
+    adjustTextareaHeight();
+    updateCharCount();
   });
 
   chatInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage(chatInput.value);
     }
   });
 
-  // Language toggle
+  chatSend.addEventListener('click', function() {
+    sendMessage(chatInput.value);
+  });
+
+  /* ---------- 9. Sidebar and Button Listeners ---------- */
+  headerNewChatBtn.addEventListener('click', startNewChat);
+  sidebarNewChatBtn.addEventListener('click', startNewChat);
+
+  sidebarToggleBtn.addEventListener('click', function() {
+    chatSidebar.classList.toggle('open');
+  });
+
+  // Language Toggle
   btnEN.addEventListener('click', function() {
     currentLang = 'en';
     btnEN.classList.add('active');
     btnHI.classList.remove('active');
-    chatInput.placeholder = 'Ask me anything about your studies...';
+    chatInput.placeholder = 'Ask your doubt in English... (Shift + Enter for new line)';
+    if (!currentConversationId && chatMessages.children.length <= 1) {
+      renderStarterCard();
+    }
   });
 
   btnHI.addEventListener('click', function() {
     currentLang = 'hi';
     btnHI.classList.add('active');
     btnEN.classList.remove('active');
-    chatInput.placeholder = 'अपनी पढ़ाई के बारे में कुछ भी पूछें...';
+    chatInput.placeholder = 'अपनी शंका या सवाल हिंदी में पूछें... (Shift + Enter से नई लाइन)';
+    if (!currentConversationId && chatMessages.children.length <= 1) {
+      renderStarterCard();
+    }
   });
 
-  /* ---------- Init ---------- */
-  function init() {
-    updateConfidence();
+  /* ---------- 10. Initialization ---------- */
+  async function init() {
+    // 10.1 Check active Supabase authentication session
+    try {
+      const res = await fetch('/api/auth/me', {
+        headers: { 'Accept': 'application/json' },
+        credentials: 'include'
+      });
 
-    // Welcome message
-    var welcomeText = currentLang === 'hi'
-      ? 'नमस्ते! 👋 मैं आपका AI शिक्षक हूँ। आप मुझसे गणित, विज्ञान, अंग्रेज़ी, या किसी भी विषय पर सवाल पूछ सकते हैं। मैं हिंदी और अंग्रेज़ी दोनों में मदद कर सकता हूँ!'
-      : 'Hello! 👋 I\'m your AI Tutor. Ask me any question about Math, Science, English, or any other subject. I\'ll explain step-by-step in a way that makes sense for your grade level.\n\nTry asking:\n• "Explain fractions"\n• "How does photosynthesis work?"\n• "What is active voice?"';
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.data && data.data.user) {
+          currentUser = data.data.user;
+          const gradeStr = currentUser.grade ? `Class ${currentUser.grade}` : 'Class 8';
+          studentContextText.textContent = `${currentUser.name} · ${gradeStr} · Socratic Calibrated`;
+          
+          if (currentUser.language === 'hi') {
+            btnHI.click();
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Auth check silent info:', e);
+    }
 
-    var welcomeMsg = createMessageEl(welcomeText, 'ai');
-    chatMessages.appendChild(welcomeMsg);
+    // 10.2 Render initial starter view
+    renderStarterCard();
 
-    // Check for concept or topic URL param
-    var concept = EduSetu.getUrlParam('concept');
-    var topic = EduSetu.getUrlParam('topic');
-    var starterTopic = concept ? EduSetu.formatConceptName(concept) : (topic || '');
+    // 10.3 Load past session history from Supabase
+    loadConversationHistory();
 
-    if (starterTopic) {
-      var starterText = currentLang === 'hi'
-        ? starterTopic + ' समझाओ'
-        : 'Explain ' + starterTopic;
+    // 10.4 Support deep-link params (?topic=... or ?concept=...)
+    const params = new URLSearchParams(window.location.search);
+    const concept = params.get('concept');
+    const topic = params.get('topic');
+    const starterPrompt = concept ? `Explain the concept of ${concept} step-by-step.` : (topic ? `Can you explain ${topic}?` : '');
 
-      setTimeout(function() {
-        sendMessage(starterText);
-      }, 500);
+    if (starterPrompt) {
+      setTimeout(() => {
+        sendMessage(starterPrompt);
+      }, 400);
     }
   }
 
