@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personalize Your Learning Experience — EduSetu onboarding.">
+  <title>Onboarding — EduSetu</title>
+
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/app-shell.css">
+  <style>
+    .onboarding-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    .onboarding-container {
+      width: 100%;
+      max-width: 680px;
+      padding: 40px;
+      background: rgba(14, 22, 42, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-2xl);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.12);
+      position: relative;
+      z-index: 2;
+    }
+
+    .onboarding-top {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .onboarding-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 18px;
+    }
+
+    .onboarding-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .onboarding-logo-text {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .onboarding-logo-text span {
+      color: var(--gold-primary);
+    }
+
+    .step-pill {
+      display: inline-block;
+      padding: 4px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: var(--radius-pill);
+      color: #60A5FA;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .onboarding-title {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .onboarding-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* 2x2 Grid of Education Levels */
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .level-card {
+      background: rgba(18, 28, 54, 0.6);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all var(--transition-normal);
+      user-select: none;
+    }
+
+    .level-card:hover {
+      background: rgba(24, 38, 72, 0.8);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .level-card.selected {
+      background: rgba(30, 48, 92, 0.7);
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25), inset 0 0 0 1px var(--gold-primary);
+    }
+
+    .level-icon-tile {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon-purple {
+      background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+      color: #fff;
+    }
+
+    .icon-blue {
+      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+      color: #fff;
+    }
+
+    .icon-teal {
+      background: linear-gradient(135deg, #10B981, #047857);
+      color: #fff;
+    }
+
+    .icon-gold {
+      background: linear-gradient(135deg, #F59E0B, #B45309);
+      color: #fff;
+    }
+
+    .level-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .level-name {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .level-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .level-check-indicator {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .level-card.selected .level-check-indicator {
+      background: var(--gold-primary);
+      border-color: var(--gold-primary);
+      color: #060913;
+    }
+
+    .onboarding-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .level-grid {
+        grid-template-columns: 1fr;
+      }
+      .onboarding-container {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body class="onboarding-page">
+
+  <div class="ambient-glow-canvas"></div>
+
+  <div class="onboarding-container">
+    <div class="onboarding-top">
+      <a href="index.html" class="onboarding-logo">
+        <div class="onboarding-logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <div class="onboarding-logo-text">Edu<span>Setu</span></div>
+      </a>
+      <div class="step-pill">Step 1 of 3</div>
+      <h1 class="onboarding-title">Let's personalize your learning experience</h1>
+      <p class="onboarding-subtitle">Select your current education level to customize your curriculum and AI tutor</p>
+    </div>
+
+    <!-- 4 Level Cards -->
+    <div class="level-grid" id="levelGrid">
+      <!-- 1. School (Class 1 - 5) -->
+      <div class="level-card" data-level="school" data-grade="4">
+        <div class="level-icon-tile icon-purple">🎒</div>
+        <div class="level-meta">
+          <div class="level-name">School</div>
+          <div class="level-desc">Class 1 - 5</div>
+        </div>
+        <div class="level-check-indicator">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 2. Secondary (Class 6 - 10) -->
+      <div class="level-card selected" data-level="secondary" data-grade="8">
+        <div class="level-icon-tile icon-blue">📚</div>
+        <div class="level-meta">
+          <div class="level-name">Secondary</div>
+          <div class="level-desc">Class 6 - 10</div>
+        </div>
+        <div class="level-check-indicator">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 3. Higher Secondary (Class 11 - 12) -->
+      <div class="level-card" data-level="higher_secondary" data-grade="11">
+        <div class="level-icon-tile icon-teal">🔬</div>
+        <div class="level-meta">
+          <div class="level-name">Higher Secondary</div>
+          <div class="level-desc">Class 11 - 12</div>
+        </div>
+        <div class="level-check-indicator">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 4. College (Undergraduate & Beyond) -->
+      <div class="level-card" data-level="college" data-grade="13">
+        <div class="level-icon-tile icon-gold">🎓</div>
+        <div class="level-meta">
+          <div class="level-name">College</div>
+          <div class="level-desc">Undergraduate & Beyond</div>
+        </div>
+        <div class="level-check-indicator">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="onboarding-actions">
+      <a href="index.html" class="btn-glass-secondary">
+        Back
+      </a>
+      <button type="button" class="btn-gold-primary" id="btnNextStep">
+        Next →
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const cards = document.querySelectorAll('.level-card');
+      const nextBtn = document.getElementById('btnNextStep');
+      let selectedGrade = 8;
+      let selectedLevel = 'secondary';
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          cards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedGrade = parseInt(card.getAttribute('data-grade'), 10);
+          selectedLevel = card.getAttribute('data-level');
+        });
+      });
+
+      nextBtn.addEventListener('click', async () => {
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Saving preferences...';
+
+        // Update local prefs
+        let prefs = {};
+        try {
+          prefs = JSON.parse(localStorage.getItem('edusetu_user_prefs') || '{}');
+        } catch (e) {}
+        prefs.grade = selectedGrade;
+        prefs.level = selectedLevel;
+        localStorage.setItem('edusetu_user_prefs', JSON.stringify(prefs));
+
+        // Sync with backend profile API if logged in
+        try {
+          await fetch('/api/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ grade: selectedGrade })
+          });
+        } catch (e) {}
+
+        // Go to Student Dashboard (Screen 5)
+        window.location.href = 'dashboard.html';
+      });
+    })();
+  </script>
+</body>
+</html>

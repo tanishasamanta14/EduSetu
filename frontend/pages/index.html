@@ -861,8 +861,9 @@
         }
       }
 
-      navSignInBtn.addEventListener('click', () => openAuthModal('signin'));
-      navGetStartedBtn.addEventListener('click', () => openAuthModal('register'));
+      navSignInBtn.addEventListener('click', () => { window.location.href = 'login.html'; });
+      navGetStartedBtn.addEventListener('click', () => { window.location.href = 'register.html'; });
+      if (heroGetStartedBtn) heroGetStartedBtn.addEventListener('click', () => { window.location.href = 'register.html'; });
       authModalCloseBtn.addEventListener('click', closeAuthModal);
       tabSignInBtn.addEventListener('click', () => switchTab('signin'));
       tabRegisterBtn.addEventListener('click', () => switchTab('register'));

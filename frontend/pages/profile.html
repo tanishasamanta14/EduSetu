@@ -3,771 +3,423 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EduSetu Profile & Settings — Manage your language, grade, subjects, and offline content preferences.">
-  <title>Profile & Settings — EduSetu</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta name="description" content="EduSetu Profile & Settings — Manage your learning level, preferred language, and account options.">
+  <title>Profile &amp; Settings — EduSetu</title>
+
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/app-shell.css">
   <link rel="stylesheet" href="../css/profile.css">
 </head>
 <body>
-  <div class="page-wrapper">
 
-    <!-- Navbar -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-      <div class="navbar-inner">
-        <a href="index.html" class="navbar-logo" aria-label="EduSetu Home">
-          <div class="logo-icon">E</div>
-          Edu<span class="logo-accent">Setu</span>
+  <div class="ambient-glow-canvas"></div>
+
+  <div class="app-layout">
+    <!-- PERSISTENT APP SIDEBAR -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="app-sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+          <div class="sidebar-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="sidebar-logo-text">Edu<span>Setu</span></div>
         </a>
-        <div class="navbar-links" id="navLinks">
-          <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
-          <a href="chatbot.html"><span class="nav-icon">🤖</span> AI Tutor</a>
-          <a href="mastery-map.html"><span class="nav-icon">🗺️</span> Mastery Map</a>
-          <a href="quiz.html"><span class="nav-icon">📝</span> Quiz</a>
-          <a href="explore.html"><span class="nav-icon">🔍</span> Explore</a>
-          <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
-          <a href="mentor.html"><span class="nav-icon">👨‍🏫</span> Mentor View</a>
-          <a href="profile.html"><span class="nav-icon">⚙️</span> Profile</a>
-        </div>
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">✕</button>
       </div>
-    </nav>
 
-    <!-- Page Content -->
-    <main class="page-content">
+      <nav class="app-sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
 
-      <!-- Profile Header -->
-      <section class="profile-hero">
-        <div class="container">
-          <div class="profile-hero-inner">
-            <div class="profile-avatar-large" id="profileAvatar">AS</div>
-            <h1 id="profileName">Aarav Sharma</h1>
-            <div class="profile-meta">
-              <span class="badge badge-info" id="profileGradeBadge">Class 8</span>
-              <span class="badge badge-mastered" id="profileRoleBadge">Student</span>
+        <a href="chatbot.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path>
+            <rect x="4" y="8" width="16" height="12" rx="4"></rect>
+            <line x1="9" y1="13" x2="9" y2="15"></line>
+            <line x1="15" y1="13" x2="15" y2="15"></line>
+          </svg>
+          <span>AI Tutor</span>
+          <span class="nav-badge-pill">AI</span>
+        </a>
+
+        <a href="explore.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Explore</span>
+        </a>
+
+        <a href="quiz.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Quizzes</span>
+        </a>
+
+        <a href="mastery-map.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+          <span>Mastery Map</span>
+        </a>
+
+        <a href="learning-plan.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Learning Plan</span>
+        </a>
+
+        <a href="community.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Community</span>
+        </a>
+
+        <a href="profile.html" class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <div class="app-sidebar-footer">
+        <div class="sidebar-upgrade-card">
+          <h5>Profile &amp; Settings</h5>
+          <p>Personalize your experience</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CONTENT -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="sidebar-mobile-toggle" id="sidebarMobileToggle" aria-label="Open sidebar menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <form class="topbar-search-form" id="topbarSearchForm">
+            <svg class="topbar-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="topbar-search-input" id="topbarSearchInput" placeholder="Search settings..." autocomplete="off">
+          </form>
+        </div>
+
+        <div class="topbar-right">
+          <button class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge-dot"></span>
+          </button>
+
+          <div class="user-profile-menu">
+            <div class="user-profile-pill" id="userProfilePill">
+              <div class="user-avatar-circle" id="userAvatar">TS</div>
+              <div class="user-meta-info">
+                <span class="user-meta-name" id="userName">Tanisha</span>
+                <span class="user-meta-role" id="userRole">Student</span>
+              </div>
+              <svg class="user-dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+
+            <div class="shell-dropdown-menu" id="userProfileDropdown">
+              <div class="dropdown-header-block">
+                <div class="dropdown-header-name" id="menuName">Tanisha Samanta</div>
+                <div class="dropdown-header-email" id="menuEmail">tanisha@example.com</div>
+              </div>
+              <a href="profile.html" class="dropdown-item-link">👤 Profile &amp; Settings</a>
+              <a href="dashboard.html" class="dropdown-item-link">📊 Student Dashboard</a>
+              <button class="dropdown-item-link danger" id="shellLogoutBtn">🚪 Log Out</button>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
-      <!-- Settings -->
-      <section class="section-sm">
-        <div class="container container-sm">
-
-          <!-- Supabase Account & Authentication -->
-          <div class="card settings-card reveal" id="authSection" style="margin-bottom: var(--space-6);">
-            <div class="settings-card-header">
-              <div class="settings-icon">🔐</div>
-              <div>
-                <h3>Supabase Account &amp; Access</h3>
-                <p class="text-muted text-sm">Register a new student account or switch active session</p>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+      <main class="app-content-area">
+        <!-- Profile & Settings Two-Column Layout (Screen 14) -->
+        <div class="profile-container-grid">
+          <!-- ============================================================
+               LEFT COLUMN: Profile Card & Personal Information
+               ============================================================ -->
+          <div class="profile-main-col">
+            <!-- 1. Profile Avatar Header Card -->
+            <section class="profile-user-card">
+              <div class="profile-avatar-row">
+                <div class="profile-avatar-large-circle" id="profileCardAvatar">TS</div>
                 <div>
-                  <span class="text-muted text-xs">CURRENT ACTIVE USER:</span>
-                  <div style="font-weight: 600; color: var(--clr-marigold);" id="activeUserEmail">Checking session...</div>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <button class="btn btn-secondary btn-sm" id="quickStudentLoginBtn">Demo Student</button>
-                  <button class="btn btn-secondary btn-sm" id="quickMentorLoginBtn">Demo Mentor</button>
-                  <button class="btn btn-danger-outline btn-sm" id="cardLogoutBtn">Logout</button>
+                  <h1 class="profile-name-text" id="profileCardName">Tanisha Samanta</h1>
+                  <p class="profile-email-text" id="profileCardEmail">tanisha@example.com</p>
                 </div>
               </div>
-            </div>
-
-            <!-- Auth Tabs (Login / Register) -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-              <button class="btn btn-primary btn-sm" id="tabShowLogin" style="flex: 1;">Login to Account</button>
-              <button class="btn btn-secondary btn-sm" id="tabShowRegister" style="flex: 1;">Register New Student</button>
-            </div>
-
-            <!-- Login Form -->
-            <div id="loginFormContainer" class="personal-info-form">
-              <div class="form-group">
-                <label class="form-label" for="loginEmail">Email Address</label>
-                <input type="email" class="form-input" id="loginEmail" placeholder="student1@edusetu.in" autocomplete="email">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="loginPassword">Password</label>
-                <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-              </div>
-              <button class="btn btn-primary btn-sm" id="btnSubmitLogin" style="width: 100%;">🔑 Log In</button>
-              <div id="loginAuthStatus" class="save-status" style="margin-top: 0.5rem; display: block;"></div>
-            </div>
-
-            <!-- Register Form -->
-            <div id="registerFormContainer" class="personal-info-form" style="display: none;">
-              <div class="form-group">
-                <label class="form-label" for="regName">Full Name</label>
-                <input type="text" class="form-input" id="regName" placeholder="Ananya Sen" autocomplete="name">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="regEmail">Email Address</label>
-                <input type="email" class="form-input" id="regEmail" placeholder="ananya@edusetu.in" autocomplete="email">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="regPassword">Password</label>
-                <input type="password" class="form-input" id="regPassword" placeholder="••••••••" autocomplete="new-password">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="regGrade">Grade Level</label>
-                <select class="form-input" id="regGrade">
-                  <option value="6">Class 6</option>
-                  <option value="7">Class 7</option>
-                  <option value="8" selected>Class 8</option>
-                  <option value="9">Class 9</option>
-                  <option value="10">Class 10</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="regRole">Role</label>
-                <select class="form-input" id="regRole">
-                  <option value="student" selected>Student</option>
-                  <option value="mentor">Mentor</option>
-                </select>
-              </div>
-              <button class="btn btn-primary btn-sm" id="btnSubmitRegister" style="width: 100%;">✨ Create Student Account</button>
-              <div id="regAuthStatus" class="save-status" style="margin-top: 0.5rem; display: block;"></div>
-            </div>
-          </div>
-
-          <!-- Personal Information -->
-          <div class="card settings-card reveal" id="personalInfoSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">👤</div>
-              <div>
-                <h3>Personal Information</h3>
-                <p class="text-muted text-sm">Update your basic profile details</p>
-              </div>
-            </div>
-            <div class="personal-info-form" id="personalInfoForm">
-              <div class="form-group">
-                <label class="form-label" for="inputName">Full Name</label>
-                <input type="text" class="form-input" id="inputName" placeholder="Enter your name" autocomplete="name" aria-label="Full Name">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="inputEmail">Email (optional)</label>
-                <input type="email" class="form-input" id="inputEmail" placeholder="you@example.com" autocomplete="email" aria-label="Email">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="inputSchool">School / College</label>
-                <input type="text" class="form-input" id="inputSchool" placeholder="Your school or college name" aria-label="School or College">
-              </div>
-              <button class="btn btn-primary btn-sm" id="savePersonalInfo" aria-label="Save personal info">💾 Save Changes</button>
-              <span class="save-status" id="saveStatus"></span>
-            </div>
-          </div>
-
-          <!-- Language Preference -->
-          <div class="card settings-card reveal" id="languageSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">🌐</div>
-              <div>
-                <h3>Language Preference</h3>
-                <p class="text-muted text-sm">Choose your preferred language for AI responses</p>
-              </div>
-            </div>
-            <div class="language-options" id="languageOptions">
-              <button class="language-btn active" id="langEn" data-lang="en" aria-label="Select English">
-                <span class="lang-flag">🇬🇧</span>
-                <span class="lang-name">English</span>
-                <span class="lang-check">✓</span>
+              <button class="btn-edit-profile-action" id="btnEditProfileTrigger" type="button">
+                ✏️ Edit Profile
               </button>
-              <button class="language-btn" id="langHi" data-lang="hi" aria-label="Select Hindi">
-                <span class="lang-flag">🇮🇳</span>
-                <span class="lang-name">हिंदी (Hindi)</span>
-                <span class="lang-check">✓</span>
+            </section>
+
+            <!-- 2. Personal Information Card (Screen 14) -->
+            <section class="profile-card-section">
+              <h2 class="section-title-bar">
+                <span>👤</span> Personal Information
+              </h2>
+
+              <form id="personalInfoForm">
+                <div class="form-field-item">
+                  <label class="form-field-label" for="selectEducationLevel">Education Level</label>
+                  <select id="selectEducationLevel" class="form-select-glass">
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                    <option value="9">Class 9</option>
+                    <option value="10" selected>Class 10</option>
+                    <option value="11">Class 11 (Higher Secondary)</option>
+                    <option value="12">Class 12 (Higher Secondary)</option>
+                    <option value="13">College (Undergraduate)</option>
+                  </select>
+                </div>
+
+                <div class="form-field-item">
+                  <label class="form-field-label" for="selectPreferredLanguage">Preferred Language</label>
+                  <select id="selectPreferredLanguage" class="form-select-glass">
+                    <option value="en" selected>English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                  </select>
+                </div>
+
+                <div class="form-field-item">
+                  <label class="form-field-label" for="selectLearningGoals">Learning Goals</label>
+                  <select id="selectLearningGoals" class="form-select-glass">
+                    <option value="jee" selected>JEE Preparation</option>
+                    <option value="neet">NEET Preparation</option>
+                    <option value="board">Class 10 Board Exams</option>
+                    <option value="foundation">Foundation &amp; Olympiad</option>
+                    <option value="general">General Concept Mastery</option>
+                  </select>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 24px;">
+                  <button type="submit" class="btn-gold-primary" id="btnSavePersonalInfo">
+                    Save Changes
+                  </button>
+                  <span id="saveStatusIndicator" style="font-size: 0.85rem; color: #34D399; display: none;">Saved successfully!</span>
+                </div>
+              </form>
+            </section>
+
+            <!-- 3. Supabase Active Account & Quick Switcher -->
+            <section class="profile-card-section" style="padding: 22px;">
+              <h3 style="font-size: 1.05rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span>🔐</span> Supabase Session &amp; Demo Access
+              </h3>
+              <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 16px;">
+                Quickly test different profiles or sign in with another account.
+              </p>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn-glass-secondary" id="btnSwitchStudent" style="padding: 7px 14px; font-size: 0.82rem;">Student Demo</button>
+                <button type="button" class="btn-glass-secondary" id="btnSwitchMentor" style="padding: 7px 14px; font-size: 0.82rem;">Mentor Demo</button>
+                <a href="login.html" class="btn-glass-secondary" style="padding: 7px 14px; font-size: 0.82rem;">Switch Account →</a>
+              </div>
+            </section>
+          </div>
+
+          <!-- ============================================================
+               RIGHT COLUMN: Settings Menu List (Screen 14)
+               ============================================================ -->
+          <div class="profile-menu-col">
+            <div class="settings-menu-box">
+              <!-- Account Settings -->
+              <button type="button" class="menu-list-btn" id="menuItemAccount">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">⚙️</span>
+                  <span>Account Settings</span>
+                </div>
+                <span style="color: var(--text-muted);">›</span>
+              </button>
+
+              <!-- Notifications -->
+              <button type="button" class="menu-list-btn" id="menuItemNotif">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">🔔</span>
+                  <span>Notifications</span>
+                </div>
+                <span style="color: var(--text-muted);">›</span>
+              </button>
+
+              <!-- Language -->
+              <button type="button" class="menu-list-btn" id="menuItemLang">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">🌐</span>
+                  <span>Language</span>
+                </div>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">English ›</span>
+              </button>
+
+              <!-- Appearance (with dark/light switch toggle) -->
+              <div class="menu-list-btn" style="cursor: default;">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">🌓</span>
+                  <span>Appearance</span>
+                </div>
+                <div class="toggle-switch-wrap" id="appearanceToggle" title="Toggle Dark/Light Appearance">
+                  <div class="toggle-switch-circle"></div>
+                </div>
+              </div>
+
+              <!-- Privacy -->
+              <button type="button" class="menu-list-btn" id="menuItemPrivacy">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">🔒</span>
+                  <span>Privacy</span>
+                </div>
+                <span style="color: var(--text-muted);">›</span>
+              </button>
+
+              <!-- Help & Support -->
+              <button type="button" class="menu-list-btn" id="menuItemHelp">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">❓</span>
+                  <span>Help &amp; Support</span>
+                </div>
+                <span style="color: var(--text-muted);">›</span>
+              </button>
+
+              <hr style="border: none; border-top: 1px solid var(--border-subtle); margin: 6px 0;">
+
+              <!-- Logout -->
+              <button type="button" class="menu-list-btn danger-link" id="menuLogoutBtn">
+                <div class="menu-item-left">
+                  <span class="menu-icon-symbol">🚪</span>
+                  <span>Logout</span>
+                </div>
               </button>
             </div>
           </div>
-
-          <!-- Grade Level -->
-          <div class="card settings-card reveal" id="gradeSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">🎓</div>
-              <div>
-                <h3>Grade Level</h3>
-                <p class="text-muted text-sm">Select your current class</p>
-              </div>
-            </div>
-            <div class="grade-selector" id="gradeSelector">
-              <!-- Grade buttons rendered by JS -->
-            </div>
-          </div>
-
-          <!-- Subjects Enrolled -->
-          <div class="card settings-card reveal" id="subjectsSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">📚</div>
-              <div>
-                <h3>Subjects Enrolled</h3>
-                <p class="text-muted text-sm">Select the subjects you want to study</p>
-              </div>
-            </div>
-            <div class="subjects-grid" id="subjectsGrid">
-              <!-- Subject checkboxes rendered by JS -->
-            </div>
-          </div>
-
-          <!-- Offline Content -->
-          <div class="card settings-card reveal" id="offlineSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">📥</div>
-              <div>
-                <h3>Offline Content</h3>
-                <p class="text-muted text-sm">Download lessons for offline access</p>
-              </div>
-            </div>
-            <div class="offline-list" id="offlineList">
-              <!-- Offline items rendered by JS -->
-            </div>
-          </div>
-
-          <!-- Role Switch -->
-          <div class="card settings-card reveal" id="roleSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">👤</div>
-              <div>
-                <h3>Role</h3>
-                <p class="text-muted text-sm">Switch between Student and Mentor view</p>
-              </div>
-            </div>
-            <div class="role-cards" id="roleCards">
-              <!-- Role cards rendered by JS -->
-            </div>
-          </div>
-
-          <!-- Account Actions -->
-          <div class="card settings-card settings-card-danger reveal" id="accountSection">
-            <div class="settings-card-header">
-              <div class="settings-icon">⚠️</div>
-              <div>
-                <h3>Account Actions</h3>
-                <p class="text-muted text-sm">Demo data management</p>
-              </div>
-            </div>
-            <p class="danger-warning">This will clear all your progress, quiz history, and preferences. This action is for demo/testing purposes.</p>
-            <button class="btn btn-danger-outline" id="resetDataBtn" aria-label="Reset all data">
-              🗑️ Reset All Data
-            </button>
-          </div>
-
         </div>
-      </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <div class="footer-logo">Edu<span>Setu</span></div>
-            <p>Bridging the learning gap with AI-powered, multilingual, diagnostic-first education for every student in India.</p>
-          </div>
-          <div>
-            <h4>Platform</h4>
-            <ul class="footer-links">
-              <li><a href="chatbot.html">AI Tutor</a></li>
-              <li><a href="mastery-map.html">Mastery Map</a></li>
-              <li><a href="quiz.html">Adaptive Quiz</a></li>
-              <li><a href="dashboard.html">Dashboard</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>For Mentors</h4>
-            <ul class="footer-links">
-              <li><a href="mentor.html">Mentor View</a></li>
-              <li><a href="profile.html">Settings</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>About</h4>
-            <ul class="footer-links">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">SDG Goals</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 EduSetu . All rights reserved.</p>
-          <div class="footer-sdg">
-            <span class="sdg-badge sdg4">SDG 4</span>
-            <span class="sdg-badge sdg10">SDG 10</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-
+      </main>
+    </div>
   </div>
 
   <script src="../js/main.js"></script>
+  <script src="../js/app-shell.js"></script>
   <script>
     (function() {
-      'use strict';
+      const nameEl = document.getElementById('profileCardName');
+      const emailEl = document.getElementById('profileCardEmail');
+      const avatarEl = document.getElementById('profileCardAvatar');
+      const gradeSelect = document.getElementById('selectEducationLevel');
+      const langSelect = document.getElementById('selectPreferredLanguage');
+      const goalsSelect = document.getElementById('selectLearningGoals');
+      const saveBtn = document.getElementById('btnSavePersonalInfo');
+      const statusIndicator = document.getElementById('saveStatusIndicator');
+      const form = document.getElementById('personalInfoForm');
+      const logoutBtn = document.getElementById('menuLogoutBtn');
+      const appearanceToggle = document.getElementById('appearanceToggle');
 
-      /* ---------- Data ---------- */
-      var SUBJECTS_META = [
-        { key: 'math',          name: 'Mathematics',    icon: '📐' },
-        { key: 'science',       name: 'Science',        icon: '🌿' },
-        { key: 'english',       name: 'English',        icon: '📖' },
-        { key: 'socialScience', name: 'Social Science',  icon: '🏛️' },
-        { key: 'physics',       name: 'Physics',        icon: '⚛️' },
-        { key: 'chemistry',     name: 'Chemistry',      icon: '🧪' },
-        { key: 'computerScience', name: 'Computer Science', icon: '💻' },
-        { key: 'biology',       name: 'Biology',        icon: '🧬' },
-        { key: 'economics',     name: 'Economics',      icon: '📈' }
-      ];
-
-      var GRADES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'UG'];
-
-      var CURRENT_PREFS = null;
-      
-      // Toast message helper
-      function showToast(msg, isError) {
-        var toast = document.createElement('div');
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.right = '20px';
-        toast.style.background = isError ? '#F87171' : '#34D399';
-        toast.style.color = '#fff';
-        toast.style.padding = '12px 24px';
-        toast.style.borderRadius = '8px';
-        toast.style.zIndex = '9999';
-        toast.textContent = msg;
-        document.body.appendChild(toast);
-        setTimeout(function() { toast.remove(); }, 3000);
-      }
-
-      /* ---------- API Loading ---------- */
-      function loadProfile() {
-        var avatarEl = document.getElementById('profileAvatar');
-        avatarEl.innerHTML = '<span style="font-size: 1rem">⏳</span>'; // Loading state
-        
-        fetch('/api/profile')
-          .then(function(res) {
-            if (res.status === 401) {
-              // Automatically login as development user
-              return fetch('/api/auth/dev-login').then(function() { return fetch('/api/profile'); });
+      // Fetch user profile from Supabase
+      async function loadProfile() {
+        try {
+          const res = await fetch('/api/profile', { credentials: 'include' });
+          if (res.ok) {
+            const json = await res.json();
+            if (json.success && json.data) {
+              const u = json.data;
+              if (u.name) nameEl.textContent = u.name;
+              if (u.email) emailEl.textContent = u.email;
+              if (u.name) avatarEl.textContent = u.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+              if (u.grade) gradeSelect.value = String(u.grade);
+              if (u.language) langSelect.value = u.language;
             }
-            return res;
-          })
-          .then(function(res) { return res.json(); })
-          .then(function(result) {
-            if (result.success && result.data) {
-              CURRENT_PREFS = result.data;
-              initUI(CURRENT_PREFS);
-              showToast('Profile loaded from database', false);
-            } else {
-              showToast(result.message || 'Error loading profile', true);
-            }
-          })
-          .catch(function(err) {
-            showToast('Network error loading profile', true);
-          });
-      }
-
-      function saveProfile(updates, successMsg) {
-        fetch('/api/profile', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updates)
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(result) {
-          if (result.success) {
-            CURRENT_PREFS = result.data;
-            renderProfileHeader(CURRENT_PREFS);
-            if (successMsg) showToast(successMsg, false);
-          } else {
-            showToast(result.message || 'Error saving profile', true);
           }
-        })
-        .catch(function(err) {
-          showToast('Network error saving profile', true);
-        });
+        } catch (e) {}
       }
 
-      /* ---------- Render Profile Header ---------- */
-      function renderProfileHeader(prefs) {
-        var avatarEl = document.getElementById('profileAvatar');
-        var nameEl = document.getElementById('profileName');
-        var gradeBadge = document.getElementById('profileGradeBadge');
-        var roleBadge = document.getElementById('profileRoleBadge');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
 
-        if (!prefs || !prefs.name) return;
+        const grade = parseInt(gradeSelect.value, 10);
+        const language = langSelect.value;
 
-        var initials = prefs.name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase();
-        avatarEl.textContent = initials;
-        nameEl.textContent = prefs.name;
-        if (gradeBadge) gradeBadge.textContent = 'Class ' + prefs.grade;
-        if (roleBadge) roleBadge.textContent = prefs.role === 'mentor' ? 'Mentor' : 'Student';
-      }
-
-      /* ---------- Personal Information ---------- */
-      function setupPersonalInfo(prefs) {
-        var nameInput = document.getElementById('inputName');
-        var emailInput = document.getElementById('inputEmail');
-        var schoolInput = document.getElementById('inputSchool');
-        var saveBtn = document.getElementById('savePersonalInfo');
-        var saveStatus = document.getElementById('saveStatus');
-
-        if (!nameInput) return;
-
-        // Load existing values from API
-        nameInput.value = prefs.name || '';
-        emailInput.value = prefs.email || '';
-        if (schoolInput) schoolInput.value = prefs.school || ''; // DB doesn't have school yet, but UI does
-
-        // Disable email editing because it's linked to the auth token
-        emailInput.disabled = true;
-        emailInput.style.opacity = '0.7';
-
-        saveBtn.addEventListener('click', function() {
-          var newName = nameInput.value.trim();
-          if (!newName) {
-            nameInput.style.borderColor = '#F87171';
-            setTimeout(function() { nameInput.style.borderColor = ''; }, 2000);
-            return;
-          }
-
-          var newSchool = schoolInput ? schoolInput.value.trim() : '';
-
-          saveProfile({ name: newName, school: newSchool }, 'Personal information updated in database!');
-          
-          if (saveStatus) {
-            saveStatus.textContent = '✓ Saved!';
-            saveStatus.classList.add('show');
-            setTimeout(function() { saveStatus.classList.remove('show'); }, 2500);
-          }
-        });
-      }
-
-      /* ---------- Language Selection ---------- */
-      function setupLanguage(prefs) {
-        var enBtn = document.getElementById('langEn');
-        var hiBtn = document.getElementById('langHi');
-        if (!enBtn || !hiBtn) return;
-
-        function updateLangUI(lang) {
-          if (lang === 'hi') {
-            enBtn.classList.remove('active');
-            hiBtn.classList.add('active');
-          } else {
-            enBtn.classList.add('active');
-            hiBtn.classList.remove('active');
-          }
-        }
-
-        updateLangUI(prefs.language);
-
-        enBtn.addEventListener('click', function() {
-          updateLangUI('en');
-          saveProfile({ language: 'en' }, 'Language preference saved');
-        });
-
-        hiBtn.addEventListener('click', function() {
-          updateLangUI('hi');
-          saveProfile({ language: 'hi' }, 'Language preference saved');
-        });
-      }
-
-      /* ---------- Grade Selector ---------- */
-      function setupGrade(prefs) {
-        var container = document.getElementById('gradeSelector');
-        if (!container) return;
-        container.replaceChildren();
-
-        GRADES.forEach(function(g) {
-          var btn = document.createElement('button');
-          btn.className = 'grade-btn' + (prefs.grade == g ? ' active' : '');
-          btn.textContent = 'Class ' + g;
-          btn.addEventListener('click', function() {
-            var allBtns = container.querySelectorAll('.grade-btn');
-            allBtns.forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            
-            saveProfile({ grade: g }, 'Grade level updated to ' + g);
+        try {
+          await fetch('/api/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ grade, language })
           });
-          container.appendChild(btn);
-        });
-      }
+          statusIndicator.style.display = 'inline';
+          setTimeout(() => { statusIndicator.style.display = 'none'; }, 3000);
+        } catch (err) {}
 
-      /* ---------- Offline Content (LocalStorage Only) ---------- */
-      function setupOffline() {
-        var container = document.getElementById('offlineList');
-        if (!container) return;
-        container.replaceChildren();
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes';
+      });
 
-        var offlineState = {};
-        var stored = localStorage.getItem('edusetu_offline');
-        if (stored) {
-          try { offlineState = JSON.parse(stored); } catch(e) { }
+      // Quick switcher buttons
+      document.getElementById('btnSwitchStudent').addEventListener('click', () => {
+        window.location.href = '/api/auth/dev-login';
+      });
+      document.getElementById('btnSwitchMentor').addEventListener('click', () => {
+        window.location.href = '/api/auth/dev-login-mentor';
+      });
+
+      // Logout
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch(e) {}
+        window.location.href = 'login.html';
+      });
+
+      // Appearance toggle
+      let isDark = true;
+      appearanceToggle.addEventListener('click', () => {
+        isDark = !isDark;
+        if (!isDark) {
+          appearanceToggle.style.background = '#64748B';
+          appearanceToggle.querySelector('.toggle-switch-circle').style.transform = 'translateX(-20px)';
+        } else {
+          appearanceToggle.style.background = '#3B82F6';
+          appearanceToggle.querySelector('.toggle-switch-circle').style.transform = 'translateX(0)';
         }
+      });
 
-        SUBJECTS_META.forEach(function(subj) {
-          var row = document.createElement('div');
-          row.className = 'offline-item';
-
-          var infoDiv = document.createElement('div');
-          infoDiv.className = 'offline-info';
-          var icon = document.createElement('span');
-          icon.className = 'offline-icon';
-          icon.textContent = subj.icon;
-          var details = document.createElement('div');
-          var nameEl = document.createElement('span');
-          nameEl.className = 'offline-name';
-          nameEl.textContent = subj.name;
-          var sizeEl = document.createElement('span');
-          sizeEl.className = 'offline-size';
-          sizeEl.textContent = '40 MB';
-          details.appendChild(nameEl);
-          details.appendChild(sizeEl);
-          infoDiv.appendChild(icon);
-          infoDiv.appendChild(details);
-
-          var statusDiv = document.createElement('div');
-          statusDiv.className = 'offline-status';
-
-          var isDownloaded = offlineState[subj.key] === true;
-          var statusText = document.createElement('span');
-          statusText.className = 'offline-status-text' + (isDownloaded ? ' downloaded' : '');
-          statusText.textContent = isDownloaded ? '✓ Downloaded' : 'Not downloaded';
-
-          var toggleLabel = document.createElement('label');
-          toggleLabel.className = 'toggle-switch';
-          var toggleInput = document.createElement('input');
-          toggleInput.type = 'checkbox';
-          toggleInput.checked = isDownloaded;
-          var toggleSlider = document.createElement('span');
-          toggleSlider.className = 'toggle-slider';
-          toggleLabel.appendChild(toggleInput);
-          toggleLabel.appendChild(toggleSlider);
-
-          toggleInput.addEventListener('change', function() {
-            offlineState[subj.key] = toggleInput.checked;
-            localStorage.setItem('edusetu_offline', JSON.stringify(offlineState));
-            statusText.textContent = toggleInput.checked ? '✓ Downloaded' : 'Not downloaded';
-            if (toggleInput.checked) statusText.classList.add('downloaded');
-            else statusText.classList.remove('downloaded');
-          });
-
-          statusDiv.appendChild(statusText);
-          statusDiv.appendChild(toggleLabel);
-          row.appendChild(infoDiv);
-          row.appendChild(statusDiv);
-          container.appendChild(row);
-        });
-      }
-      
-      /* ---------- Supabase Auth Controls ---------- */
-      function setupAuthUI(prefs) {
-        var emailEl = document.getElementById('activeUserEmail');
-        if (emailEl && prefs) {
-          emailEl.textContent = (prefs.email || 'student1@edusetu.in') + ' (' + (prefs.role || 'student').toUpperCase() + ')';
-        }
-
-        // Tab switching
-        var tabLogin = document.getElementById('tabShowLogin');
-        var tabRegister = document.getElementById('tabShowRegister');
-        var formLogin = document.getElementById('loginFormContainer');
-        var formRegister = document.getElementById('registerFormContainer');
-
-        if (tabLogin && tabRegister) {
-          tabLogin.addEventListener('click', function() {
-            tabLogin.className = 'btn btn-primary btn-sm';
-            tabRegister.className = 'btn btn-secondary btn-sm';
-            formLogin.style.display = 'block';
-            formRegister.style.display = 'none';
-          });
-          tabRegister.addEventListener('click', function() {
-            tabRegister.className = 'btn btn-primary btn-sm';
-            tabLogin.className = 'btn btn-secondary btn-sm';
-            formRegister.style.display = 'block';
-            formLogin.style.display = 'none';
-          });
-        }
-
-        // Login submit
-        var btnLogin = document.getElementById('btnSubmitLogin');
-        var loginStatus = document.getElementById('loginAuthStatus');
-        if (btnLogin) {
-          btnLogin.addEventListener('click', function() {
-            var email = (document.getElementById('loginEmail').value || '').trim();
-            var password = (document.getElementById('loginPassword').value || '').trim();
-            if (!email || !password) {
-              if (loginStatus) {
-                loginStatus.textContent = '⚠️ Please enter both email and password';
-                loginStatus.style.color = '#F87171';
-              }
-              return;
-            }
-
-            btnLogin.disabled = true;
-            btnLogin.textContent = 'Logging in...';
-
-            fetch('/api/auth/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: email, password: password })
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(result) {
-              btnLogin.disabled = false;
-              btnLogin.textContent = '🔑 Log In';
-              if (result.success) {
-                showToast('Logged in successfully as ' + result.data.user.email, false);
-                loadProfile();
-              } else {
-                if (loginStatus) {
-                  loginStatus.textContent = '❌ ' + (result.message || 'Login failed');
-                  loginStatus.style.color = '#F87171';
-                }
-              }
-            })
-            .catch(function(err) {
-              btnLogin.disabled = false;
-              btnLogin.textContent = '🔑 Log In';
-              if (loginStatus) {
-                loginStatus.textContent = '❌ Network error during login';
-                loginStatus.style.color = '#F87171';
-              }
-            });
-          });
-        }
-
-        // Register submit
-        var btnReg = document.getElementById('btnSubmitRegister');
-        var regStatus = document.getElementById('regAuthStatus');
-        if (btnReg) {
-          btnReg.addEventListener('click', function() {
-            var name = (document.getElementById('regName').value || '').trim();
-            var email = (document.getElementById('regEmail').value || '').trim();
-            var password = (document.getElementById('regPassword').value || '').trim();
-            var grade = document.getElementById('regGrade').value;
-            var role = document.getElementById('regRole').value;
-
-            if (!name || !email || !password) {
-              if (regStatus) {
-                regStatus.textContent = '⚠️ Please provide name, email, and password';
-                regStatus.style.color = '#F87171';
-              }
-              return;
-            }
-
-            btnReg.disabled = true;
-            btnReg.textContent = 'Creating account...';
-
-            fetch('/api/auth/register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ name: name, email: email, password: password, grade: Number(grade), role: role })
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(result) {
-              btnReg.disabled = false;
-              btnReg.textContent = '✨ Create Student Account';
-              if (result.success) {
-                showToast('Registration successful! Welcome ' + name, false);
-                loadProfile();
-              } else {
-                if (regStatus) {
-                  regStatus.textContent = '❌ ' + (result.message || 'Registration failed');
-                  regStatus.style.color = '#F87171';
-                }
-              }
-            })
-            .catch(function(err) {
-              btnReg.disabled = false;
-              btnReg.textContent = '✨ Create Student Account';
-              if (regStatus) {
-                regStatus.textContent = '❌ Network error during registration';
-                regStatus.style.color = '#F87171';
-              }
-            });
-          });
-        }
-
-        // Quick demo logins
-        var demoStudentBtn = document.getElementById('quickStudentLoginBtn');
-        if (demoStudentBtn) {
-          demoStudentBtn.addEventListener('click', function() {
-            fetch('/api/auth/dev-login')
-              .then(function(r) { return r.json(); })
-              .then(function(res) {
-                if (res.success) {
-                  showToast('Switched to Demo Student session', false);
-                  loadProfile();
-                }
-              });
-          });
-        }
-
-        var demoMentorBtn = document.getElementById('quickMentorLoginBtn');
-        if (demoMentorBtn) {
-          demoMentorBtn.addEventListener('click', function() {
-            fetch('/api/auth/dev-login-mentor')
-              .then(function(r) { return r.json(); })
-              .then(function(res) {
-                if (res.success) {
-                  showToast('Switched to Demo Mentor session', false);
-                  loadProfile();
-                }
-              });
-          });
-        }
-
-        // Card logout
-        var cardLogout = document.getElementById('cardLogoutBtn');
-        if (cardLogout) {
-          cardLogout.addEventListener('click', function() {
-            fetch('/api/auth/logout', { method: 'POST' })
-              .then(function() {
-                showToast('Logged out successfully', false);
-                loadProfile();
-              });
-          });
-        }
-      }
-
-      /* ---------- Logout ---------- */
-      function setupLogout() {
-        var logoutBtn = document.getElementById('resetDataBtn');
-        if (!logoutBtn) return;
-        logoutBtn.textContent = "Logout";
-        
-        logoutBtn.addEventListener('click', function() {
-          if (confirm('Are you sure you want to log out?')) {
-            fetch('/api/auth/logout', { method: 'POST' })
-              .then(function() { 
-                localStorage.clear();
-                window.location.href = 'index.html'; 
-              });
-          }
-        });
-      }
-
-      /* ---------- Init ---------- */
-      function initUI(prefs) {
-        renderProfileHeader(prefs);
-        setupAuthUI(prefs);
-        setupPersonalInfo(prefs);
-        setupLanguage(prefs);
-        setupGrade(prefs);
-        setupOffline();
-        setupLogout();
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadProfile);
-      } else {
-        loadProfile();
-      }
+      loadProfile();
     })();
   </script>
 </body>

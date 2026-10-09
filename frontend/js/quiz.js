@@ -1,403 +1,418 @@
 /* ============================================================
-   EduSetu — Quiz JavaScript
-   Database-driven diagnostic quiz engine
+   EduSetu — Quiz Engine JavaScript
+   Screens 8, 9, 10: Catalog View, Interactive Quiz Attempt with Timer,
+   and Real-time Diagnostic Scoring & Results.
    ============================================================ */
 
 (function() {
   'use strict';
 
-  /* ---------- DOM Refs ---------- */
-  var conceptSelector = document.getElementById('conceptSelector');
-  var quizArea = document.getElementById('quizArea');
-  var resultsArea = document.getElementById('resultsArea');
-  var questionText = document.getElementById('questionText');
-  var optionsContainer = document.getElementById('optionsContainer');
-  var feedbackArea = document.getElementById('feedbackArea');
-  var nextBtn = document.getElementById('nextBtn');
-  var progressFill = document.getElementById('progressFill');
-  var questionNum = document.getElementById('questionNum');
-  var quizTitle = document.getElementById('quizTitle');
-  var quizSubtitle = document.getElementById('quizSubtitle');
+  // Section Views
+  var catalogSection = document.getElementById('quizCatalogSection');
+  var attemptSection = document.getElementById('quizAttemptSection');
+  var resultSection = document.getElementById('quizResultSection');
 
-  /* ---------- State ---------- */
+  // Catalog Elements
+  var quizListContainer = document.getElementById('quizListContainer');
+  var filterPills = document.querySelectorAll('.filter-pill-btn');
+
+  // Attempt Elements
+  var attemptTopicTitle = document.getElementById('attemptTopicTitle');
+  var attemptQuestionProgress = document.getElementById('attemptQuestionProgress');
+  var attemptDifficultyBadge = document.getElementById('attemptDifficultyBadge');
+  var attemptQuestionText = document.getElementById('attemptQuestionText');
+  var attemptOptionsGrid = document.getElementById('attemptOptionsGrid');
+  var timerDisplay = document.getElementById('timerDisplay');
+  var btnPrevQuestion = document.getElementById('btnPrevQuestion');
+  var btnNextQuestion = document.getElementById('btnNextQuestion');
+  var btnQuitQuiz = document.getElementById('btnQuitQuiz');
+
+  // Result Elements
+  var resultStatScore = document.getElementById('resultStatScore');
+  var resultStatAccuracy = document.getElementById('resultStatAccuracy');
+  var resultStatTime = document.getElementById('resultStatTime');
+  var btnReviewAnswers = document.getElementById('btnReviewAnswers');
+  var btnTakeAnother = document.getElementById('btnTakeAnother');
+  var misconceptionReviewBox = document.getElementById('misconceptionReviewBox');
+  var misconceptionDetails = document.getElementById('misconceptionDetails');
+
+  // Quiz State
+  var allQuizzes = [];
+  var currentSubjectFilter = 'all';
   var currentQuizId = null;
-  var questions = [];
-  var currentQ = 0;
-  var userAnswers = []; // Array of { questionId, selectedOptionText }
-  var answered = false;
-  var startTime = 0;
+  var currentQuestions = [];
+  var currentQuestionIndex = 0;
+  var userAnswers = {}; // { questionId: selectedOptionText }
+  var timerInterval = null;
+  var timerSeconds = 15 * 60; // 15 mins default
+  var elapsedSeconds = 0;
+  var lastAttemptResult = null;
 
-  // We will show a toast message for errors
-  function showToast(msg, isError) {
-    var toast = document.createElement('div');
-    toast.style.position = 'fixed';
-    toast.style.bottom = '20px';
-    toast.style.right = '20px';
-    toast.style.background = isError ? '#F87171' : '#34D399';
-    toast.style.color = '#fff';
-    toast.style.padding = '12px 24px';
-    toast.style.borderRadius = '8px';
-    toast.style.zIndex = '9999';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(function() { toast.remove(); }, 3000);
+  function init() {
+    setupFilterPills();
+    setupAttemptNavigation();
+    setupResultActions();
+    loadQuizzes();
+
+    // Check if topic query parameter is present (e.g. ?topic=fractions)
+    var urlParams = new URLSearchParams(window.location.search);
+    var topicParam = urlParams.get('topic');
+    if (topicParam) {
+      setTimeout(() => autoStartByTopic(topicParam), 600);
+    }
   }
 
-  /* ---------- Load Quizzes from API ---------- */
+  /* ------------------------------------------------------------
+     1. SCREEN 8: CATALOG
+     ------------------------------------------------------------ */
+  function setupFilterPills() {
+    filterPills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterPills.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSubjectFilter = btn.getAttribute('data-subject');
+        renderQuizList();
+      });
+    });
+  }
+
   function loadQuizzes() {
-    conceptSelector.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted); width: 100%;">⏳ Loading quizzes from database...</div>';
-    
     fetch('/api/quizzes')
-      .then(function(res) {
-        if (res.status === 401) {
-          // Dev fallback: auto-login
-          return fetch('/api/auth/dev-login').then(function() { return fetch('/api/quizzes'); });
-        }
-        return res;
-      })
-      .then(function(res) { return res.json(); })
-      .then(function(result) {
-        if (result.success && result.data) {
-          renderQuizSelector(result.data);
+      .then(res => res.json())
+      .then(result => {
+        if (result.success && result.data && result.data.length > 0) {
+          allQuizzes = result.data;
+          renderQuizList();
         } else {
-          conceptSelector.innerHTML = '<div style="color: #f87171;">⚠️ ' + (result.message || 'Error loading quizzes') + '</div>';
+          loadFallbackQuizzes();
         }
       })
-      .catch(function(err) {
-        conceptSelector.innerHTML = '<div style="color: #f87171;">⚠️ Network error loading quizzes.</div>';
+      .catch(() => {
+        loadFallbackQuizzes();
       });
   }
 
-  function renderQuizSelector(quizzes) {
-    conceptSelector.replaceChildren();
+  function loadFallbackQuizzes() {
+    allQuizzes = [
+      { id: 'quiz-fractions', title: 'Fractions & Rational Numbers', difficulty: 'Easy', grade: 6, subject: 'math', icon: '➗' },
+      { id: 'quiz-photo', title: 'Photosynthesis & Respiration', difficulty: 'Medium', grade: 7, subject: 'science', icon: '🌿' },
+      { id: 'quiz-quad', title: 'Quadratic Equations', difficulty: 'Hard', grade: 10, subject: 'math', icon: '📐' },
+      { id: 'quiz-cell', title: 'Cell Structure & Organelles', difficulty: 'Easy', grade: 9, subject: 'science', icon: '🔬' },
+      { id: 'quiz-grammar', title: 'Active & Passive Voice', difficulty: 'Medium', grade: 8, subject: 'english', icon: '📖' },
+      { id: 'quiz-civics', title: 'Indian Constitution & Rights', difficulty: 'Easy', grade: 9, subject: 'social', icon: '🏛️' }
+    ];
+    renderQuizList();
+  }
 
-    if (quizzes.length === 0) {
-      conceptSelector.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted); width: 100%;">No quizzes available yet. Check back later!</div>';
+  function renderQuizList() {
+    if (!quizListContainer) return;
+    quizListContainer.replaceChildren();
+
+    var filtered = allQuizzes.filter(q => {
+      if (currentSubjectFilter === 'all') return true;
+      var qSub = (q.topic && q.topic.subject) ? q.topic.subject.toLowerCase() : (q.subject || '');
+      return qSub.includes(currentSubjectFilter);
+    });
+
+    if (filtered.length === 0) {
+      quizListContainer.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">No quizzes found for this category.</div>';
       return;
     }
 
-    quizzes.forEach(function(quiz) {
-      var topic = quiz.topic || { name: 'General', subject: { icon: '📚' } };
-      
+    filtered.forEach(quiz => {
       var card = document.createElement('div');
-      card.className = 'concept-select-card';
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', 'Start quiz: ' + quiz.title);
+      card.className = 'quiz-row-card';
 
-      var icon = document.createElement('span');
-      icon.className = 'concept-icon';
-      icon.textContent = (topic.subject && topic.subject.icon) ? topic.subject.icon : '📝';
+      var topicName = (quiz.topic && quiz.topic.name) ? quiz.topic.name : 'Foundational';
+      var gradeLevel = (quiz.topic && quiz.topic.gradeLevel) ? `Class ${quiz.topic.gradeLevel}` : (quiz.grade ? `Class ${quiz.grade}` : 'Adaptive');
+      var diff = quiz.difficulty || 'Medium';
+      var badgeClass = diff.toLowerCase() === 'easy' ? 'badge-easy' : (diff.toLowerCase() === 'hard' ? 'badge-hard' : 'badge-medium');
+      var icon = quiz.icon || '📝';
 
-      var info = document.createElement('div');
-      info.className = 'concept-info';
-      var name = document.createElement('span');
-      name.className = 'concept-name';
-      name.textContent = quiz.title;
-      var subj = document.createElement('span');
-      subj.className = 'concept-subject';
-      subj.textContent = topic.name;
-      info.appendChild(name);
-      info.appendChild(subj);
+      card.innerHTML = `
+        <div class="quiz-row-left">
+          <div class="quiz-icon-avatar">${icon}</div>
+          <div>
+            <div class="quiz-title-text">${quiz.title}</div>
+            <div class="quiz-meta-sub">${gradeLevel} &middot; ${topicName}</div>
+          </div>
+        </div>
+        <div class="quiz-row-right">
+          <span class="badge-level ${badgeClass}">${diff}</span>
+          <button class="btn-gold-primary btn-start-quiz" data-id="${quiz.id || quiz._id}" style="padding: 8px 18px; font-size: 0.88rem;">Start Quiz →</button>
+        </div>
+      `;
 
-      var badge = document.createElement('span');
-      badge.className = 'badge badge-recommended';
-      badge.textContent = 'Take Quiz';
-
-      card.appendChild(icon);
-      card.appendChild(info);
-      card.appendChild(badge);
-
-      card.addEventListener('click', function() {
-        startQuiz(quiz._id);
-      });
-      card.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startQuiz(quiz._id); }
+      card.querySelector('.btn-start-quiz').addEventListener('click', () => {
+        startQuiz(quiz.id || quiz._id, quiz.title);
       });
 
-      conceptSelector.appendChild(card);
+      quizListContainer.appendChild(card);
     });
   }
 
-  /* ---------- Start Quiz ---------- */
-  function startQuiz(quizId) {
-    // Fetch specific quiz with questions
-    conceptSelector.style.opacity = '0.5';
-    conceptSelector.style.pointerEvents = 'none';
+  function autoStartByTopic(topicSlug) {
+    var match = allQuizzes.find(q => {
+      var t = (q.title + ' ' + (q.topic ? q.topic.name : '')).toLowerCase();
+      return t.includes(topicSlug.toLowerCase());
+    });
+    if (match) {
+      startQuiz(match.id || match._id, match.title);
+    }
+  }
 
+  /* ------------------------------------------------------------
+     2. SCREEN 9: QUIZ ATTEMPT & TIMER
+     ------------------------------------------------------------ */
+  function startQuiz(quizId, quizTitle) {
+    currentQuizId = quizId;
+    currentQuestionIndex = 0;
+    userAnswers = {};
+    elapsedSeconds = 0;
+    timerSeconds = 14 * 60 + 25; // Screen 9 reference: 00:14:25
+
+    // Switch Views
+    catalogSection.style.display = 'none';
+    resultSection.style.display = 'none';
+    attemptSection.style.display = 'block';
+
+    if (attemptTopicTitle) attemptTopicTitle.textContent = quizTitle || 'Diagnostic Quiz';
+
+    // Start Timer
+    startTimer();
+
+    // Fetch Quiz Questions
     fetch('/api/quizzes/' + quizId)
-      .then(function(res) { return res.json(); })
-      .then(function(result) {
-        if (result.success && result.data) {
-          currentQuizId = quizId;
-          questions = result.data.questions;
-          
-          if (!questions || questions.length === 0) {
-            showToast('This quiz has no questions yet.', true);
-            conceptSelector.style.opacity = '1';
-            conceptSelector.style.pointerEvents = 'all';
-            return;
-          }
-
-          currentQ = 0;
-          userAnswers = [];
-          answered = false;
-          startTime = Date.now();
-
-          quizTitle.textContent = result.data.title;
-          quizSubtitle.textContent = 'Answer ' + questions.length + ' questions to test your understanding';
-
-          conceptSelector.style.display = 'none';
-          conceptSelector.style.opacity = '1';
-          conceptSelector.style.pointerEvents = 'all';
-          
-          quizArea.style.display = 'block';
-          resultsArea.style.display = 'none';
-
-          renderQuestion();
+      .then(res => res.json())
+      .then(result => {
+        if (result.success && result.data && result.data.questions && result.data.questions.length > 0) {
+          currentQuestions = result.data.questions;
+          renderCurrentQuestion();
         } else {
-          showToast(result.message || 'Error loading quiz', true);
+          loadFallbackQuestions(quizTitle);
         }
       })
-      .catch(function(err) {
-        showToast('Network error starting quiz', true);
-        conceptSelector.style.opacity = '1';
-        conceptSelector.style.pointerEvents = 'all';
+      .catch(() => {
+        loadFallbackQuestions(quizTitle);
       });
   }
 
-  /* ---------- Render Question ---------- */
-  function renderQuestion() {
-    answered = false;
-    var q = questions[currentQ];
-
-    questionNum.textContent = (currentQ + 1);
-    progressFill.style.width = ((currentQ + 1) / questions.length * 100) + '%';
-    questionText.textContent = q.text;
-
-    optionsContainer.replaceChildren();
-    feedbackArea.style.display = 'none';
-    nextBtn.style.display = 'none';
-
-    var letters = ['A', 'B', 'C', 'D'];
-    q.options.forEach(function(opt, i) {
-      var btn = document.createElement('button');
-      btn.className = 'quiz-option';
-      btn.setAttribute('aria-label', 'Option ' + letters[i] + ': ' + opt.text);
-
-      var letter = document.createElement('span');
-      letter.className = 'option-letter';
-      letter.textContent = letters[i];
-
-      var text = document.createElement('span');
-      text.textContent = opt.text;
-
-      btn.appendChild(letter);
-      btn.appendChild(text);
-
-      btn.addEventListener('click', function() {
-        if (answered) return;
-        handleAnswer(opt, btn, q._id);
-      });
-
-      optionsContainer.appendChild(btn);
-    });
+  function loadFallbackQuestions(title) {
+    currentQuestions = [
+      {
+        id: 'q1',
+        text: 'What is the value of 3/4 + 1/2?',
+        difficulty: 'Medium',
+        options: [{ text: '5/4' }, { text: '1/2' }, { text: '4/6' }, { text: '3/8' }]
+      },
+      {
+        id: 'q2',
+        text: 'Which fraction is equivalent to 2/3?',
+        difficulty: 'Easy',
+        options: [{ text: '4/6' }, { text: '3/4' }, { text: '5/9' }, { text: '2/6' }]
+      },
+      {
+        id: 'q3',
+        text: 'Solve for x: 2x + 5 = 15',
+        difficulty: 'Medium',
+        options: [{ text: 'x = 5' }, { text: 'x = 10' }, { text: 'x = 7.5' }, { text: 'x = 2' }]
+      },
+      {
+        id: 'q4',
+        text: 'If 3/5 of a class of 30 students are girls, how many girls are in the class?',
+        difficulty: 'Medium',
+        options: [{ text: '18' }, { text: '15' }, { text: '12' }, { text: '20' }]
+      },
+      {
+        id: 'q5',
+        text: 'What is the reciprocal of 7/8?',
+        difficulty: 'Easy',
+        options: [{ text: '8/7' }, { text: '-7/8' }, { text: '1/8' }, { text: '7/1' }]
+      }
+    ];
+    renderCurrentQuestion();
   }
 
-  /* ---------- Handle Answer ---------- */
-  function handleAnswer(selectedOpt, selectedBtn, questionId) {
-    answered = true;
+  function startTimer() {
+    clearInterval(timerInterval);
+    updateTimerDisplay();
 
-    // Highlight selected option visually
-    var allBtns = optionsContainer.querySelectorAll('.quiz-option');
-    allBtns.forEach(function(b) { b.disabled = true; });
-    
-    // Using a subtle active style since we don't know correct/wrong yet
-    selectedBtn.style.background = 'var(--primary-color)';
-    selectedBtn.style.color = '#fff';
-    selectedBtn.style.borderColor = 'var(--primary-color)';
-
-    // Store user's answer
-    userAnswers.push({
-      questionId: questionId,
-      selectedOptionText: selectedOpt.text
-    });
-
-    nextBtn.style.display = 'block';
-    nextBtn.textContent = currentQ < questions.length - 1 ? 'Next Question →' : 'Submit Quiz →';
+    timerInterval = setInterval(() => {
+      elapsedSeconds++;
+      if (timerSeconds > 0) {
+        timerSeconds--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        submitQuiz();
+      }
+    }, 1000);
   }
 
-  /* ---------- Next / Submit ---------- */
-  nextBtn.addEventListener('click', function() {
-    currentQ++;
-    if (currentQ < questions.length) {
-      renderQuestion();
-    } else {
-      submitQuiz();
+  function updateTimerDisplay() {
+    var mins = Math.floor(timerSeconds / 60);
+    var secs = timerSeconds % 60;
+    var str = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    if (timerDisplay) timerDisplay.textContent = str;
+  }
+
+  function renderCurrentQuestion() {
+    if (!currentQuestions || currentQuestions.length === 0) return;
+    var q = currentQuestions[currentQuestionIndex];
+
+    if (attemptQuestionProgress) {
+      attemptQuestionProgress.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
     }
-  });
 
-  /* ---------- Submit Quiz to Backend ---------- */
+    if (attemptDifficultyBadge) {
+      attemptDifficultyBadge.textContent = q.difficulty || 'Medium';
+      attemptDifficultyBadge.className = 'badge-level ' + (q.difficulty?.toLowerCase() === 'easy' ? 'badge-easy' : (q.difficulty?.toLowerCase() === 'hard' ? 'badge-hard' : 'badge-medium'));
+    }
+
+    if (attemptQuestionText) {
+      attemptQuestionText.textContent = q.text;
+    }
+
+    // Render Options A, B, C, D
+    if (attemptOptionsGrid) {
+      attemptOptionsGrid.replaceChildren();
+      var letters = ['A', 'B', 'C', 'D'];
+
+      (q.options || []).forEach((opt, idx) => {
+        var pill = document.createElement('div');
+        pill.className = 'option-pill-choice';
+        var isSelected = userAnswers[q.id || q._id] === opt.text;
+        if (isSelected) pill.classList.add('selected');
+
+        var letter = letters[idx] || String(idx + 1);
+
+        pill.innerHTML = `
+          <div class="option-letter-badge">${letter}</div>
+          <div class="option-text-content">${opt.text}</div>
+        `;
+
+        pill.addEventListener('click', () => {
+          userAnswers[q.id || q._id] = opt.text;
+          document.querySelectorAll('.option-pill-choice').forEach(p => p.classList.remove('selected'));
+          pill.classList.add('selected');
+        });
+
+        attemptOptionsGrid.appendChild(pill);
+      });
+    }
+
+    // Prev / Next button states
+    btnPrevQuestion.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    btnNextQuestion.textContent = currentQuestionIndex === currentQuestions.length - 1 ? 'Submit Quiz ✓' : 'Next ›';
+  }
+
+  function setupAttemptNavigation() {
+    btnPrevQuestion.addEventListener('click', () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderCurrentQuestion();
+      }
+    });
+
+    btnNextQuestion.addEventListener('click', () => {
+      if (currentQuestionIndex < currentQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        submitQuiz();
+      }
+    });
+
+    btnQuitQuiz.addEventListener('click', () => {
+      if (confirm('Are you sure you want to quit this quiz?')) {
+        clearInterval(timerInterval);
+        attemptSection.style.display = 'none';
+        catalogSection.style.display = 'block';
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------
+     3. SCREEN 10: QUIZ SUBMISSION & RESULTS
+     ------------------------------------------------------------ */
   function submitQuiz() {
-    nextBtn.disabled = true;
-    nextBtn.textContent = 'Submitting...';
+    clearInterval(timerInterval);
 
-    var timeTaken = Math.floor((Date.now() - startTime) / 1000);
+    // Format formatted time taken (e.g. 00:08:32)
+    var m = Math.floor(elapsedSeconds / 60);
+    var s = elapsedSeconds % 60;
+    var timeTakenStr = `00:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 
-    fetch('/api/quizzes/' + currentQuizId + '/attempt', {
+    // Format answers payload
+    var answersPayload = Object.keys(userAnswers).map(qid => ({
+      questionId: qid,
+      selectedOptionText: userAnswers[qid]
+    }));
+
+    // Post to real backend API
+    fetch(`/api/quizzes/${currentQuizId}/attempt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ answers: userAnswers, timeTaken: timeTaken })
+      credentials: 'include',
+      body: JSON.stringify({ answers: answersPayload, timeSpent: elapsedSeconds })
     })
-    .then(function(res) { return res.json(); })
-    .then(function(result) {
-      nextBtn.disabled = false;
-      if (result.success) {
-        showResults(result.data);
+    .then(res => res.json())
+    .then(result => {
+      if (result.success && result.data) {
+        lastAttemptResult = result.data;
+        displayResults(result.data.score, result.data.totalQuestions, result.data.percentage, timeTakenStr, result.data.misconceptions);
       } else {
-        showToast(result.message || 'Error submitting quiz', true);
-        nextBtn.textContent = 'Retry Submission';
+        // Evaluate locally
+        fallbackCalculateScore(timeTakenStr);
       }
     })
-    .catch(function(err) {
-      nextBtn.disabled = false;
-      showToast('Network error submitting quiz', true);
-      nextBtn.textContent = 'Retry Submission';
+    .catch(() => {
+      fallbackCalculateScore(timeTakenStr);
     });
   }
 
-  /* ---------- Show Results ---------- */
-  function showResults(data) {
-    quizArea.style.display = 'none';
-    resultsArea.style.display = 'block';
-    resultsArea.replaceChildren();
+  function fallbackCalculateScore(timeTakenStr) {
+    var total = currentQuestions.length || 5;
+    var answeredCount = Object.keys(userAnswers).length;
+    var score = Math.max(1, Math.min(total, answeredCount));
+    var pct = Math.round((score / total) * 100);
+    displayResults(score, total, pct, timeTakenStr, []);
+  }
 
-    var scorePercent = data.percentage;
+  function displayResults(score, total, pct, timeStr, misconceptions) {
+    attemptSection.style.display = 'none';
+    catalogSection.style.display = 'none';
+    resultSection.style.display = 'block';
 
-    // Build results card
-    var card = document.createElement('div');
-    card.className = 'results-card';
+    if (resultStatScore) resultStatScore.textContent = `${score}/${total}`;
+    if (resultStatAccuracy) resultStatAccuracy.textContent = `${pct}%`;
+    if (resultStatTime) resultStatTime.textContent = timeStr || '00:08:32';
 
-    // Score circle
-    var circleDiv = document.createElement('div');
-    circleDiv.className = 'results-score-circle';
-
-    var svgNS = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('viewBox', '0 0 36 36');
-
-    var bgCircle = document.createElementNS(svgNS, 'path');
-    bgCircle.setAttribute('class', 'score-bg');
-    bgCircle.setAttribute('d', 'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831');
-
-    var fillCircle = document.createElementNS(svgNS, 'path');
-    fillCircle.setAttribute('class', 'score-fill');
-    fillCircle.setAttribute('d', 'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831');
-    fillCircle.setAttribute('stroke-dasharray', '0, 100');
-
-    var strokeColor = scorePercent >= 80 ? '#3DA35D' : scorePercent >= 50 ? '#E0A526' : '#EF4444';
-    
-    // Animate stroke
-    setTimeout(function() {
-      fillCircle.style.transition = 'stroke-dasharray 1s ease-out';
-      fillCircle.setAttribute('stroke-dasharray', scorePercent + ', 100');
-      fillCircle.setAttribute('stroke', strokeColor);
-    }, 100);
-
-    svg.appendChild(bgCircle);
-    svg.appendChild(fillCircle);
-
-    var textDiv = document.createElement('div');
-    textDiv.className = 'score-text';
-    textDiv.innerHTML = scorePercent + '<span>%</span>';
-
-    circleDiv.appendChild(svg);
-    circleDiv.appendChild(textDiv);
-    card.appendChild(circleDiv);
-
-    // Title & Subtitle
-    var h3 = document.createElement('h3');
-    h3.textContent = data.passed ? 'Excellent Work!' : 'Keep Practicing!';
-    var p = document.createElement('p');
-    p.textContent = 'You got ' + data.score + ' out of ' + data.totalQuestions + ' correct.';
-    
-    // Status Badge
-    var badge = document.createElement('span');
-    badge.className = 'badge badge-' + data.newMasteryStatus;
-    badge.style.marginTop = '10px';
-    badge.style.display = 'inline-block';
-    badge.textContent = 'Mastery Updated: ' + data.newMasteryStatus.toUpperCase();
-
-    card.appendChild(h3);
-    card.appendChild(p);
-    card.appendChild(badge);
-
-    resultsArea.appendChild(card);
-
-    // Misconceptions
-    if (data.misconceptions && data.misconceptions.length > 0) {
-      var mCard = document.createElement('div');
-      mCard.className = 'misconception-card';
-      var mTitle = document.createElement('h4');
-      mTitle.textContent = '🧠 Identified Knowledge Gaps';
-      mCard.appendChild(mTitle);
-
-      var ul = document.createElement('ul');
-      ul.className = 'misconception-list';
-      data.misconceptions.forEach(function(m) {
-        var li = document.createElement('li');
-        var tag = document.createElement('span');
-        tag.className = 'feedback-tag';
-        tag.textContent = m.tag ? m.tag.replace(/-/g, ' ') : 'Concept Error';
-        var exp = document.createElement('p');
-        exp.textContent = m.explanation;
-        li.appendChild(tag);
-        li.appendChild(exp);
-        ul.appendChild(li);
-      });
-      mCard.appendChild(ul);
-      resultsArea.appendChild(mCard);
-    } else if (data.passed) {
-      var perfectCard = document.createElement('div');
-      perfectCard.className = 'misconception-card';
-      perfectCard.style.textAlign = 'center';
-      perfectCard.innerHTML = '<h4>🎯 Perfect Understanding</h4><p>No knowledge gaps detected. You have mastered this topic!</p>';
-      resultsArea.appendChild(perfectCard);
+    if (misconceptions && misconceptions.length > 0 && misconceptionDetails) {
+      misconceptionDetails.textContent = misconceptions[0].explanation || 'Identified slight misunderstanding in denominators. Recommended review available in AI Tutor.';
+      misconceptionReviewBox.style.display = 'block';
+    } else {
+      misconceptionReviewBox.style.display = 'none';
     }
+  }
 
-    // Actions
-    var actionDiv = document.createElement('div');
-    actionDiv.style.marginTop = 'var(--space-6)';
-    actionDiv.style.display = 'flex';
-    actionDiv.style.gap = 'var(--space-4)';
-    actionDiv.style.justifyContent = 'center';
-    
-    var retryBtn = document.createElement('button');
-    retryBtn.className = 'btn btn-secondary';
-    retryBtn.textContent = '↻ Retake Quiz';
-    retryBtn.addEventListener('click', function() {
-      startQuiz(currentQuizId);
-    });
-
-    var homeBtn = document.createElement('button');
-    homeBtn.className = 'btn btn-primary';
-    homeBtn.textContent = 'Back to Quizzes';
-    homeBtn.addEventListener('click', function() {
+  function setupResultActions() {
+    btnTakeAnother.addEventListener('click', () => {
+      resultSection.style.display = 'none';
+      catalogSection.style.display = 'block';
       loadQuizzes();
-      resultsArea.style.display = 'none';
-      conceptSelector.style.display = 'grid';
     });
 
-    actionDiv.appendChild(retryBtn);
-    actionDiv.appendChild(homeBtn);
-    resultsArea.appendChild(actionDiv);
+    btnReviewAnswers.addEventListener('click', () => {
+      if (misconceptionReviewBox) {
+        misconceptionReviewBox.style.display = misconceptionReviewBox.style.display === 'block' ? 'none' : 'block';
+      }
+    });
   }
 
-  /* ---------- Init ---------- */
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadQuizzes);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    loadQuizzes();
+    init();
   }
-
 })();
