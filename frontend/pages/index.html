@@ -30,12 +30,7 @@
 
       <!-- LEFT: EduSetu Brand Logo -->
       <a href="index.html" class="landing-logo" aria-label="EduSetu Home">
-        <div class="landing-logo-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-          </svg>
-        </div>
+        <div class="landing-logo-badge">E</div>
         <div class="landing-logo-text">Edu<span>Setu</span></div>
       </a>
 
@@ -71,7 +66,7 @@
 
         <!-- Logged-out state button (Single prominent Sign Up CTA only) -->
         <div class="nav-auth-logged-out" id="navAuthLoggedOut" style="display: flex; align-items: center; gap: 10px;">
-          <button class="btn-nav-signup" id="navSignUpBtn" type="button">Sign Up</button>
+          <button class="btn-nav-signup" id="navSignUpBtn" type="button">Sign Up →</button>
         </div>
 
         <!-- Logged-in state buttons (Populated via /api/auth/me) -->
@@ -124,96 +119,116 @@
 
       <!-- Left Column: Headline, Highlights, CTA -->
       <div class="hero-left-col">
+        <div class="hero-top-badge">
+          <span class="badge-star">✦</span> AI-Powered Learning Platform
+        </div>
+
         <h1 class="hero-main-title">
           Learn Smarter<br>
-          with AI, <span class="text-gold-gradient">Your Way</span>
+          with AI, <span class="text-gold-gradient">Your Way</span> <span class="sparkle-star">✦</span>
         </h1>
 
         <p class="hero-description">
           Personalized, multilingual, and diagnostic-first learning for every learner — from school to college.
         </p>
 
-        <!-- 4 Compact Feature Highlights -->
-        <div class="hero-highlights-grid">
-          <div class="highlight-pill">
-            <span class="highlight-icon">✨</span>
-            <span class="highlight-label">Learn Any Subject</span>
+        <!-- 4 Circular Feature Highlights Row -->
+        <div class="hero-features-strip">
+          <div class="feature-strip-item blue">
+            <div class="strip-icon-circle blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <div class="strip-label-box">
+              <span class="strip-label-top">Learn</span>
+              <span class="strip-label-sub">Any Subject</span>
+            </div>
           </div>
-          <div class="highlight-pill">
-            <span class="highlight-icon">⚡</span>
-            <span class="highlight-label">Get Instant Doubt Support</span>
+
+          <div class="feature-strip-item indigo">
+            <div class="strip-icon-circle indigo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                <circle cx="12" cy="5" r="2"></circle>
+                <path d="M12 7v4"></path>
+                <line x1="8" y1="16" x2="8" y2="16"></line>
+                <line x1="16" y1="16" x2="16" y2="16"></line>
+              </svg>
+            </div>
+            <div class="strip-label-box">
+              <span class="strip-label-top">Get Instant</span>
+              <span class="strip-label-sub">Doubt Support</span>
+            </div>
           </div>
-          <div class="highlight-pill">
-            <span class="highlight-icon">📊</span>
-            <span class="highlight-label">Track Your Progress</span>
+
+          <div class="feature-strip-item green">
+            <div class="strip-icon-circle green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="strip-label-box">
+              <span class="strip-label-top">Track Your</span>
+              <span class="strip-label-sub">Progress</span>
+            </div>
           </div>
-          <div class="highlight-pill">
-            <span class="highlight-icon">🎯</span>
-            <span class="highlight-label">Personalized Learning Plan</span>
+
+          <div class="feature-strip-item purple">
+            <div class="strip-icon-circle purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div class="strip-label-box">
+              <span class="strip-label-top">Personalized</span>
+              <span class="strip-label-sub">Learning Plan</span>
+            </div>
           </div>
         </div>
 
         <!-- CTA Buttons -->
         <div class="hero-cta-wrap">
           <button class="hero-btn-primary" id="heroSignUpBtn" type="button">
-            🚀 Sign Up →
+            Sign Up →
           </button>
           <button class="hero-btn-secondary" id="heroWatchDemoBtn" type="button">
-            ▶ Watch Demo
+            <span class="play-icon-circle">▶</span> Watch Demo
           </button>
         </div>
 
         <!-- Subtle Sign In link for existing users -->
         <div class="hero-subtext-login">
-          Already a student or mentor? <a href="login.html" id="heroSignInLink">Sign In here</a>
+          Already registered? <a href="login.html" id="heroSignInLink">Sign In here</a>
+        </div>
+
+        <!-- Micro-features Checkmarks Row -->
+        <div class="hero-micro-checks">
+          <span class="micro-check-item">
+            <span class="check-icon">✓</span> Multilingual Support
+          </span>
+          <span class="micro-check-item">
+            <span class="check-icon">✓</span> Adaptive Quizzes
+          </span>
+          <span class="micro-check-item">
+            <span class="check-icon">✓</span> Concept Visualizations
+          </span>
+          <span class="micro-check-item">
+            <span class="check-icon">✓</span> Progress Tracking
+          </span>
         </div>
       </div>
 
-      <!-- Right Column: Visual Stage with Artwork & Floating Live Cards -->
+      <!-- Right Column: Visual Stage with Study Scene Artwork -->
       <div class="hero-right-col">
         <div class="hero-visual-stage">
-          <div class="hero-art-frame">
-            <img src="../assets/hero-student.jpg" alt="Student learning on laptop with AI Tutor" class="hero-student-artwork">
-            <div class="hero-art-vignette"></div>
-          </div>
-
-          <!-- Floating Card 1: AI Tutor Dialogue -->
-          <div class="hero-float-card card-ai-tutor">
-            <div class="float-card-header">
-              <span class="float-status-dot"></span>
-              <span class="float-header-title">AI Tutor · Instant Help</span>
-            </div>
-            <div class="float-chat-msg user">
-              "Can you explain photosynthesis in simple words?"
-            </div>
-            <div class="float-chat-msg ai">
-              <span>🌱</span> Green plants turn sunlight, water &amp; CO₂ into energy &amp; oxygen!
-            </div>
-          </div>
-
-          <!-- Floating Card 2: Today's Progress -->
-          <div class="hero-float-card card-progress">
-            <div class="progress-ring-box">
-              <svg width="42" height="42" viewBox="0 0 36 36" class="circular-chart">
-                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="circle" stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <text x="18" y="20.35" class="percentage">85%</text>
-              </svg>
-            </div>
-            <div class="progress-info">
-              <div class="progress-title">Today's Progress</div>
-              <div class="progress-streak">🔥 12-Day Streak · 85% Accuracy</div>
-            </div>
-          </div>
-
-          <!-- Floating Card 3: Next Topic Recommendation -->
-          <div class="hero-float-card card-recommend">
-            <div class="recommend-badge">Next Recommendation</div>
-            <div class="recommend-title">Fractions &amp; Decimals</div>
-            <div class="recommend-meta">
-              <span>Class 8 · Mathematics</span>
-              <span class="recommend-action">Start →</span>
-            </div>
+          <div class="hero-scene-frame">
+            <img src="../assets/hero-study-scene.jpg" alt="EduSetu AI Learning Experience with Student and AI Tutor" class="hero-study-img">
           </div>
         </div>
       </div>
@@ -224,34 +239,57 @@
     <div class="landing-stats-strip-wrap">
       <div class="landing-stats-strip">
         <div class="stats-strip-item">
-          <div class="stats-strip-icon-box blue">🎓</div>
-          <div class="stats-strip-text">
-            <span class="stats-strip-title">Happy Learners</span>
-            <span class="stats-strip-subtitle">Active Learning Community</span>
+          <div class="stats-icon-box gold">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="stats-text-block">
+            <span class="stats-value">10K+</span>
+            <span class="stats-label">Happy Learners</span>
           </div>
         </div>
-        <div class="stats-strip-divider"></div>
+
         <div class="stats-strip-item">
-          <div class="stats-strip-icon-box purple">📚</div>
-          <div class="stats-strip-text">
-            <span class="stats-strip-title">Subjects &amp; Topics</span>
-            <span class="stats-strip-subtitle">NCERT &amp; State Boards</span>
+          <div class="stats-icon-box blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+          </div>
+          <div class="stats-text-block">
+            <span class="stats-value">500+</span>
+            <span class="stats-label">Subjects &amp; Topics</span>
           </div>
         </div>
-        <div class="stats-strip-divider"></div>
+
         <div class="stats-strip-item">
-          <div class="stats-strip-icon-box green">🚀</div>
-          <div class="stats-strip-text">
-            <span class="stats-strip-title">Multi-Level Learning</span>
-            <span class="stats-strip-subtitle">Class 6 to College</span>
+          <div class="stats-icon-box purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div class="stats-text-block">
+            <span class="stats-value gold">Multi-Level</span>
+            <span class="stats-label">School to College</span>
           </div>
         </div>
-        <div class="stats-strip-divider"></div>
+
         <div class="stats-strip-item">
-          <div class="stats-strip-icon-box gold">🌐</div>
-          <div class="stats-strip-text">
-            <span class="stats-strip-title">Multilingual Support</span>
-            <span class="stats-strip-subtitle">English, हिन्दी &amp; More</span>
+          <div class="stats-icon-box cyan">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <div class="stats-text-block">
+            <span class="stats-value gold">Multilingual</span>
+            <span class="stats-label">Learn in Your Language</span>
           </div>
         </div>
       </div>
@@ -259,79 +297,101 @@
   </section>
 
   <!-- ============================================================
-       D. FEATURES SECTION (4 Visually Distinct Cards)
+       D. WHY CHOOSE EDUSETU & 4 FEATURE CARDS SHOWCASE
        ============================================================ -->
-  <section class="section-features-cards" id="features">
-    <div class="features-cards-container">
-      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
-        <span class="section-tag-pill">Core Features</span>
-        <h2 class="section-title">Everything You Need for a Better Learning Journey</h2>
-        <p class="section-subtitle">
+  <section class="section-features-showcase" id="features">
+    <div class="showcase-outer-panel">
+
+      <!-- Left Header Column -->
+      <div class="showcase-header-side">
+        <div class="showcase-badge">
+          <span class="badge-star">✦</span> Why Choose EduSetu
+        </div>
+        <h2 class="showcase-title">
+          Everything You Need<br>
+          for a <span class="text-gold-highlight">Better Learning Journey</span>
+        </h2>
+        <p class="showcase-subtitle">
           From concept clarity to exam preparation, EduSetu adapts to your level, pace and goals.
         </p>
+        <div class="showcase-arrow-cue">
+          <svg width="48" height="32" viewBox="0 0 60 40" fill="none">
+            <path d="M5 10 C 25 35, 40 35, 52 18" stroke="#A855F7" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M44 14 L 54 17 L 50 27" stroke="#A855F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
       </div>
 
-      <div class="features-cards-grid">
+      <!-- 4 Feature Cards Grid -->
+      <div class="showcase-cards-grid">
         <!-- Card 1: AI Tutor (Blue Accent) -->
-        <a href="chatbot.html" class="feature-glass-card card-accent-blue">
-          <div class="card-top-content">
-            <div class="card-icon-box blue">🤖</div>
-            <h3 class="card-title">AI Tutor</h3>
-            <p class="card-description">
-              Step-by-step explanations in simple language.
-            </p>
+        <a href="chatbot.html" class="feature-card card-ai-tutor-item">
+          <div class="card-icon-square blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2">
+              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+              <circle cx="12" cy="5" r="2"></circle>
+              <path d="M12 7v4"></path>
+              <line x1="8" y1="16" x2="8" y2="16"></line>
+              <line x1="16" y1="16" x2="16" y2="16"></line>
+            </svg>
           </div>
-          <div class="card-bottom-action">
-            <span class="card-action-text">Ask AI Tutor</span>
-            <div class="card-arrow-circle">→</div>
-          </div>
+          <h3 class="card-heading">AI Tutor</h3>
+          <p class="card-para">
+            Get instant, step-by-step explanations in simple language.
+          </p>
+          <div class="card-circle-arrow">→</div>
         </a>
 
         <!-- Card 2: Adaptive Quizzes (Purple Accent) -->
-        <a href="quiz.html" class="feature-glass-card card-accent-purple">
-          <div class="card-top-content">
-            <div class="card-icon-box purple">🎯</div>
-            <h3 class="card-title">Adaptive Quizzes</h3>
-            <p class="card-description">
-              Personalized questions and detailed feedback.
-            </p>
+        <a href="quiz.html" class="feature-card card-quizzes-item">
+          <div class="card-icon-square purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
           </div>
-          <div class="card-bottom-action">
-            <span class="card-action-text">Start Quiz</span>
-            <div class="card-arrow-circle">→</div>
-          </div>
+          <h3 class="card-heading">Adaptive Quizzes</h3>
+          <p class="card-para">
+            Practice with personalized questions and detailed feedback.
+          </p>
+          <div class="card-circle-arrow">→</div>
         </a>
 
         <!-- Card 3: Mastery Tracking (Emerald Accent) -->
-        <a href="mastery-map.html" class="feature-glass-card card-accent-green">
-          <div class="card-top-content">
-            <div class="card-icon-box green">🗺️</div>
-            <h3 class="card-title">Mastery Tracking</h3>
-            <p class="card-description">
-              Visualize progress and identify knowledge gaps.
-            </p>
+        <a href="mastery-map.html" class="feature-card card-mastery-item">
+          <div class="card-icon-square green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
           </div>
-          <div class="card-bottom-action">
-            <span class="card-action-text">View Mastery Map</span>
-            <div class="card-arrow-circle">→</div>
-          </div>
+          <h3 class="card-heading">Mastery Tracking</h3>
+          <p class="card-para">
+            Visualize your progress and focus on what matters.
+          </p>
+          <div class="card-circle-arrow">→</div>
         </a>
 
         <!-- Card 4: Personalized Learning (Gold Accent) -->
-        <a href="explore.html" class="feature-glass-card card-accent-gold">
-          <div class="card-top-content">
-            <div class="card-icon-box gold">⚡</div>
-            <h3 class="card-title">Personalized Learning</h3>
-            <p class="card-description">
-              Recommendations based on learning needs.
-            </p>
+        <a href="explore.html" class="feature-card card-learning-item">
+          <div class="card-icon-square gold">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2">
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+              <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+            </svg>
           </div>
-          <div class="card-bottom-action">
-            <span class="card-action-text">Explore Topics</span>
-            <div class="card-arrow-circle">→</div>
-          </div>
+          <h3 class="card-heading">Personalized Learning</h3>
+          <p class="card-para">
+            Get recommendations based on your strengths and goals.
+          </p>
+          <div class="card-circle-arrow">→</div>
         </a>
       </div>
+
     </div>
   </section>
 
