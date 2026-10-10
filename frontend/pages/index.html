@@ -30,9 +30,13 @@
 
       <!-- LEFT: EduSetu Brand Logo -->
       <a href="index.html" class="landing-logo" aria-label="EduSetu Home">
-        <div class="landing-logo-badge">E</div>
+        <div class="landing-logo-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+        </div>
         <div class="landing-logo-text">Edu<span>Setu</span></div>
-        <span class="landing-logo-tag">AI Beta</span>
       </a>
 
       <!-- CENTER: Public Marketing Anchor Links -->
@@ -65,10 +69,9 @@
           </div>
         </div>
 
-        <!-- Logged-out state buttons (Default) -->
+        <!-- Logged-out state button (Single prominent Sign Up CTA only) -->
         <div class="nav-auth-logged-out" id="navAuthLoggedOut" style="display: flex; align-items: center; gap: 10px;">
-          <button class="btn-nav-signin" id="navSignInBtn" type="button">Sign In</button>
-          <button class="btn-nav-getstarted" id="navGetStartedBtn" type="button">Get Started →</button>
+          <button class="btn-nav-signup" id="navSignUpBtn" type="button">Sign Up</button>
         </div>
 
         <!-- Logged-in state buttons (Populated via /api/auth/me) -->
@@ -114,164 +117,198 @@
   </div>
 
   <!-- ============================================================
-       HERO SECTION
+       HERO SECTION (Split-Layout Hero)
        ============================================================ -->
   <section class="landing-hero" id="hero">
     <div class="landing-hero-container">
 
+      <!-- Left Column: Headline, Highlights, CTA -->
+      <div class="hero-left-col">
+        <h1 class="hero-main-title">
+          Learn Smarter<br>
+          with AI, <span class="text-gold-gradient">Your Way</span>
+        </h1>
 
-      <!-- Main Headline -->
-      <h1 class="hero-main-title">
-        Your <span class="text-gold-gradient">AI Learning</span> Companion
-      </h1>
+        <p class="hero-description">
+          Personalized, multilingual, and diagnostic-first learning for every learner — from school to college.
+        </p>
 
-      <!-- Supporting Subtitle -->
-      <p class="hero-description">
-        Bridging the education gap with diagnostic-first, multilingual AI tutoring. Don't just answer the question — find the gap.
-      </p>
+        <!-- 4 Compact Feature Highlights -->
+        <div class="hero-highlights-grid">
+          <div class="highlight-pill">
+            <span class="highlight-icon">✨</span>
+            <span class="highlight-label">Learn Any Subject</span>
+          </div>
+          <div class="highlight-pill">
+            <span class="highlight-icon">⚡</span>
+            <span class="highlight-label">Get Instant Doubt Support</span>
+          </div>
+          <div class="highlight-pill">
+            <span class="highlight-icon">📊</span>
+            <span class="highlight-label">Track Your Progress</span>
+          </div>
+          <div class="highlight-pill">
+            <span class="highlight-icon">🎯</span>
+            <span class="highlight-label">Personalized Learning Plan</span>
+          </div>
+        </div>
 
-      <!-- CTA Buttons -->
-      <div class="hero-cta-wrap">
-        <button class="hero-btn-primary" id="heroGetStartedBtn" type="button">
-          🚀 Get Started
-        </button>
-        <a href="#how-it-works" class="hero-btn-secondary">
-          ▶ Watch Demo / How It Works
-        </a>
+        <!-- CTA Buttons -->
+        <div class="hero-cta-wrap">
+          <button class="hero-btn-primary" id="heroSignUpBtn" type="button">
+            🚀 Sign Up →
+          </button>
+          <button class="hero-btn-secondary" id="heroWatchDemoBtn" type="button">
+            ▶ Watch Demo
+          </button>
+        </div>
+
+        <!-- Subtle Sign In link for existing users -->
+        <div class="hero-subtext-login">
+          Already a student or mentor? <a href="login.html" id="heroSignInLink">Sign In here</a>
+        </div>
       </div>
 
-      <!-- SaaS Interactive Product Mockup Showcase -->
-      <div class="hero-mockup-wrapper">
-        <div class="hero-mockup-card">
-          <div class="mockup-header-bar">
-            <div class="mockup-dots">
-              <span class="mockup-dot red"></span>
-              <span class="mockup-dot yellow"></span>
-              <span class="mockup-dot green"></span>
+      <!-- Right Column: Visual Stage with Artwork & Floating Live Cards -->
+      <div class="hero-right-col">
+        <div class="hero-visual-stage">
+          <div class="hero-art-frame">
+            <img src="../assets/hero-student.jpg" alt="Student learning on laptop with AI Tutor" class="hero-student-artwork">
+            <div class="hero-art-vignette"></div>
+          </div>
+
+          <!-- Floating Card 1: AI Tutor Dialogue -->
+          <div class="hero-float-card card-ai-tutor">
+            <div class="float-card-header">
+              <span class="float-status-dot"></span>
+              <span class="float-header-title">AI Tutor · Instant Help</span>
             </div>
-            <div class="mockup-title">EduSetu Diagnostic Engine v2.4 · Real-time AI Socratic Session</div>
-            <div class="mockup-status-badge">
-              <span class="mockup-status-dot"></span>
-              <span>Live Engine Connected</span>
+            <div class="float-chat-msg user">
+              "Can you explain photosynthesis in simple words?"
+            </div>
+            <div class="float-chat-msg ai">
+              <span>🌱</span> Green plants turn sunlight, water &amp; CO₂ into energy &amp; oxygen!
             </div>
           </div>
 
-          <div class="mockup-body-grid">
-            <!-- Simulated AI Tutor Dialogue -->
-            <div class="mockup-chat-panel">
-              <div class="chat-bubble student">
-                <div class="sender">Student (Class 8)</div>
-                <div>Why is 1/2 + 1/3 not equal to 2/5? My classmate said we can just add the numerators and denominators directly!</div>
-              </div>
-
-              <div class="chat-bubble ai">
-                <div class="sender">
-                  <span>🤖</span> EduSetu AI Tutor (Diagnostic Mode)
-                </div>
-                <div>
-                  Great question! That is one of the most common misconceptions in mathematics (adding across denominators). 
-                  Remember: fractions represent portions of different slice sizes. 1/2 slice is much larger than 1/3 slice, so you can't add them directly without finding a <strong>common denominator</strong> (6ths) first!
-                  <br>
-                  <span class="misconception-tag-pill">
-                    🔍 Tagged Misconception: <code>fraction_addition_denominator</code>
-                  </span>
-                </div>
-              </div>
+          <!-- Floating Card 2: Today's Progress -->
+          <div class="hero-float-card card-progress">
+            <div class="progress-ring-box">
+              <svg width="42" height="42" viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <text x="18" y="20.35" class="percentage">85%</text>
+              </svg>
             </div>
+            <div class="progress-info">
+              <div class="progress-title">Today's Progress</div>
+              <div class="progress-streak">🔥 12-Day Streak · 85% Accuracy</div>
+            </div>
+          </div>
 
-            <!-- Student Diagnostic Analytics Preview -->
-            <div class="mockup-analytics-panel">
-              <div class="analytics-widget-header">
-                <span>Concept Mastery Live</span>
-                <span style="color: #60A5FA;">CBSE Class 8</span>
-              </div>
-
-              <div class="progress-metric-item">
-                <div class="metric-meta">
-                  <span>Rational Numbers</span>
-                  <span style="color: var(--lp-gold);">78% Mastered</span>
-                </div>
-                <div class="progress-bar-track">
-                  <div class="progress-bar-fill gold" style="width: 78%;"></div>
-                </div>
-              </div>
-
-              <div class="progress-metric-item">
-                <div class="metric-meta">
-                  <span>Algebraic Equations</span>
-                  <span style="color: #34D399;">92% Mastered</span>
-                </div>
-                <div class="progress-bar-track">
-                  <div class="progress-bar-fill green" style="width: 92%;"></div>
-                </div>
-              </div>
-
-              <div class="mockup-badges-row">
-                <div class="mockup-mini-badge">
-                  <div class="val">14</div>
-                  <div class="lbl">Concept Streaks</div>
-                </div>
-                <div class="mockup-mini-badge">
-                  <div class="val">98%</div>
-                  <div class="lbl">Diagnostic Accuracy</div>
-                </div>
-                <div class="mockup-mini-badge">
-                  <div class="val">Zero</div>
-                  <div class="lbl">Mock Data Policy</div>
-                </div>
-              </div>
+          <!-- Floating Card 3: Next Topic Recommendation -->
+          <div class="hero-float-card card-recommend">
+            <div class="recommend-badge">Next Recommendation</div>
+            <div class="recommend-title">Fractions &amp; Decimals</div>
+            <div class="recommend-meta">
+              <span>Class 8 · Mathematics</span>
+              <span class="recommend-action">Start →</span>
             </div>
           </div>
         </div>
       </div>
 
     </div>
+
+    <!-- C. Horizontal Learning Statistics Strip -->
+    <div class="landing-stats-strip-wrap">
+      <div class="landing-stats-strip">
+        <div class="stats-strip-item">
+          <div class="stats-strip-icon-box blue">🎓</div>
+          <div class="stats-strip-text">
+            <span class="stats-strip-title">Happy Learners</span>
+            <span class="stats-strip-subtitle">Active Learning Community</span>
+          </div>
+        </div>
+        <div class="stats-strip-divider"></div>
+        <div class="stats-strip-item">
+          <div class="stats-strip-icon-box purple">📚</div>
+          <div class="stats-strip-text">
+            <span class="stats-strip-title">Subjects &amp; Topics</span>
+            <span class="stats-strip-subtitle">NCERT &amp; State Boards</span>
+          </div>
+        </div>
+        <div class="stats-strip-divider"></div>
+        <div class="stats-strip-item">
+          <div class="stats-strip-icon-box green">🚀</div>
+          <div class="stats-strip-text">
+            <span class="stats-strip-title">Multi-Level Learning</span>
+            <span class="stats-strip-subtitle">Class 6 to College</span>
+          </div>
+        </div>
+        <div class="stats-strip-divider"></div>
+        <div class="stats-strip-item">
+          <div class="stats-strip-icon-box gold">🌐</div>
+          <div class="stats-strip-text">
+            <span class="stats-strip-title">Multilingual Support</span>
+            <span class="stats-strip-subtitle">English, हिन्दी &amp; More</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ============================================================
-       4 FEATURE CARDS SECTION (Directly Below Hero)
+       D. FEATURES SECTION (4 Visually Distinct Cards)
        ============================================================ -->
   <section class="section-features-cards" id="features">
     <div class="features-cards-container">
-      <div class="features-cards-grid">
+      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+        <span class="section-tag-pill">Core Features</span>
+        <h2 class="section-title">Everything You Need for a Better Learning Journey</h2>
+        <p class="section-subtitle">
+          From concept clarity to exam preparation, EduSetu adapts to your level, pace and goals.
+        </p>
+      </div>
 
-        <!-- Card 1: AI Tutor -->
-        <a href="chatbot.html" class="feature-glass-card">
+      <div class="features-cards-grid">
+        <!-- Card 1: AI Tutor (Blue Accent) -->
+        <a href="chatbot.html" class="feature-glass-card card-accent-blue">
           <div class="card-top-content">
-            <div class="card-icon-box gold">🤖</div>
+            <div class="card-icon-box blue">🤖</div>
             <h3 class="card-title">AI Tutor</h3>
             <p class="card-description">
-              Instant doubt-solving in Hindi &amp; English. Step-by-step Socratic explanations adapted to your grade and learning pace.
+              Step-by-step explanations in simple language.
             </p>
           </div>
           <div class="card-bottom-action">
-            <span class="card-action-text">Launch AI Tutor</span>
+            <span class="card-action-text">Ask AI Tutor</span>
             <div class="card-arrow-circle">→</div>
           </div>
         </a>
 
-        <!-- Card 2: Adaptive Quizzes -->
-        <a href="quiz.html" class="feature-glass-card">
+        <!-- Card 2: Adaptive Quizzes (Purple Accent) -->
+        <a href="quiz.html" class="feature-glass-card card-accent-purple">
           <div class="card-top-content">
-            <div class="card-icon-box blue">🎯</div>
+            <div class="card-icon-box purple">🎯</div>
             <h3 class="card-title">Adaptive Quizzes</h3>
             <p class="card-description">
-              Pinpoint root misconceptions instead of only calculating test marks with diagnostic tagging and targeted re-testing.
+              Personalized questions and detailed feedback.
             </p>
           </div>
           <div class="card-bottom-action">
-            <span class="card-action-text">Take Diagnostic Quiz</span>
+            <span class="card-action-text">Start Quiz</span>
             <div class="card-arrow-circle">→</div>
           </div>
         </a>
 
-        <!-- Card 3: Mastery Tracking -->
-        <a href="mastery-map.html" class="feature-glass-card">
+        <!-- Card 3: Mastery Tracking (Emerald Accent) -->
+        <a href="mastery-map.html" class="feature-glass-card card-accent-green">
           <div class="card-top-content">
             <div class="card-icon-box green">🗺️</div>
             <h3 class="card-title">Mastery Tracking</h3>
             <p class="card-description">
-              Visual knowledge map revealing mastered and unmastered concepts across your full state board or NCERT syllabus.
+              Visualize progress and identify knowledge gaps.
             </p>
           </div>
           <div class="card-bottom-action">
@@ -280,21 +317,20 @@
           </div>
         </a>
 
-        <!-- Card 4: Personalized Learning -->
-        <a href="explore.html" class="feature-glass-card">
+        <!-- Card 4: Personalized Learning (Gold Accent) -->
+        <a href="explore.html" class="feature-glass-card card-accent-gold">
           <div class="card-top-content">
-            <div class="card-icon-box purple">⚡</div>
+            <div class="card-icon-box gold">⚡</div>
             <h3 class="card-title">Personalized Learning</h3>
             <p class="card-description">
-              Diagnostic-first step-by-step guidance tailored for every student to transform stumbling blocks into strengths.
+              Recommendations based on learning needs.
             </p>
           </div>
           <div class="card-bottom-action">
-            <span class="card-action-text">Explore Curriculum</span>
+            <span class="card-action-text">Explore Topics</span>
             <div class="card-arrow-circle">→</div>
           </div>
         </a>
-
       </div>
     </div>
   </section>
@@ -488,7 +524,12 @@
         <!-- Column 1: Brand -->
         <div>
           <div class="landing-logo">
-            <div class="landing-logo-badge">E</div>
+            <div class="landing-logo-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
             <div class="landing-logo-text">Edu<span>Setu</span></div>
           </div>
           <p class="footer-brand-p">
@@ -515,6 +556,7 @@
             <li><a href="mentor.html">Mentor Dashboard</a></li>
             <li><a href="profile.html">Account Settings</a></li>
             <li><a href="#about">Our Mission</a></li>
+            <li><a href="login.html">Sign In</a></li>
           </ul>
         </div>
 
@@ -526,6 +568,7 @@
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#subjects">Subjects</a></li>
             <li><a href="#about">About &amp; Impact</a></li>
+            <li><a href="login.html">Existing Student Login</a></li>
           </ul>
         </div>
 
@@ -541,6 +584,43 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============================================================
+       WATCH DEMO INTERACTIVE MODAL
+       ============================================================ -->
+  <div class="demo-modal-overlay" id="demoModalOverlay" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
+    <div class="demo-modal-card">
+      <button class="demo-modal-close" id="demoModalCloseBtn" aria-label="Close demo" type="button">✕</button>
+
+      <div class="demo-modal-header">
+        <span class="section-tag-pill" style="margin-bottom: 8px;">Interactive Demo</span>
+        <h3 id="demoModalTitle">How EduSetu Transforms Your Learning</h3>
+        <p>Experience how our diagnostic AI breaks down difficult concepts into mastery</p>
+      </div>
+
+      <!-- Demo Steps Tabs -->
+      <div class="demo-tabs-bar">
+        <button class="demo-tab-btn active" data-step="1" type="button">1. Ask Doubt</button>
+        <button class="demo-tab-btn" data-step="2" type="button">2. AI Diagnosis</button>
+        <button class="demo-tab-btn" data-step="3" type="button">3. Mastery Map</button>
+        <button class="demo-tab-btn" data-step="4" type="button">4. Adaptive Quiz</button>
+      </div>
+
+      <!-- Demo Stage Content Box -->
+      <div class="demo-stage-box" id="demoStageBox">
+        <!-- Injected dynamically via script -->
+      </div>
+
+      <div class="demo-modal-footer">
+        <button type="button" class="hero-btn-primary" id="demoTryTutorBtn" style="padding: 10px 24px; font-size: 0.9rem;">
+          Try Live in AI Tutor →
+        </button>
+        <button type="button" class="hero-btn-secondary" id="demoCloseFootBtn" style="padding: 10px 20px; font-size: 0.9rem;">
+          Close Demo
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================================
        AUTHENTICATION MODAL (Sign In & Get Started)
@@ -643,13 +723,21 @@
       const userDropdownMenu = document.getElementById('userDropdownMenu');
       const userDropdownName = document.getElementById('userDropdownName');
       const userDropdownEmail = document.getElementById('userDropdownEmail');
-      const navSignInBtn = document.getElementById('navSignInBtn');
-      const navGetStartedBtn = document.getElementById('navGetStartedBtn');
+      const navSignUpBtn = document.getElementById('navSignUpBtn');
       const navLogoutBtn = document.getElementById('navLogoutBtn');
-      const heroGetStartedBtn = document.getElementById('heroGetStartedBtn');
+      const heroSignUpBtn = document.getElementById('heroSignUpBtn');
+      const heroWatchDemoBtn = document.getElementById('heroWatchDemoBtn');
       const ctaBannerBtn = document.getElementById('ctaBannerBtn');
 
-      // Modal elements
+      // Demo Modal elements
+      const demoModalOverlay = document.getElementById('demoModalOverlay');
+      const demoModalCloseBtn = document.getElementById('demoModalCloseBtn');
+      const demoCloseFootBtn = document.getElementById('demoCloseFootBtn');
+      const demoStageBox = document.getElementById('demoStageBox');
+      const demoTryTutorBtn = document.getElementById('demoTryTutorBtn');
+      const demoTabBtns = document.querySelectorAll('.demo-tab-btn');
+
+      // Auth Modal elements
       const authModalOverlay = document.getElementById('authModalOverlay');
       const authModalCloseBtn = document.getElementById('authModalCloseBtn');
       const tabSignInBtn = document.getElementById('tabSignInBtn');
@@ -719,9 +807,12 @@
           navUserAvatar.textContent = (displayName.charAt(0) || 'S').toUpperCase();
 
           // Hero buttons redirect to dashboard
-          heroGetStartedBtn.onclick = function() {
-            window.location.href = 'dashboard.html';
-          };
+          if (heroSignUpBtn) {
+            heroSignUpBtn.innerHTML = '📊 Go to Dashboard →';
+            heroSignUpBtn.onclick = function() {
+              window.location.href = 'dashboard.html';
+            };
+          }
           if (ctaBannerBtn) {
             ctaBannerBtn.onclick = function() {
               window.location.href = 'dashboard.html';
@@ -730,10 +821,10 @@
 
           // Mobile Drawer actions for logged-in
           mobileAuthContainer.innerHTML = `
-            <a href="dashboard.html" class="btn-nav-dashboard" style="text-align: center; justify-content: center;">
+            <a href="dashboard.html" class="btn-nav-dashboard" style="text-align: center; justify-content: center; width: 100%;">
               Go to Dashboard →
             </a>
-            <button type="button" class="btn-nav-signin" id="mobileLogoutBtn" style="color: #F87171;">
+            <button type="button" class="btn-nav-signin" id="mobileLogoutBtn" style="color: #F87171; justify-content: center; width: 100%;">
               Log Out (${displayName})
             </button>
           `;
@@ -743,26 +834,25 @@
           navAuthLoggedOut.style.display = 'flex';
           navAuthLoggedIn.style.display = 'none';
 
-          heroGetStartedBtn.onclick = function() {
-            openAuthModal('register');
-          };
+          if (heroSignUpBtn) {
+            heroSignUpBtn.innerHTML = '🚀 Sign Up →';
+            heroSignUpBtn.onclick = function() {
+              window.location.href = 'register.html';
+            };
+          }
           if (ctaBannerBtn) {
             ctaBannerBtn.onclick = function() {
-              openAuthModal('register');
+              window.location.href = 'register.html';
             };
           }
 
           // Mobile Drawer actions for logged-out
           mobileAuthContainer.innerHTML = `
-            <button type="button" class="btn-nav-signin" id="mobileSignInBtn">Sign In</button>
-            <button type="button" class="btn-nav-getstarted" id="mobileGetStartedBtn" style="justify-content: center;">
-              Get Started →
-            </button>
+            <a href="login.html" class="btn-nav-signin" style="text-align: center; justify-content: center; width: 100%;">Sign In</a>
+            <a href="register.html" class="btn-nav-signup" style="text-align: center; justify-content: center; width: 100%;">
+              Sign Up →
+            </a>
           `;
-          const mobileSign = document.getElementById('mobileSignInBtn');
-          const mobileGet = document.getElementById('mobileGetStartedBtn');
-          if (mobileSign) mobileSign.onclick = () => { closeMobileDrawer(); openAuthModal('signin'); };
-          if (mobileGet) mobileGet.onclick = () => { closeMobileDrawer(); openAuthModal('register'); };
         }
       }
 
@@ -773,10 +863,10 @@
       });
 
       document.addEventListener('click', function(e) {
-        if (!userMenuWrap.contains(e.target)) {
+        if (userMenuWrap && !userMenuWrap.contains(e.target)) {
           userDropdownMenu.classList.remove('show');
         }
-        if (!langSelectorWrap.contains(e.target)) {
+        if (langSelectorWrap && !langSelectorWrap.contains(e.target)) {
           langDropdownMenu.classList.remove('show');
         }
       });
@@ -815,7 +905,170 @@
         link.addEventListener('click', closeMobileDrawer);
       });
 
-      /* ---------- 6. Auth Modal Controls ---------- */
+      /* ---------- 6. Sign Up Navigation Action ---------- */
+      if (navSignUpBtn) {
+        navSignUpBtn.addEventListener('click', function() {
+          window.location.href = 'register.html';
+        });
+      }
+
+      /* ---------- 7. Interactive Demo Walkthrough Modal ---------- */
+      const demoSteps = [
+        {
+          step: 1,
+          badge: "Step 1 · Vernacular Input",
+          desc: "Type or dictate your doubt in Hindi, Hinglish, or English without hesitation.",
+          html: `
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+                <div style="font-size:0.75rem; color:#94A3B8; margin-bottom:4px; font-weight:600;">STUDENT DOUBT</div>
+                <div style="color:#F1F5F9; font-size:0.9rem; line-height:1.4;">
+                  "Sir, Newton ka Third Law me Action and Reaction cancel kyu nahi hote agar equal and opposite hain?"
+                </div>
+              </div>
+              <div style="background:rgba(30,58,138,0.25); border:1px solid rgba(59,130,246,0.3); border-radius:10px; padding:12px 14px;">
+                <div style="font-size:0.75rem; color:#60A5FA; margin-bottom:4px; font-weight:600;">🤖 AI TUTOR SOCRATIC GUIDANCE</div>
+                <div style="color:#E2E8F0; font-size:0.875rem; line-height:1.45;">
+                  Bahut badhiya sawaal! Cancellation tab hoti hai jab do forces <strong>ek hi body</strong> par lagte hain. Par Newton ke 3rd Law me action aur reaction <strong>do alag-alag bodies</strong> par act karte hain!
+                </div>
+              </div>
+            </div>
+          `
+        },
+        {
+          step: 2,
+          badge: "Step 2 · Misconception Diagnosis",
+          desc: "EduSetu pinpoints the root misconception rather than just reciting final textbook answers.",
+          html: `
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:12px 14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:0.75rem; color:#F87171; font-weight:700;">DIAGNOSED MISCONCEPTION</span>
+                  <span style="font-size:0.7rem; background:rgba(239,68,68,0.2); color:#FCA5A5; padding:2px 8px; border-radius:12px;">Root Gap</span>
+                </div>
+                <div style="color:#FEE2E2; font-size:0.875rem; font-weight:500;">
+                  Confusing Balanced Forces (Equilibrium on 1 object) with Action-Reaction Pairs (Interactions between 2 distinct bodies).
+                </div>
+              </div>
+              <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); border-radius:10px; padding:12px 14px;">
+                <div style="font-size:0.75rem; color:#34D399; margin-bottom:4px; font-weight:700;">REMEDIATION STRATEGY</div>
+                <div style="color:#D1FAE5; font-size:0.85rem; line-height:1.4;">
+                  Interactive free-body diagram isolation practice to visualize both bodies independently.
+                </div>
+              </div>
+            </div>
+          `
+        },
+        {
+          step: 3,
+          badge: "Step 3 · Concept Mastery Graph",
+          desc: "Real-time concept graph monitors prerequisites and uncovers exact knowledge gaps.",
+          html: `
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px;">
+                  <div style="font-size:0.7rem; color:#94A3B8;">Velocity &amp; Acceleration</div>
+                  <div style="color:#10B981; font-weight:700; font-size:1.1rem; margin-top:2px;">94% <span style="font-size:0.7rem; color:#6EE7B7; font-weight:normal;">Mastered</span></div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px;">
+                  <div style="font-size:0.7rem; color:#94A3B8;">Newton's 3rd Law</div>
+                  <div style="color:#F59E0B; font-weight:700; font-size:1.1rem; margin-top:2px;">68% <span style="font-size:0.7rem; color:#FCD34D; font-weight:normal;">In Review</span></div>
+                </div>
+              </div>
+              <div style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); border-radius:10px; padding:10px 14px;">
+                <div style="font-size:0.75rem; color:#A5B4FC; font-weight:600;">RECOMMENDED NEXT TOPIC</div>
+                <div style="color:#FFFFFF; font-size:0.9rem; font-weight:600; margin-top:2px;">Conservation of Momentum</div>
+                <div style="font-size:0.75rem; color:#CBD5E1; margin-top:2px;">Prerequisites 92% fulfilled • Estimated 12 min session</div>
+              </div>
+            </div>
+          `
+        },
+        {
+          step: 4,
+          badge: "Step 4 · Adaptive Diagnostic Quiz",
+          desc: "Questions dynamically calibrate difficulty to confirm lasting retention.",
+          html: `
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+                <div style="font-size:0.75rem; color:#F59E0B; font-weight:600; margin-bottom:4px;">DIAGNOSTIC QUESTION 1 OF 3</div>
+                <div style="color:#F1F5F9; font-size:0.875rem; margin-bottom:10px;">A swimmer pushes water backwards to move forward. Which law explains this?</div>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <div style="background:rgba(16,185,129,0.2); border:1px solid #10B981; border-radius:6px; padding:8px 12px; font-size:0.8rem; color:#A7F3D0; font-weight:600;">
+                    ✓ Newton's Third Law (Action-Reaction pair on separate bodies)
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:8px 12px; font-size:0.8rem; color:#94A3B8;">
+                    ○ Newton's First Law (Law of Inertia)
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#94A3B8; padding:0 4px;">
+                <span>Accuracy: <strong style="color:#10B981;">92%</strong></span>
+                <span>Active Streak: <strong style="color:#F59E0B;">🔥 4 Days</strong></span>
+              </div>
+            </div>
+          `
+        }
+      ];
+
+      function renderDemoStep(stepNum) {
+        const stepData = demoSteps.find(s => s.step === Number(stepNum)) || demoSteps[0];
+        demoTabBtns.forEach(btn => {
+          if (Number(btn.getAttribute('data-step')) === Number(stepNum)) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        if (demoStageBox) {
+          demoStageBox.innerHTML = `
+            <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <span style="font-size: 0.75rem; background: rgba(59,130,246,0.15); color: #60A5FA; padding: 3px 10px; border-radius: 999px; font-weight: 600; border: 1px solid rgba(59,130,246,0.25);">
+                ${stepData.badge}
+              </span>
+              <span style="font-size: 0.8rem; color: #94A3B8;">${stepData.desc}</span>
+            </div>
+            ${stepData.html}
+          `;
+        }
+      }
+
+      function openDemoModal() {
+        if (!demoModalOverlay) return;
+        demoModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderDemoStep(1);
+      }
+
+      function closeDemoModal() {
+        if (!demoModalOverlay) return;
+        demoModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (heroWatchDemoBtn) heroWatchDemoBtn.addEventListener('click', openDemoModal);
+      if (demoModalCloseBtn) demoModalCloseBtn.addEventListener('click', closeDemoModal);
+      if (demoCloseFootBtn) demoCloseFootBtn.addEventListener('click', closeDemoModal);
+
+      if (demoModalOverlay) {
+        demoModalOverlay.addEventListener('click', function(e) {
+          if (e.target === demoModalOverlay) closeDemoModal();
+        });
+      }
+
+      demoTabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const step = this.getAttribute('data-step');
+          renderDemoStep(step);
+        });
+      });
+
+      if (demoTryTutorBtn) {
+        demoTryTutorBtn.addEventListener('click', function() {
+          window.location.href = 'chatbot.html';
+        });
+      }
+
+      /* ---------- 8. Auth Modal Controls ---------- */
       function openAuthModal(mode) {
         authStatusMsg.className = 'auth-status-msg';
         authStatusMsg.style.display = 'none';
@@ -843,7 +1096,7 @@
           registerForm.style.display = 'block';
           signInForm.style.display = 'none';
           authModalTitle.textContent = 'Create Student Account';
-          authModalSubtitle = 'Join EduSetu to begin your personalized learning journey';
+          authModalSubtitle.textContent = 'Join EduSetu to begin your personalized learning journey';
           document.getElementById('regName').focus();
         } else {
           tabSignInBtn.classList.add('active');
@@ -851,39 +1104,41 @@
           signInForm.style.display = 'block';
           registerForm.style.display = 'none';
           authModalTitle.textContent = 'Welcome Back';
-          authModalSubtitle = 'Sign in with your email and password';
+          authModalSubtitle.textContent = 'Sign in with your email and password';
           document.getElementById('loginEmail').focus();
         }
       }
 
-      navSignInBtn.addEventListener('click', () => { window.location.href = 'login.html'; });
-      navGetStartedBtn.addEventListener('click', () => { window.location.href = 'register.html'; });
-      if (heroGetStartedBtn) heroGetStartedBtn.addEventListener('click', () => { window.location.href = 'register.html'; });
-      authModalCloseBtn.addEventListener('click', closeAuthModal);
-      tabSignInBtn.addEventListener('click', () => switchTab('signin'));
-      tabRegisterBtn.addEventListener('click', () => switchTab('register'));
+      if (authModalCloseBtn) authModalCloseBtn.addEventListener('click', closeAuthModal);
+      if (tabSignInBtn) tabSignInBtn.addEventListener('click', () => switchTab('signin'));
+      if (tabRegisterBtn) tabRegisterBtn.addEventListener('click', () => switchTab('register'));
 
       // Outside click close
-      authModalOverlay.addEventListener('click', function(e) {
-        if (e.target === authModalOverlay) {
-          closeAuthModal();
-        }
-      });
+      if (authModalOverlay) {
+        authModalOverlay.addEventListener('click', function(e) {
+          if (e.target === authModalOverlay) {
+            closeAuthModal();
+          }
+        });
+      }
 
       // Escape key close
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && authModalOverlay.classList.contains('active')) {
-          closeAuthModal();
+        if (e.key === 'Escape') {
+          if (authModalOverlay && authModalOverlay.classList.contains('active')) closeAuthModal();
+          if (demoModalOverlay && demoModalOverlay.classList.contains('active')) closeDemoModal();
         }
       });
 
       // Quick test credentials fill button
-      demoFillBtn.addEventListener('click', function() {
-        document.getElementById('loginEmail').value = 'student1@edusetu.in';
-        document.getElementById('loginPassword').value = 'Password123!';
-      });
+      if (demoFillBtn) {
+        demoFillBtn.addEventListener('click', function() {
+          document.getElementById('loginEmail').value = 'student1@edusetu.in';
+          document.getElementById('loginPassword').value = 'Password123!';
+        });
+      }
 
-      /* ---------- 7. Sign In Form Submission (POST /api/auth/login) ---------- */
+      /* ---------- 9. Sign In Form Submission (POST /api/auth/login) ---------- */
       signInForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
@@ -925,7 +1180,7 @@
         }
       });
 
-      /* ---------- 8. Register Form Submission (POST /api/auth/register) ---------- */
+      /* ---------- 10. Register Form Submission (POST /api/auth/register) ---------- */
       registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const name = document.getElementById('regName').value.trim();
@@ -986,7 +1241,7 @@
         authStatusMsg.style.display = 'block';
       }
 
-      /* ---------- 9. Logout Action (/api/auth/logout) ---------- */
+      /* ---------- 11. Logout Action (/api/auth/logout) ---------- */
       async function handleLogout() {
         try {
           await fetch('/api/auth/logout', {
@@ -1000,9 +1255,9 @@
         checkAuthSession();
       }
 
-      navLogoutBtn.addEventListener('click', handleLogout);
+      if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleLogout);
 
-      /* ---------- 10. Smooth Scroll & Active Nav Highlighter ---------- */
+      /* ---------- 12. Smooth Scroll & Active Nav Highlighter ---------- */
       const navLinks = document.querySelectorAll('.landing-nav-center .landing-nav-link');
       const sections = document.querySelectorAll('section[id]');
 
