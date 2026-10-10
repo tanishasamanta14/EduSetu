@@ -10,7 +10,7 @@ Existing ed-tech solutions (Byju's, Khan Academy, Vedantu, etc.) are mostly **En
 - Give **teachers/parents early warning** before a student disengages completely
 - Work meaningfully on **low-end devices / patchy internet**
 
-There is a need for an affordable, multilingual, **diagnostic-first** AI learning platform that doesn't just answer questions, but identifies *which specific misconception* is causing a student to struggle, explains it adaptively, and surfaces that insight to the people who can intervene — bridging the gap toward SDG 4 and SDG 10.
+There is a need for an affordable, multilingual, **diagnostic-first** AI learning platform that doesn't just answer questions, but identifies *which specific misconception* is causing a student to struggle, explains it adaptively, and surfaces that insight to the people who can intervene — bridging the educational gap through inclusive, scalable learning.
 
 ---
 
@@ -72,7 +72,7 @@ This gives students, teachers, and parents an honest, at-a-glance picture of *re
 ### 3.2 Pages / Modules
 
 1. **Landing Page** (`index.html`)
-   - Hero, problem stats, features, SDG mapping, how-it-works
+   - Hero, problem stats, features, mission impact, how-it-works
    - (Already built — reuse existing design system)
 
 2. **AI Tutor / Chatbot** (`chatbot.html`)
@@ -325,7 +325,7 @@ const QUIZZES = {
 - **For students:** A judgment-free space to ask "dumb questions" repeatedly, in their own language, with visual proof of progress (Mastery Map) that builds confidence instead of anxiety.
 - **For teachers:** Auto-generated, concept-level insight into *why* a student is struggling — replacing guesswork with targeted intervention, even across large classes.
 - **For parents:** A simple weekly note in plain language, without needing to understand the curriculum themselves.
-- **For the SDG goals:** Directly targets learning quality (SDG 4) and the urban-rural/income-based learning gap (SDG 10) through language accessibility, offline support, and free/low-cost diagnostic tutoring.
+- **For educational equity:** Directly targets learning quality and the urban-rural/income-based learning gap through language accessibility, offline support, and free/low-cost diagnostic tutoring.
 
 ---
 

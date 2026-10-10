@@ -548,7 +548,7 @@ body.landing-body {
 .landing-hero {
   position: relative;
   z-index: 10;
-  padding-top: 150px;
+  padding-top: 135px;
   padding-bottom: 70px;
   text-align: center;
 }
@@ -557,23 +557,6 @@ body.landing-body {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.hero-badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 18px;
-  border-radius: var(--lp-radius-full);
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
-  color: #FDE68A;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  margin-bottom: 28px;
-  animation: fadeInDown 0.6s ease;
 }
 
 .hero-main-title {
@@ -1189,7 +1172,7 @@ body.landing-body {
   line-height: 1.6;
 }
 
-/* ---------- ABOUT / SDG SECTION (#about) ---------- */
+/* ---------- ABOUT / MISSION SECTION (#about) ---------- */
 .section-about {
   position: relative;
   z-index: 10;
@@ -1202,14 +1185,14 @@ body.landing-body {
   padding: 0 24px;
 }
 
-.sdg-duo-grid {
+.impact-duo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin-top: 40px;
 }
 
-.sdg-glass-card {
+.impact-glass-card {
   background: var(--lp-card-bg);
   border: 1px solid var(--lp-border);
   border-radius: var(--lp-radius-xl);
@@ -1219,12 +1202,12 @@ body.landing-body {
   transition: all 0.3s ease;
 }
 
-.sdg-glass-card:hover {
+.impact-glass-card:hover {
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-3px);
 }
 
-.sdg-tag {
+.impact-tag {
   display: inline-block;
   padding: 4px 12px;
   border-radius: var(--lp-radius-full);
@@ -1234,19 +1217,19 @@ body.landing-body {
   letter-spacing: 0.03em;
 }
 
-.sdg-tag.sdg4 {
-  background: rgba(239, 68, 68, 0.15);
-  color: #F87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+.impact-tag.tag-quality {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-.sdg-tag.sdg10 {
-  background: rgba(236, 72, 153, 0.15);
-  color: #F472B6;
-  border: 1px solid rgba(236, 72, 153, 0.3);
+.impact-tag.tag-access {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.sdg-card-heading {
+.impact-card-heading {
   font-family: 'Sora', sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
@@ -1254,7 +1237,7 @@ body.landing-body {
   margin-bottom: 12px;
 }
 
-.sdg-card-body {
+.impact-card-body {
   font-size: 0.925rem;
   color: var(--lp-text-muted);
   line-height: 1.65;
@@ -1665,7 +1648,7 @@ body.landing-body {
   }
   
   .landing-hero {
-    padding-top: 120px;
+    padding-top: 110px;
   }
   
   .features-cards-grid {
@@ -1680,7 +1663,7 @@ body.landing-body {
     grid-template-columns: 1fr;
   }
   
-  .sdg-duo-grid {
+  .impact-duo-grid {
     grid-template-columns: 1fr;
   }
   
