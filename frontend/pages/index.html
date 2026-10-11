@@ -6,18 +6,45 @@
   <meta name="description" content="EduSetu — AI-Powered Learning Companion bridging education gaps for students across India. Multilingual, diagnostic-first AI tutoring.">
   <title>EduSetu — Your AI Learning Companion</title>
 
-  <!-- Google Fonts: Inter & Sora for SaaS typography -->
+  <!-- Google Fonts: Plus Jakarta Sans, Inter & Sora for Reference SaaS Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Core & Landing Stylesheet -->
   <link rel="stylesheet" href="../css/landing.css">
 </head>
 <body class="landing-body">
 
-  <!-- Subtle ambient background elements -->
-  <div class="landing-grid-bg"></div>
+  <!-- Ambient background elements with reference flowing golden curves -->
+  <div class="landing-ambient-waves" aria-hidden="true">
+    <!-- Top-Left Flowing Golden Light Ribbons -->
+    <svg class="ambient-wave wave-top-left" viewBox="0 0 700 500" fill="none" preserveAspectRatio="none">
+      <path d="M-60 180 C 140 100, 260 320, 500 160 C 620 80, 680 120, 740 40" stroke="url(#goldGradient1)" stroke-width="2" opacity="0.5"/>
+      <path d="M-90 230 C 110 150, 230 380, 540 220 C 650 140, 720 180, 780 110" stroke="url(#goldGradient1)" stroke-width="1.3" opacity="0.32"/>
+      <defs>
+        <linearGradient id="goldGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.85"/>
+          <stop offset="45%" stop-color="#FBBF24" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Bottom-Left Flowing Golden Light Ribbons -->
+    <svg class="ambient-wave wave-bottom-left" viewBox="0 0 750 550" fill="none" preserveAspectRatio="none">
+      <path d="M-90 320 C 120 240, 280 480, 540 350 C 660 280, 740 330, 800 240" stroke="url(#goldGradient2)" stroke-width="1.8" opacity="0.45"/>
+      <path d="M-60 390 C 140 310, 260 540, 580 410" stroke="url(#goldGradient2)" stroke-width="1.2" opacity="0.28"/>
+      <defs>
+        <linearGradient id="goldGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.75"/>
+          <stop offset="55%" stop-color="#FBBF24" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
   <div class="ambient-glow ambient-glow--top"></div>
   <div class="ambient-glow ambient-glow--right"></div>
   <div class="ambient-glow ambient-glow--left"></div>
@@ -124,8 +151,8 @@
         </div>
 
         <h1 class="hero-main-title">
-          Learn Smarter<br>
-          with AI, <span class="text-gold-gradient">Your Way</span> <span class="sparkle-star">✦</span>
+          <span class="hero-title-line">Learn Smarter</span>
+          <span class="hero-title-line">with AI, <span class="text-gold-gradient underline-accent">Your Way</span><span class="hero-sparkle-star">✦</span></span>
         </h1>
 
         <p class="hero-description">
@@ -228,7 +255,7 @@
       <div class="hero-right-col">
         <div class="hero-visual-stage">
           <div class="hero-scene-frame">
-            <img src="../assets/hero-study-scene.jpg" alt="EduSetu AI Learning Experience with Student and AI Tutor" class="hero-study-img">
+            <img src="../assets/hero-study-scene.png" alt="EduSetu AI Learning Experience with Student and AI Tutor" class="hero-study-img">
           </div>
         </div>
       </div>
