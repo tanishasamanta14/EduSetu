@@ -35,7 +35,7 @@
 /* ---------- Global Reset & Smooth Scroll for Landing Page ---------- */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
+  scroll-padding-top: 24px;
 }
 
 body.landing-body {
@@ -147,16 +147,14 @@ body.landing-body {
   display: inline-block;
 }
 
-/* ---------- NAVBAR (Floating Capsule Header) ---------- */
+/* ---------- NAVBAR (Floating Capsule Header - Normal Document Flow) ---------- */
 .landing-navbar {
-  position: fixed;
-  top: 14px;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  position: static;
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 16px;
+  padding: 16px 16px 0;
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
@@ -568,7 +566,7 @@ body.landing-body {
 .landing-hero {
   position: relative;
   z-index: 10;
-  padding-top: 108px;
+  padding-top: 32px;
   padding-bottom: 25px;
 }
 
@@ -2087,8 +2085,7 @@ body.landing-body {
 
 @media (max-width: 768px) {
   .landing-navbar {
-    top: 8px;
-    padding: 0 10px;
+    padding: 12px 10px 0;
   }
 
   .landing-navbar-inner {
@@ -2097,7 +2094,7 @@ body.landing-body {
   }
   
   .landing-hero {
-    padding-top: 96px;
+    padding-top: 24px;
   }
   
   .hero-features-strip {

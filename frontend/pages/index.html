@@ -849,14 +849,8 @@
 
       let currentUser = null;
 
-      /* ---------- 1. Navbar Scroll Effect ---------- */
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > 20) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
-      }, { passive: true });
+      /* ---------- 1. Navbar in Normal Document Flow ---------- */
+      // Navbar scrolls naturally with page flow without viewport pinning.
 
       /* ---------- 2. Check Real Authentication State (/api/auth/me) ---------- */
       async function checkAuthSession() {
