@@ -123,23 +123,6 @@ body.landing-body {
   position: relative;
 }
 
-.text-gold-gradient.underline-accent {
-  position: relative;
-  padding-bottom: 2px;
-}
-
-.text-gold-gradient.underline-accent::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0px;
-  height: 3px;
-  background: linear-gradient(90deg, #FDE68A 0%, #F59E0B 100%);
-  border-radius: 999px;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.55);
-}
-
 .text-blue-gradient {
   background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 50%, #3B82F6 100%);
   -webkit-background-clip: text;
