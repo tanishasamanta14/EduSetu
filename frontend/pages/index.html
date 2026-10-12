@@ -152,7 +152,7 @@
 
         <h1 class="hero-main-title">
           <span class="hero-title-line">Learn Smarter</span>
-          <span class="hero-title-line">with AI, <span class="text-gold-gradient">Your Way</span><span class="hero-sparkle-star">✦</span></span>
+          <span class="hero-title-line">with AI, <span class="text-gold-gradient underline-accent">Your Way</span><span class="hero-sparkle-star">✦</span></span>
         </h1>
 
         <p class="hero-description">
@@ -221,9 +221,14 @@
 
         <!-- CTA Actions -->
         <div class="hero-cta-wrap">
-          <button class="hero-btn-secondary" id="heroWatchDemoBtn" type="button">
-            <span class="play-icon-circle">▶</span> Watch Demo
+          <button class="hero-btn-primary" id="heroSignUpBtn" type="button">
+            Sign Up →
           </button>
+        </div>
+
+        <!-- Subtle Sign In link for existing users -->
+        <div class="hero-subtext-login">
+          Already registered? <a href="login.html" id="heroSignInLink">Sign In here</a>
         </div>
 
         <!-- Micro-features Checkmarks Row -->
@@ -248,6 +253,12 @@
         <div class="hero-visual-stage">
           <div class="hero-scene-frame">
             <img src="../assets/hero-study-scene.png" alt="EduSetu AI Learning Experience with Student and AI Tutor" class="hero-study-img">
+          </div>
+          <!-- Repositioned Demo Action beneath Hero Illustration -->
+          <div class="hero-demo-action-wrap">
+            <button class="btn-explore-demo" id="heroWatchDemoBtn" type="button">
+              <span class="explore-demo-icon">▶</span> Explore How EduSetu Works →
+            </button>
           </div>
         </div>
       </div>
@@ -908,7 +919,7 @@
           navAuthLoggedIn.style.display = 'none';
 
           if (heroSignUpBtn) {
-            heroSignUpBtn.innerHTML = '🚀 Sign Up →';
+            heroSignUpBtn.innerHTML = 'Sign Up →';
             heroSignUpBtn.onclick = function() {
               window.location.href = 'register.html';
             };

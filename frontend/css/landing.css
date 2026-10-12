@@ -123,6 +123,23 @@ body.landing-body {
   position: relative;
 }
 
+.text-gold-gradient.underline-accent {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.text-gold-gradient.underline-accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  height: 3px;
+  background: linear-gradient(90deg, #FDE68A 0%, #F59E0B 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.55);
+}
+
 .text-blue-gradient {
   background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 50%, #3B82F6 100%);
   -webkit-background-clip: text;
@@ -863,6 +880,62 @@ body.landing-body {
   display: block;
   object-fit: cover;
   border-radius: 20px;
+}
+
+/* Repositioned Demo Action beneath Hero Illustration */
+.hero-demo-action-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.btn-explore-demo {
+  background: rgba(13, 20, 38, 0.78);
+  color: #E2E8F0;
+  border: 1px solid rgba(99, 102, 241, 0.38);
+  border-radius: var(--lp-radius-full);
+  padding: 9px 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), 0 0 18px rgba(99, 102, 241, 0.15);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.btn-explore-demo:hover {
+  background: rgba(22, 33, 62, 0.92);
+  color: #FFFFFF;
+  border-color: rgba(129, 140, 248, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.55), 0 0 28px rgba(99, 102, 241, 0.4);
+}
+
+.btn-explore-demo .explore-demo-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.25);
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  color: #818CF8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.58rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-explore-demo:hover .explore-demo-icon {
+  background: rgba(99, 102, 241, 0.5);
+  transform: scale(1.1);
 }
 
 /* ---------- HORIZONTAL LEARNING STATISTICS STRIP ---------- */
@@ -2030,6 +2103,10 @@ body.landing-body {
   }
   
   .hero-cta-wrap {
+    justify-content: center;
+  }
+
+  .hero-right-col {
     justify-content: center;
   }
   
