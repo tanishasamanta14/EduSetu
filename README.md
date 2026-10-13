@@ -1,342 +1,442 @@
-# EduSetu — AI-Powered Learning Companion
+# 🎓 EduSetu — AI-Powered Diagnostic & Multilingual Learning Platform
 
-## 1. Problem Statement
+<p align="center">
+  <img src="frontend/assets/hero-study-scene.png" alt="EduSetu AI Learning Platform" width="720" style="border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);" />
+</p>
 
-In rural and semi-urban regions of India, students face significant barriers to quality education: a shortage of trained teachers, lack of personalized attention due to large class sizes, language barriers in understanding complex concepts, and absence of doubt-resolution support outside classroom hours. Dropout rates increase sharply after Class 8 due to disengagement, repeated academic failure, and lack of timely intervention.
+<p align="center">
+  <strong>Bridging educational gaps across India through diagnostic-first, vernacular AI tutoring and interactive concept mastery visualization.</strong>
+</p>
 
-Existing ed-tech solutions (Byju's, Khan Academy, Vedantu, etc.) are mostly **English-first, subscription-based, one-directional content libraries**. They push video lessons at students but rarely:
-- Diagnose **why** a student is stuck on a specific concept
-- Explain in the student's **own regional language** with grade-appropriate depth
-- Give **teachers/parents early warning** before a student disengages completely
-- Work meaningfully on **low-end devices / patchy internet**
-
-There is a need for an affordable, multilingual, **diagnostic-first** AI learning platform that doesn't just answer questions, but identifies *which specific misconception* is causing a student to struggle, explains it adaptively, and surfaces that insight to the people who can intervene — bridging the educational gap through inclusive, scalable learning.
+<p align="center">
+  <a href="#-key-features"><img src="https://img.shields.io/badge/Platform-EduSetu-F59E0B?style=for-the-badge&logo=bookstack&logoColor=white" alt="Platform" /></a>
+  <a href="#-technology-stack"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" /></a>
+  <a href="#-technology-stack"><img src="https://img.shields.io/badge/Express-5.x-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" /></a>
+  <a href="#-technology-stack"><img src="https://img.shields.io/badge/Supabase-PostgreSQL%20%2B%20Auth-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" /></a>
+  <a href="#-technology-stack"><img src="https://img.shields.io/badge/Frontend-Vanilla%20HTML%2FCSS%2FJS-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="Frontend" /></a>
+  <a href="#-license"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" /></a>
+</p>
 
 ---
 
-## 2. Our Solution — What Makes EduSetu Different 
+## 📑 Table of Contents
 
-EduSetu is an AI learning companion built around one core idea: **"Don't just answer the question — find the gap."**
+- [🌟 Overview & Core Philosophy](#-overview--core-philosophy)
+- [🧩 Problem Statement & Real-World Impact](#-problem-statement--real-world-impact)
+- [✨ Key Features](#-key-features)
+  - [🗺️ Concept Mastery Map](#️-concept-mastery-map)
+  - [🏷️ Misconception Tagging Engine](#️-misconception-tagging-engine)
+  - [🤖 Multilingual Vernacular AI Tutor](#-multilingual-vernacular-ai-tutor)
+  - [👨‍🏫 Mentor & Educator Dashboard](#-mentor--educator-dashboard)
+  - [📊 Predictive Analytics & Dropout Intervention](#-predictive-analytics--dropout-intervention)
+  - [🎨 Glassmorphism Design System](#-glassmorphism-design-system)
+- [🏗️ System Architecture](#️-system-architecture)
+  - [📐 High-Level Architecture Diagram](#-high-level-architecture-diagram)
+  - [🗂️ Project Directory Structure](#️-project-directory-structure)
+  - [🗄️ Database & Security Architecture](#️-database--security-architecture)
+- [💻 Platform Modules & Pages](#-platform-modules--pages)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [🚀 Quick Start & Installation](#-quick-start--installation)
+  - [Prerequisites](#prerequisites)
+  - [Installation Steps](#installation-steps)
+  - [Environment Configuration](#environment-configuration)
+  - [Running the Platform](#running-the-platform)
+- [🧪 Test Credentials & Demo Accounts](#-test-credentials--demo-accounts)
+- [📡 API Reference](#-api-reference)
+- [🎯 Future Roadmap](#-future-roadmap)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-### Uniqueness vs existing apps (Byju's, Khan Academy, Vedantu, Doubtnut, etc.)
+---
 
-| Feature | Typical ed-tech apps | EduSetu |
+## 🌟 Overview & Core Philosophy
+
+**EduSetu** (*Edu* + *Setu* / सेतु = Bridge) is an intelligent, diagnostic-first learning companion built around one uncompromising philosophy:
+
+> **"Don't just answer the question — diagnose the gap."**
+
+In standard learning apps, an incorrect response simply displays *"Incorrect — the right answer is B"*. Students are left wondering *what* went wrong, and educators are left without actionable insight. 
+
+EduSetu disrupts this paradigm by analyzing the **underlying cognitive misconception behind each error**, charting the learner's journey across an **interactive concept dependency graph**, and providing **adaptive, vernacular explanations in Hindi, Hinglish, and English** that build authentic confidence.
+
+---
+
+## 🧩 Problem Statement & Real-World Impact
+
+In rural and semi-urban educational ecosystems, learners confront systemic barriers:
+
+1. **Shortage of Trained Teachers & High Pupil-Teacher Ratios**: Class sizes regularly exceed 50:1, leaving minimal bandwidth for individual attention.
+2. **Language Gaps in STEM Subjects**: Technical textbooks rely on rigid English terminology, creating an artificial barrier for native regional language speakers.
+3. **The Class 8 Dropout Spike**: Dropout rates climb steeply after Class 8 due to cumulative unaddressed foundational gaps, anxiety, and lack of timely intervention.
+4. **Passive Content Libraries**: Existing platforms push pre-recorded video libraries rather than interactive, responsive diagnostic help.
+
+### 🥊 How EduSetu Compares
+
+| Learning Dimension | Conventional Ed-Tech Apps | 🌟 EduSetu Platform |
 |---|---|---|
-| Content model | Pre-recorded video libraries | Live AI conversation, adaptive per student |
-| Doubt solving | Search/forward to a human tutor (slow, costly) | Instant AI chatbot, step-by-step, in Hindi/English |
-| Diagnosis | None — students pick their own topics | **Misconception Tagging Engine**: every wrong quiz answer is tagged with *why* it's wrong (e.g. "sign error," "confused numerator/denominator"), not just "incorrect" |
-| Analytics | Generic score reports | **Concept Mastery Map** — visual graph of which concepts are solid, shaky, or unlearned, updated live |
-| Teacher/parent role | Mostly absent or paid add-on | Built-in **Mentor View** — auto-generated weekly "what to revise with this student" notes |
-| Accessibility | Needs steady internet & modern phone | Offline-first lesson caching + low-bandwidth chat mode |
-| Engagement model | Streaks/gamification for retention | **"Confidence Score"** — a self-reported + quiz-derived measure that helps students see real growth, reducing anxiety-driven dropout |
-
-### The Signature Feature: Concept Mastery Map
-Instead of a generic dashboard, EduSetu visualizes each subject as a **network of interconnected concepts** (like a mind-map/skill-tree). Each node is color-coded:
-- Green — Mastered
-- Amber — Shaky (needs review)
-- Gray — Not yet attempted
-- Blue — Currently recommended
-
-This gives students, teachers, and parents an honest, at-a-glance picture of *real* understanding — not just test scores — and is the analytics centerpiece that helps users "clarify concepts."
+| **Content Delivery** | Static, pre-recorded video lectures | Adaptive AI dialogue tailored to learner's grade & pace |
+| **Doubt Resolution** | Slow ticket-based queues or costly human tutors | Instant, step-by-step Socratic guidance in Hindi/English |
+| **Error Diagnostics** | Binary correctness flag (Right / Wrong) | **Misconception Tagging Engine** classifying the root reason |
+| **Visual Analytics** | Generic completion percentages | **Interactive Concept Mastery Map** (Skill Tree) |
+| **Educator Role** | Disconnected or expensive premium add-on | **Integrated Mentor Portal** with auto-generated revision briefs |
+| **Device Accessibility** | Bandwidth-intensive video streaming | Lightweight, fast-loading architecture with low-data support |
+| **Growth Metric** | Addictive streaks & superficial badges | **Confidence Score Tracking** measuring verified comprehension |
 
 ---
 
-## 3. App Architecture
+## ✨ Key Features
 
-### 3.1 High-Level System Architecture
+### 🗺️ Concept Mastery Map
+Instead of a flat list of scores, EduSetu models knowledge as a **dynamic dependency graph**:
+- 🟢 **Mastered**: Concepts where the student demonstrates consistent 80%+ accuracy.
+- 🟡 **Shaky**: Concepts showing recurring misconceptions that require targeted revision.
+- ⚪ **Unattempted**: Foundational topics waiting to be explored.
+- 🔵 **Recommended**: Next logical milestones based on prerequisite mastery.
 
+Clicking any concept opens an instant diagnostic drawer with quick practice quizzes, concept visualization shortcuts, and direct AI tutor assistance.
+
+### 🏷️ Misconception Tagging Engine
+When taking quizzes in EduSetu, each distractor represents a known cognitive pitfall:
+- **Sign Flipping Errors** (e.g., `-3x` treated as `+3x`)
+- **Numerator / Denominator Confusion** in fraction arithmetic
+- **Unit Conversion Missteps** in Physics
+- **Chemical Equation Balancing Inversions** in Science
+
+The engine categorizes the exact misstep, presents an immediate targeted clarification, and logs the pattern to the student's mastery profile.
+
+### 🤖 Multilingual Vernacular AI Tutor
+- Provides step-by-step Socratic hints without handing out answers directly.
+- Full fluency across **Hindi**, **Hinglish**, and **English**.
+- Real-time confidence feedback: after every explanation, learners self-rate (*"Got it!"*, *"Kind of"*, *"Still confused"*), adjusting subsequent explanations automatically.
+
+### 👨‍🏫 Mentor & Educator Dashboard
+- Designed specifically for teachers, tutors, and parents.
+- Single-pane view of all linked learners with automated diagnostic notes (e.g., *"Aarav struggles with Algebraic Sign Rules — recommended 10-minute targeted review"*).
+- Cohort-level mastery heatmaps identifying shared classroom bottlenecks before examination periods.
+
+### 📊 Predictive Analytics & Dropout Intervention
+- Identifies early warning indicators of disengagement (prolonged inactivity, sudden drops in confidence, repeated errors in gateway topics).
+- Generates proactive remedial interventions before academic failure leads to withdrawal.
+
+### 🎨 Glassmorphism Design System
+- Modern dark-navy aesthetic (`#060913`, `#0A1020`) with warm golden accents (`#F59E0B`, `#FBBF24`).
+- **Living Blurred Background Architecture**: Modals feature an authentic blurred view (`backdrop-filter: blur(5px)`) of the live platform, with 100% crisp foreground cards.
+- Fully responsive across desktop workstations, tablets, and budget mobile browsers.
+
+---
+
+## 🏗️ System Architecture
+
+### 📐 High-Level Architecture Diagram
+
+```mermaid
+flowchart TD
+    subgraph Client["🌐 Client Layer (Vanilla Web Technologies)"]
+        Landing["Landing Page (index.html)"]
+        AuthPages["Auth Modals (login.html / register.html)"]
+        MasteryUI["Concept Mastery Map (D3/vis-network)"]
+        ChatUI["Multilingual AI Tutor Chatbot"]
+        QuizUI["Adaptive Diagnostic Quiz Engine"]
+        MentorUI["Mentor & Parent Portal"]
+        DashUI["Student Dashboard & Analytics"]
+    end
+
+    subgraph Server["⚡ Application Server (Node.js & Express 5)"]
+        Router["Express REST API Router"]
+        AuthCtrl["Auth Controller & Session Middleware"]
+        MasteryCtrl["Mastery & Prerequisite Engine"]
+        QuizCtrl["Misconception Tagging Service"]
+        AICtrl["Adaptive AI Tutor Service"]
+        MentorCtrl["Mentor Aggregation & Analytics"]
+    end
+
+    subgraph Cloud["☁️ Database & Identity (Cloud Supabase)"]
+        SupaAuth["Supabase Auth (JWT & Secure Cookies)"]
+        PG_DB[("PostgreSQL Database with RLS")]
+        Profiles[("profiles")]
+        Progress[("learning_progress")]
+        MasteryTab[("concept_mastery")]
+        Questions[("diagnostic_questions")]
+        Attempts[("quiz_attempts")]
+    end
+
+    Client -->|HTTPS / REST API / JSON| Router
+    Router --> AuthCtrl
+    Router --> MasteryCtrl
+    Router --> QuizCtrl
+    Router --> AICtrl
+    Router --> MentorCtrl
+
+    AuthCtrl --> SupaAuth
+    AuthCtrl --> Profiles
+    MasteryCtrl --> MasteryTab
+    QuizCtrl --> Questions
+    QuizCtrl --> Attempts
+    MentorCtrl --> Progress
+    MentorCtrl --> Profiles
 ```
-+-------------------------------------------------------------------+
-|                       CLIENT (Browser / PWA)                       |
-|  +----------+  +----------+  +-----------+  +-------------------+ |
-|  | Landing  |  | AI Tutor |  | Mastery   |  | Mentor View        | |
-|  | Page     |  | Chat UI  |  | Map       |  | (Teacher/Parent)   | |
-|  +----------+  +----------+  +-----------+  +-------------------+ |
-|       Shared: Auth, Theme, Language Toggle, Offline Cache          |
-+----------------------------+----------------------------------------+
-                               | REST / WebSocket
-+------------------------------v--------------------------------------+
-|                     BACKEND (Node.js / Express)                      |
-|  +-----------+  +--------------+  +----------------+  +-----------+ |
-|  | Auth & User|  | AI Tutor     |  | Misconception  |  | Analytics | |
-|  | Service    |  | Service      |  | Tagging Engine |  | Engine    | |
-|  |            |  | (Claude API) |  |                |  |           | |
-|  +-----------+  +--------------+  +----------------+  +-----------+ |
-+----------------------------+----------------------------------------+
-                               |
-|                  DATABASE & AUTH (Supabase PostgreSQL + RLS)         |
-|   Profiles | Subjects | Topics | Questions | Quizzes | Mastery | Attempts |
-+-----------------------------------------------------------------------+
-```
 
-### 3.2 Pages / Modules
-
-1. **Landing Page** (`index.html`)
-   - Hero, problem stats, features, mission impact, how-it-works
-   - (Already built — reuse existing design system)
-
-2. **AI Tutor / Chatbot** (`chatbot.html`)
-   - Conversational doubt-solving (EN/HI), grade-adaptive
-   - **NEW:** After each AI response, student self-rates "Did this make sense?" (Got it / Kind of / Still confused) -> feeds Confidence Score
-
-3. **Concept Mastery Map** (`mastery-map.html`) — **NEW PAGE**
-   - Interactive skill-tree/graph per subject (Math, Science, English, etc.)
-   - Nodes color-coded by mastery level (mastered/shaky/unattempted/recommended)
-   - Clicking a node opens a side panel: mini-quiz, AI explanation shortcut, related concepts
-
-4. **Adaptive Quiz** (`quiz.html`) — **NEW PAGE**
-   - Short diagnostic quizzes per concept
-   - Each wrong answer triggers the **Misconception Tagging Engine** — classifies *why* it's wrong from a predefined rubric per question
-   - Results feed directly into the Mastery Map
-
-5. **Student Dashboard** (`dashboard.html`)
-   - Existing chart-based view (subject scores, recommended topics, dropout risk)
-   - Add: Confidence Score trend line, link to Mastery Map
-
-6. **Mentor View** (`mentor.html`) — **NEW PAGE**
-   - For teachers/parents — login as "Mentor," see linked students
-   - Weekly auto-generated summary: "Riya is shaky on Algebraic Expressions (sign errors) and Light - Refraction. Suggested: 10-min revision on sign rules."
-   - Dropout risk indicators across a class/group of students
-
-7. **Settings / Profile** (`profile.html`) — **NEW PAGE**
-   - Language preference (EN/HI, expandable)
-   - Grade level, subjects enrolled
-   - Offline content download manager
-
-### 3.3 Project Structure
+### 🗂️ Project Directory Structure
 
 ```
 EduSetu/
+├── 📁 frontend/                     # Vanilla HTML, CSS, JavaScript Client
+│   ├── 📁 assets/                   # Branded illustrations, vectors & study scenes
+│   ├── 📁 css/                      # Modular style system
+│   │   ├── theme.css                # Global design tokens, color palettes & typography
+│   │   ├── landing.css              # Landing page styles & living background scenes
+│   │   ├── app-shell.css            # Navigation, glass cards & shared components
+│   │   ├── chatbot.css              # AI Tutor conversational UI
+│   │   ├── dashboard.css            # Analytics charts & progress widgets
+│   │   ├── mastery-map.css          # Interactive concept graph styling
+│   │   └── quiz.css                 # Diagnostic assessment interface
+│   ├── 📁 js/                       # Client-side controllers & interactive handlers
+│   │   ├── auth.js                  # Client authentication helpers
+│   │   ├── chatbot.js               # Chatbot logic & confidence feedback
+│   │   ├── mastery-map.js           # Graph visualizer & prerequisite trees
+│   │   ├── quiz.js                  # Adaptive quiz runner & misconception logic
+│   │   ├── dashboard.js             # Student metrics visualizer
+│   │   └── mentor.js                # Educator cohort aggregation
+│   └── 📁 pages/                    # Complete application views
+│       ├── index.html               # Living Landing Page
+│       ├── login.html               # Glassmorphic Sign-In Page
+│       ├── register.html            # Glassmorphic Sign-Up Page
+│       ├── onboarding.html          # Diagnostic intake & profile setup
+│       ├── dashboard.html           # Student progress dashboard
+│       ├── mastery-map.html         # Interactive skill-tree concept map
+│       ├── chatbot.html             # Multilingual AI doubt solver
+│       ├── quiz.html                # Adaptive diagnostic quiz runner
+│       ├── learning-plan.html       # Personalized learning roadmaps
+│       ├── mentor.html              # Mentor / Teacher oversight portal
+│       ├── explore.html             # Subject and topic curriculum browser
+│       ├── community.html           # Peer collaboration & discussion forum
+│       └── profile.html             # Learner preferences & account settings
 │
-├── frontend/
-│   ├── pages/
-│   │   ├── index.html
-│   │   ├── explore.html
-│   │   ├── chatbot.html
-│   │   ├── dashboard.html
-│   │   ├── quiz.html
-│   │   ├── mastery-map.html
-│   │   ├── mentor.html
-│   │   └── profile.html
-│   ├── css/
-│   ├── js/
-│   ├── assets/
-│   └── locales/
+├── 📁 backend/                      # Node.js & Express 5 API Server
+│   ├── server.js                    # Express entry point & middleware mounting
+│   ├── 📁 ai/                       # Diagnostic AI prompts & reasoning pipelines
+│   ├── 📁 config/                   # Supabase client configurations
+│   ├── 📁 controllers/              # Business logic controllers
+│   │   ├── authController.js        # Supabase Auth, sessions & profile sync
+│   │   ├── masteryController.js     # Prerequisite graphs & mastery state
+│   │   ├── quizController.js        # Diagnostic questions & misconception tags
+│   │   ├── chatController.js        # Vernacular AI chat orchestration
+│   │   ├── dashboardController.js   # Student performance aggregation
+│   │   └── mentorController.js      # Educator cohort metrics
+│   ├── 📁 middleware/               # Auth guards (protect, role guards) & error handlers
+│   ├── 📁 routes/                   # Clean Express REST route definitions
+│   ├── 📁 services/                 # Core domain services & database queries
+│   └── 📁 utils/                    # AppError, response formatters & helpers
 │
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── validators/
-│   ├── utils/
-│   └── ai/
+├── 📁 supabase/                     # Database migrations & seed assets
+│   ├── 📁 migrations/               # PostgreSQL schema & Row-Level Security policies
+│   │   └── 20261006000000_initial_schema.sql
+│   └── 📁 seed/                     # Seed datasets with curriculum & test students
+│       └── seed.sql
 │
-├── .env.example
-├── .gitignore
-├── README.md
-└── package.json
+├── .env.example                     # Environment template (safe for VCS)
+├── .gitignore                       # Git exclusions
+├── package.json                     # Project manifest & npm scripts
+└── README.md                        # Master documentation
 ```
 
-### 3.4 Data Model (simplified)
+### 🗄️ Database & Security Architecture
+EduSetu operates on a relational PostgreSQL schema hosted on **Cloud Supabase** with strict **Row-Level Security (RLS)**:
+- `profiles`: User accounts, academic grades, vernacular language preferences, roles (`student`, `mentor`, `admin`).
+- `subjects` & `topics`: NCERT-aligned academic taxonomy from middle school to college levels.
+- `concepts`: Individual atomic competencies linked by prerequisite graphs.
+- `concept_mastery`: Student-by-concept mastery levels (`mastered`, `shaky`, `unattempted`, `recommended`) with confidence weights.
+- `diagnostic_questions`: Assessment items indexed with misconception tags on each distractor option.
+- `quiz_attempts`: Detailed audit logs of answers, time-on-task, and tagged errors.
+- `learning_progress`: Overall progress aggregates, subject competencies, and dropout-risk scorecards.
 
-```
-User {
-  id, name, role: "student" | "mentor",
-  grade, language, linkedMentors[] / linkedStudents[]
-}
+---
 
-Concept {
-  id, subject, name, prerequisites[], gradeLevel
-}
+## 💻 Platform Modules & Pages
 
-MasteryRecord {
-  userId, conceptId, status: "mastered" | "shaky" | "unattempted" | "recommended",
-  lastUpdated, confidenceScore
-}
-
-QuizAttempt {
-  userId, conceptId, questionId, isCorrect,
-  misconceptionTag (e.g. "sign-error", "numerator-denominator-confusion"),
-  timestamp
-}
-
-ChatMessage {
-  userId, sessionId, sender: "user" | "ai", text, language, gradeLevel,
-  selfRating: "yes" | "kindof" | "no" | null, timestamp
-}
-```
-
-### 3.5 Tech Stack
-
-| Layer | Choice | Notes |
+| Page Path | Module Name | Primary Function |
 |---|---|---|
-| Frontend | HTML/CSS/JS (current) -> optionally migrate to React for state-heavy pages (Mastery Map, Mentor View) | Keep existing design system (`css/style.css`) as base |
-| Styling | Existing tokens: Indigo `#1E3A5F`, Marigold `#F4A300`, Cream `#FAF7F2` | Extend with status colors: green (mastered), amber (shaky), gray (unattempted), blue (recommended) |
-| Visualization | D3.js or vis-network for Concept Mastery Map graph; Chart.js for dashboard charts (already used) | |
-| AI Engine | Claude API (`/v1/messages`) for chatbot; mock responses as fallback (already implemented) | Extend system prompt to also return a structured "misconception tag" when grading quiz answers |
-| Backend | Node.js + Express (Business Logic, Diagnostic Engine, AI Proxy) | |
-| Database | Supabase (PostgreSQL with Row Level Security) | Relational schema with 11 tables |
-| Auth | Supabase Auth (JWT, Role-based Profiles) | Student, Mentor, Admin roles |
+| [`/pages/index.html`](frontend/pages/index.html) | **Living Landing Page** | Platform overview, interactive feature demo, live statistics, curriculum previews |
+| [`/pages/login.html`](frontend/pages/login.html) | **Sign-In Portal** | Glassmorphic auth card with living blurred backdrop & test account fillers |
+| [`/pages/register.html`](frontend/pages/register.html) | **Sign-Up Portal** | Account registration, grade selection, living blurred backdrop, live validation |
+| [`/pages/dashboard.html`](frontend/pages/dashboard.html) | **Student Dashboard** | Confidence trends, subject mastery cards, dropout-risk alerts, quick review shortcuts |
+| [`/pages/mastery-map.html`](frontend/pages/mastery-map.html) | **Concept Mastery Map** | Interactive dependency graph with color-coded nodes and concept inspector drawer |
+| [`/pages/chatbot.html`](frontend/pages/chatbot.html) | **AI Learning Tutor** | Real-time bilingual doubt resolution with Socratic hints & comprehension rating |
+| [`/pages/quiz.html`](frontend/pages/quiz.html) | **Adaptive Diagnostic Quiz** | Concept-level quizzes with immediate misconception explanations on wrong choices |
+| [`/pages/mentor.html`](frontend/pages/mentor.html) | **Mentor & Teacher View** | Student cohort management, automated weekly revision recommendations & alerts |
+| [`/pages/learning-plan.html`](frontend/pages/learning-plan.html) | **Personalized Roadmap** | Custom-tailored learning pathways based on diagnosed concept gaps |
+| [`/pages/explore.html`](frontend/pages/explore.html) | **Subject Explorer** | Curriculum browser across Math, Science, English, Social Science & Computer Science |
+| [`/pages/community.html`](frontend/pages/community.html) | **Peer Learning Forum** | Collaborative doubt-solving and peer discussion boards |
+| [`/pages/profile.html`](frontend/pages/profile.html) | **Learner Profile** | Academic preferences, grade updates, and language switcher (English / Hindi) |
 
 ---
 
-## 4. Step-by-Step Implementation Plan for Antigravity Agent
-
-Feed this section directly to your Antigravity agent. Existing files (`index.html`, `chatbot.html`, `dashboard.html`, `css/style.css`, `css/chatbot.css`, `css/dashboard.css`, `js/main.js`, `js/chatbot.js`, `js/dashboard.js`) already exist — **extend, don't replace**, unless a step says otherwise.
+## 🛠️ Technology Stack
 
 ```
-STEP 0: Review existing codebase
-- Read index.html, chatbot.html, dashboard.html and all css/js files
-- Note existing design tokens in css/style.css (colors, fonts, spacing, components)
-- All new pages must reuse the same navbar, footer, and design tokens for consistency
-
-STEP 1: Extend design tokens (css/style.css)
-- Add mastery status colors as CSS variables:
-  --status-mastered: #3DA35D (green)
-  --status-shaky: #E0A526 (amber)
-  --status-unattempted: #B4B2A9 (gray)
-  --status-recommended: #378ADD (blue)
-- Add a "Mastery Map" and "Mentor View" link to the shared navbar across ALL pages
-  (index.html, chatbot.html, dashboard.html, and new pages)
-
-STEP 2: Build Concept Mastery Map page (mastery-map.html + css/mastery-map.css + js/mastery-map.js)
-- Subject selector tabs at top (Math, Science, English, Social Science, Hindi)
-- Render an interactive node graph using vis-network (CDN) or D3.js:
-  - Nodes = concepts (e.g. "Fractions", "Algebraic Expressions", "Photosynthesis")
-  - Edges = prerequisite relationships (e.g. "Fractions" -> "Algebraic Expressions")
-  - Node color = mastery status (use new CSS variables)
-- Use a mock dataset (js/mastery-data.js) with ~10-15 concepts per subject and realistic
-  prerequisite chains
-- Clicking a node opens a side panel (slide-in or modal) showing:
-  - Concept name, current status, last quiz score
-  - "Ask AI to explain this" button -> links to chatbot.html with concept pre-filled
-  - "Take a quick quiz" button -> links to quiz.html with concept ID
-- Add a legend explaining the 4 color states
-- Must be responsive: graph should resize/scroll on mobile, side panel becomes
-  a bottom sheet on small screens
-
-STEP 3: Build Adaptive Quiz page (quiz.html + css/quiz.css + js/quiz.js)
-- Accepts a concept ID via URL param (?concept=fractions)
-- Shows 5 multiple-choice questions for that concept (mock data in js/quiz-data.js)
-- Each wrong answer option has a pre-tagged "misconceptionTag" and a short
-  explanation of that specific error (e.g. "You added the denominators too —
-  remember the denominator stays the same when adding like fractions")
-- On quiz completion:
-  - Show score, list of misconception tags triggered
-  - Update mock MasteryRecord (store in localStorage for demo) -> status becomes
-    "mastered" (80%+), "shaky" (40-79%), or stays "unattempted"-derived if <40%
-  - Button: "View updated Mastery Map" -> mastery-map.html
-- Visual style: one question at a time, progress bar at top, immediate feedback
-  per question (correct/incorrect + misconception explanation) before moving on
-
-STEP 4: Extend AI Tutor chatbot (chatbot.html, js/chatbot.js)
-- After each AI response bubble, add 3 small buttons: "Got it" / "Kind of" / "Still confused"
-- Store these ratings (localStorage for demo) — used to compute Confidence Score
-- If concept ID is passed via URL (?concept=algebraic-expressions from Mastery Map),
-  pre-fill the chat input with a relevant starter question and auto-send it
-- Add a "Confidence Score" mini-widget in the chat header showing a rolling
-  percentage of "Got it" responses
-
-STEP 5: Build Mentor View page (mentor.html + css/mentor.css + js/mentor.js)
-- Mock login toggle: "I am a Mentor" (simple role switch, no real auth needed for demo)
-- List of linked students (mock data: 3-4 students with names, grades, avatars)
-- For each student, show:
-  - Mini Mastery Map summary (count of mastered/shaky/unattempted concepts)
-  - Auto-generated weekly note (template-based text generation using mock data,
-    e.g. "{name} is shaky on {concept} ({misconceptionTag}). Suggested: {action}.")
-  - Dropout risk badge (reuse existing risk-badge styles from dashboard.css)
-- Add a simple "class overview" chart (Chart.js) showing average mastery % across
-  the linked students per subject
-
-STEP 6: Build Profile/Settings page (profile.html + css/profile.css)
-- Language preference toggle (EN/HI) — store in localStorage, apply across chatbot
-- Grade level selector
-- "Offline content" section: list of subjects with a mock "Download for offline" button
-  (toggle state only, no real file download needed for demo)
-- Role switch (Student / Mentor) for demo purposes — links to mentor.html if Mentor selected
-
-STEP 7: Update Student Dashboard (dashboard.html, js/dashboard.js)
-- Add a "Confidence Score" line chart (Chart.js) showing trend over last 4 weeks
-  (mock data)
-- Add a "View full Concept Mastery Map" CTA card linking to mastery-map.html
-- Ensure dropout risk badge logic is consistent with Mentor View
-
-STEP 8: Cross-page consistency pass
-- Ensure navbar on ALL pages includes: Home, AI Tutor, Mastery Map, Dashboard,
-  Mentor View, Profile (icon)
-- Ensure all new pages use existing fonts (Sora/Inter), color tokens, button styles,
-  card styles from css/style.css
-- Test color contrast for all 4 mastery status colors against both light backgrounds
-
-STEP 9: Responsiveness & accessibility pass
-- Test all new pages at 375px, 768px, 1280px widths
-- Mastery Map graph: ensure touch/tap works on mobile (not just hover)
-- All interactive elements have visible focus states and aria-labels
-- Add a favicon if not already present
-
-STEP 10: Final polish & deployment prep
-- Update README.md "Pages" section with new pages
-- Add inline code comments explaining mock data structure (so it's easy to swap
-  for a real backend later)
-- Verify all internal links work across the full site
-- Prepare for Vercel/Netlify deployment (static site, no config needed)
+Frontend:   Vanilla HTML5 · Vanilla CSS3 (Custom Glassmorphism) · ES6+ JavaScript
+Backend:    Node.js · Express 5 · Cookie-Parser · JSONWebToken
+Database:   PostgreSQL via Cloud Supabase (11 Relational Tables with RLS)
+Identity:   Supabase Auth (JWT & HttpOnly Session Cookies)
+AI Layer:   Diagnostic Socratic Prompting with Misconception Taxonomy
+Tooling:    Git · PowerShell / Bash · Native Fetch API
 ```
 
 ---
 
-## 5. Mock Data Structure Reference (for Antigravity)
+## 🚀 Quick Start & Installation
 
-```js
-// js/mastery-data.js (example structure)
-const CONCEPTS = {
-  math: [
-    { id: "fractions", name: "Fractions", grade: 6, prerequisites: [], status: "mastered" },
-    { id: "algebraic-expressions", name: "Algebraic Expressions", grade: 8, prerequisites: ["fractions"], status: "shaky" },
-    { id: "linear-equations", name: "Linear Equations", grade: 8, prerequisites: ["algebraic-expressions"], status: "unattempted" },
-    // ... 10-15 total per subject
-  ],
-  science: [ /* similar structure */ ]
-};
+### Prerequisites
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
+- **Modern Web Browser**: Chrome, Edge, Firefox, or Safari
 
-// js/quiz-data.js (example structure)
-const QUIZZES = {
-  "algebraic-expressions": [
-    {
-      question: "Simplify: 3x + 5x - 2",
-      options: [
-        { text: "8x - 2", correct: true },
-        { text: "8x + 2", correct: false, misconceptionTag: "sign-error", explanation: "Check the sign of the constant term — it stays -2, it doesn't flip." },
-        { text: "8x^2", correct: false, misconceptionTag: "term-combination-error", explanation: "You can only combine like terms — '2' is a constant, not an x term." },
-        { text: "16x", correct: false, misconceptionTag: "ignored-constant", explanation: "Don't forget the constant term -2 in your final answer." }
-      ]
-    }
-    // ... 5 questions per concept
-  ]
-};
+### Installation Steps
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/tanishasamanta14/EduSetu.git
+   cd EduSetu
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+### Environment Configuration
+
+Create a `.env` file in the root directory based on `.env.example`:
+
+```env
+PORT=5000
+NODE_ENV=development
+
+# Supabase PostgreSQL & Auth Credentials
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
+# Session Security
+JWT_SECRET=your-super-secure-jwt-secret-string
 ```
 
+> [!NOTE]
+> All credentials should be kept private and never committed to source control.
+
+### Running the Platform
+
+Start the full-stack server:
+```bash
+npm start
+```
+*Or during development:*
+```bash
+npm run dev
+```
+
+Once started, the server will output:
+```
+╔══════════════════════════════════════════════════════╗
+║   EduSetu Server running on port 5000                ║
+║   http://localhost:5000                              ║
+╠══════════════════════════════════════════════════════╣
+║   ✅ Connected to Cloud Supabase (PostgreSQL + Auth) ║
+╚══════════════════════════════════════════════════════╝
+```
+
+Open your browser and navigate to:
+- **Landing Page**: [http://localhost:5000/](http://localhost:5000/)
+- **Sign In**: [http://localhost:5000/pages/login.html](http://localhost:5000/pages/login.html)
+- **Sign Up**: [http://localhost:5000/pages/register.html](http://localhost:5000/pages/register.html)
+- **Dashboard**: [http://localhost:5000/pages/dashboard.html](http://localhost:5000/pages/dashboard.html)
+
 ---
 
-## 6. Real-Life Impact Summary
+## 🧪 Test Credentials & Demo Accounts
 
-- **For students:** A judgment-free space to ask "dumb questions" repeatedly, in their own language, with visual proof of progress (Mastery Map) that builds confidence instead of anxiety.
-- **For teachers:** Auto-generated, concept-level insight into *why* a student is struggling — replacing guesswork with targeted intervention, even across large classes.
-- **For parents:** A simple weekly note in plain language, without needing to understand the curriculum themselves.
-- **For educational equity:** Directly targets learning quality and the urban-rural/income-based learning gap through language accessibility, offline support, and free/low-cost diagnostic tutoring.
+For instant platform evaluation, pre-seeded demo accounts are available:
+
+| Role | Email Address | Password | Features Accessible |
+|---|---|---|---|
+| **Student** | `student1@edusetu.in` | `Password123!` | Dashboard, Mastery Map, Quizzes, AI Tutor, Learning Plan |
+| **Mentor** | `mentor1@edusetu.in` | `Password123!` | Cohort Analytics, Student Insights, Auto-Revision Summaries |
+
+> [!TIP]
+> On both [`login.html`](frontend/pages/login.html) and [`index.html`](frontend/pages/index.html), you can click **"Fill Student Demo"** or **"Continue with Google"** for instant 1-click test access.
 
 ---
 
-## 7. Current Build Status
+## 📡 API Reference
 
-| Page | Status |
-|---|---|
-| `index.html` | Built |
-| `chatbot.html` | Built (base) — needs Step 4 extensions |
-| `dashboard.html` | Built (base) — needs Step 7 extensions |
-| `mastery-map.html` | To build (Step 2) |
-| `quiz.html` | To build (Step 3) |
-| `mentor.html` | To build (Step 5) |
-| `profile.html` | To build (Step 6) |
+The backend provides a RESTful API organized by domain:
+
+### 🔐 Authentication (`/api/auth`)
+- `POST /api/auth/register` — Create student or mentor account with initialized learning profile.
+- `POST /api/auth/login` — Authenticate user and issue secure session cookies.
+- `GET /api/auth/me` — Retrieve the currently authenticated user's profile and academic metadata.
+- `GET /api/auth/logout` / `POST /api/auth/logout` — Revoke session and clear cookies.
+- `GET /api/auth/dev-login` — Fast-path developer/evaluator login as test student.
+- `GET /api/auth/dev-login-mentor` — Fast-path developer/evaluator login as test mentor.
+
+### 🗺️ Concept Mastery (`/api/mastery`)
+- `GET /api/mastery/:subject` — Fetch concept network nodes, edges, prerequisite chains, and student mastery status.
+- `POST /api/mastery/update` — Record concept progress and update mastery scores.
+
+### 📝 Diagnostic Quizzes (`/api/quiz`)
+- `GET /api/quiz/:conceptId` — Retrieve 5 adaptive multiple-choice diagnostic questions for a concept.
+- `POST /api/quiz/submit` — Submit answers, classify misconception tags, and recalculate student confidence.
+
+### 🤖 AI Tutor Chat (`/api/chat`)
+- `POST /api/chat/message` — Send user query; returns grade-adaptive Socratic explanations in Hindi or English.
+- `POST /api/chat/rate` — Record self-reported comprehension rating (*"Got it"*, *"Kind of"*, *"Still confused"*).
+
+### 👨‍🏫 Mentor Portal (`/api/mentor`)
+- `GET /api/mentor/students` — Retrieve linked student roster with aggregate mastery status.
+- `GET /api/mentor/insights/:studentId` — Retrieve auto-generated revision briefs and dropout risk factors.
+
+### 🏥 System Health (`/api/health`)
+- `GET /api/health` — Monitor server status, uptime, and database connectivity.
+
+---
+
+## 🎯 Future Roadmap
+
+- [ ] **Voice-First Input**: Direct Hindi and regional dialect audio speech-to-text for low-literacy early learners.
+- [ ] **Offline PWA Sync**: Full ServiceWorker caching allowing diagnostic quizzes and study materials without active internet.
+- [ ] **Automated WhatsApp / SMS Summaries**: Sending weekly 2-line WhatsApp revision notes to parents in vernacular languages.
+- [ ] **Expanded Regional Languages**: Bengali, Marathi, Tamil, and Telugu localization.
+- [ ] **Teacher Worksheets Generator**: One-click printable remedial worksheets targeting the top 3 class misconceptions.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork the Repository** on GitHub.
+2. **Create a Feature Branch**:
+   ```bash
+   git checkout -b feature/awesome-improvement
+   ```
+3. **Commit Your Changes**:
+   ```bash
+   git commit -m "feat: add vernacular support for regional math symbols"
+   ```
+4. **Push to the Branch**:
+   ```bash
+   git push origin feature/awesome-improvement
+   ```
+5. **Open a Pull Request** describing your additions clearly.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+<p align="center">
+  <strong>Made with ❤️ for inclusive, equitable education across India · EduSetu</strong>
+</p>
