@@ -11,8 +11,218 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Core & Landing Stylesheet -->
-  <link rel="stylesheet" href="../css/landing.css">
+  <!-- Core & Landing Stylesheet with Cache Buster -->
+  <link rel="stylesheet" href="../css/landing.css?v=3.2">
+
+  <style id="navbar-direct-overrides">
+    /* High-priority immediate overrides ensuring zero-cache-lag rendering of reference navbar */
+    .landing-logo {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+    }
+    .landing-logo-icon {
+      width: 32px !important;
+      height: 32px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.65)) !important;
+      transition: transform 0.2s ease, filter 0.2s ease !important;
+    }
+    .landing-logo:hover .landing-logo-icon {
+      transform: scale(1.06) !important;
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.85)) !important;
+    }
+    .landing-logo-text {
+      font-family: 'Sora', 'Plus Jakarta Sans', sans-serif !important;
+      font-size: 1.25rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.02em !important;
+      color: #FFFFFF !important;
+    }
+    .landing-logo-text span {
+      color: #FBBF24 !important;
+    }
+    .landing-nav-link.active {
+      color: #FDE68A !important;
+      background: rgba(245, 158, 11, 0.15) !important;
+      border: 1px solid rgba(245, 158, 11, 0.45) !important;
+      font-weight: 600 !important;
+      padding: 6px 16px !important;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.18) !important;
+    }
+    .nav-dropdown-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav-dropdown-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #94A3B8;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+    .nav-dropdown-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .nav-dropdown-btn .dropdown-chevron {
+      transition: transform 0.2s ease;
+      stroke: currentColor;
+      opacity: 0.75;
+    }
+    .nav-dropdown-btn[aria-expanded="true"] {
+      color: #FBBF24;
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .nav-dropdown-btn[aria-expanded="true"] .dropdown-chevron {
+      transform: rotate(180deg);
+      opacity: 1;
+      stroke: #FBBF24;
+    }
+    .nav-dropdown-menu.subjects-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      min-width: 290px;
+      background: rgba(10, 16, 32, 0.96);
+      border: 1px solid rgba(129, 140, 248, 0.28);
+      border-radius: 16px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(59, 130, 246, 0.18);
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+    .nav-dropdown-menu.subjects-dropdown-menu.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 6px;
+    }
+    .dropdown-menu-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748B;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .dropdown-section-jump {
+      font-size: 0.72rem;
+      color: #60A5FA;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .dropdown-section-jump:hover {
+      color: #93C5FD;
+      text-decoration: underline;
+    }
+    .dropdown-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .nav-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #CBD5E1;
+      font-size: 0.86rem;
+      transition: all 0.18s ease;
+    }
+    .nav-dropdown-item:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #FFFFFF;
+      transform: translateX(2px);
+    }
+    .nav-dropdown-item.primary-subject-item {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .nav-dropdown-item.primary-subject-item:hover {
+      background: rgba(59, 130, 246, 0.2);
+    }
+    .nav-dropdown-item .item-icon {
+      font-size: 1.05rem;
+      width: 22px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .nav-dropdown-item .item-text {
+      font-weight: 500;
+      color: #F1F5F9;
+      flex: 1;
+    }
+    .nav-dropdown-item .item-meta {
+      font-size: 0.72rem;
+      color: #94A3B8;
+    }
+    .nav-dropdown-item .item-badge {
+      font-size: 0.68rem;
+      background: rgba(59, 130, 246, 0.18);
+      color: #93C5FD;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      font-weight: 600;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      margin: 4px 6px;
+    }
+    .dropdown-menu-footer {
+      margin-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 4px;
+    }
+    .dropdown-explore-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #FBBF24;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.18s ease;
+    }
+    .dropdown-explore-link:hover {
+      background: rgba(245, 158, 11, 0.12);
+      color: #FDE68A;
+    }
+  </style>
 </head>
 <body class="landing-body">
 
@@ -55,26 +265,100 @@
   <nav class="landing-navbar" id="landingNavbar" role="navigation" aria-label="Main navigation">
     <div class="landing-navbar-inner">
 
-      <!-- LEFT: EduSetu Brand Logo -->
-      <a href="index.html" class="landing-logo" aria-label="EduSetu Home">
-        <div class="landing-logo-badge">E</div>
+      <!-- LEFT: EduSetu Brand Logo with Glowing Blue Book Icon -->
+      <a href="#hero" class="landing-logo" id="navBrandLogo" aria-label="EduSetu Home">
+        <div class="landing-logo-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6.5C10.5 4.8 7.5 4.2 4 4.5V18.5C7.5 18.2 10.5 18.8 12 20.5C13.5 18.8 16.5 18.2 20 18.5V4.5C16.5 4.2 13.5 4.8 12 6.5Z" fill="url(#navBookGrad)" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 6.5V20.5" stroke="#BAE6FD" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M6.5 9C8.2 9 9.8 9.5 10.8 10.2" stroke="#E0F2FE" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+            <path d="M17.5 9C15.8 9 14.2 9.5 13.2 10.2" stroke="#E0F2FE" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+            <path d="M6.5 12.5C8.2 12.5 9.8 13 10.8 13.7" stroke="#E0F2FE" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+            <path d="M17.5 12.5C15.8 12.5 14.2 13 13.2 13.7" stroke="#E0F2FE" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+            <defs>
+              <linearGradient id="navBookGrad" x1="12" y1="4" x2="12" y2="21" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#0284C7"/>
+                <stop offset="1" stop-color="#0369A1"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <div class="landing-logo-text">Edu<span>Setu</span></div>
       </a>
 
-      <!-- CENTER: Public Marketing Anchor Links -->
+      <!-- CENTER: Public Marketing Anchor Links with Interactive Subjects Dropdown -->
       <div class="landing-nav-center" id="navCenterLinks">
-        <a href="#hero" class="landing-nav-link active">Home</a>
-        <a href="#features" class="landing-nav-link">Features</a>
-        <a href="#how-it-works" class="landing-nav-link">How It Works</a>
-        <a href="#subjects" class="landing-nav-link">Subjects</a>
-        <a href="#about" class="landing-nav-link">About</a>
+        <a href="#hero" class="landing-nav-link active" id="navLinkHome">Home</a>
+        <a href="#features" class="landing-nav-link" id="navLinkFeatures">Features</a>
+        <a href="#how-it-works" class="landing-nav-link" id="navLinkHow">How It Works</a>
+        
+        <!-- Interactive Subjects Dropdown -->
+        <div class="nav-dropdown-wrap" id="navSubjectsWrap">
+          <button class="landing-nav-link nav-dropdown-btn" id="navSubjectsBtn" aria-expanded="false" aria-haspopup="true" type="button">
+            <span>Subjects</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          
+          <!-- Dropdown Menu matching reference SaaS design -->
+          <div class="nav-dropdown-menu subjects-dropdown-menu" id="navSubjectsMenu" role="menu" aria-label="Subjects Menu">
+            <div class="dropdown-menu-header">
+              <span class="dropdown-menu-title">ACADEMIC CURRICULUM</span>
+              <a href="#subjects" class="dropdown-section-jump" id="jumpToSubjectsSection">Go to Section ↓</a>
+            </div>
+            
+            <div class="dropdown-items-list" id="subjectsDropdownList">
+              <a href="explore.html" class="nav-dropdown-item primary-subject-item" role="menuitem">
+                <span class="item-icon">📖</span>
+                <span class="item-text">All Subjects</span>
+                <span class="item-badge">Overview</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="explore.html?subject=math" class="nav-dropdown-item" role="menuitem">
+                <span class="item-icon">📐</span>
+                <span class="item-text">Mathematics</span>
+                <span class="item-meta">Classes 6 - 10</span>
+              </a>
+              <a href="explore.html?subject=science" class="nav-dropdown-item" role="menuitem">
+                <span class="item-icon">🔬</span>
+                <span class="item-text">Science</span>
+                <span class="item-meta">Physics, Chem, Bio</span>
+              </a>
+              <a href="explore.html?subject=social" class="nav-dropdown-item" role="menuitem">
+                <span class="item-icon">🌍</span>
+                <span class="item-text">Social Science</span>
+                <span class="item-meta">History, Civics, Geo</span>
+              </a>
+              <a href="explore.html?subject=english" class="nav-dropdown-item" role="menuitem">
+                <span class="item-icon">📚</span>
+                <span class="item-text">English</span>
+                <span class="item-meta">Grammar &amp; Lit</span>
+              </a>
+              <a href="explore.html?subject=hindi" class="nav-dropdown-item" role="menuitem">
+                <span class="item-icon">🇮🇳</span>
+                <span class="item-text">हिन्दी (Hindi)</span>
+                <span class="item-meta">साहित्य और व्याकरण</span>
+              </a>
+            </div>
+            
+            <div class="dropdown-menu-footer">
+              <a href="explore.html" class="dropdown-explore-link">
+                <span>View Full Curriculum &amp; Practice</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="#about" class="landing-nav-link" id="navLinkAbout">About</a>
       </div>
 
       <!-- RIGHT: Language Selector & Dynamic Auth Action Buttons -->
       <div class="landing-nav-right">
         <!-- Language Selector -->
         <div class="lang-selector-wrap" id="langSelectorWrap">
-          <button class="lang-selector-btn" id="langSelectorBtn" aria-label="Select Language" type="button">
+          <button class="lang-selector-btn" id="langSelectorBtn" aria-label="Select Language" type="button" aria-expanded="false">
             <span>🌐</span>
             <span id="currentLangLabel">EN</span>
             <span style="font-size: 0.65rem; opacity: 0.7;">▾</span>
@@ -94,7 +378,7 @@
         <!-- Logged-out state buttons (Sign In and Sign Up CTAs) -->
         <div class="nav-auth-logged-out" id="navAuthLoggedOut" style="display: flex; align-items: center; gap: 10px;">
           <a href="login.html" class="btn-nav-signin" id="navSignInBtn">Sign In</a>
-          <button class="btn-nav-signup" id="navSignUpBtn" type="button">Sign Up →</button>
+          <a href="register.html" class="btn-nav-signup" id="navSignUpBtn">Sign Up →</a>
         </div>
 
         <!-- Logged-in state buttons (Populated via /api/auth/me) -->
@@ -129,11 +413,19 @@
 
   <!-- Mobile Drawer -->
   <div class="landing-mobile-drawer" id="landingMobileDrawer">
-    <a href="#hero" class="landing-nav-link">Home</a>
-    <a href="#features" class="landing-nav-link">Features</a>
-    <a href="#how-it-works" class="landing-nav-link">How It Works</a>
-    <a href="#subjects" class="landing-nav-link">Subjects</a>
-    <a href="#about" class="landing-nav-link">About</a>
+    <a href="#hero" class="landing-nav-link" id="mobileLinkHome">Home</a>
+    <a href="#features" class="landing-nav-link" id="mobileLinkFeatures">Features</a>
+    <a href="#how-it-works" class="landing-nav-link" id="mobileLinkHow">How It Works</a>
+    <div class="mobile-subjects-group">
+      <div class="mobile-group-header">Academic Subjects</div>
+      <a href="explore.html?subject=math" class="mobile-sub-link">📐 Mathematics</a>
+      <a href="explore.html?subject=science" class="mobile-sub-link">🔬 Science</a>
+      <a href="explore.html?subject=social" class="mobile-sub-link">🌍 Social Science</a>
+      <a href="explore.html?subject=english" class="mobile-sub-link">📚 English</a>
+      <a href="explore.html?subject=hindi" class="mobile-sub-link">🇮🇳 हिन्दी</a>
+      <a href="explore.html" class="mobile-sub-link mobile-all-sub">📖 View All Subjects →</a>
+    </div>
+    <a href="#about" class="landing-nav-link" id="mobileLinkAbout">About</a>
     <div class="mobile-actions" id="mobileAuthContainer">
       <!-- Injected dynamically based on auth state -->
     </div>
@@ -793,6 +1085,21 @@
 
       // Elements
       const navbar = document.getElementById('landingNavbar');
+      const navBrandLogo = document.getElementById('navBrandLogo');
+      const navLinkHome = document.getElementById('navLinkHome');
+      const navLinkFeatures = document.getElementById('navLinkFeatures');
+      const navLinkHow = document.getElementById('navLinkHow');
+      const navLinkAbout = document.getElementById('navLinkAbout');
+      const navSubjectsWrap = document.getElementById('navSubjectsWrap');
+      const navSubjectsBtn = document.getElementById('navSubjectsBtn');
+      const navSubjectsMenu = document.getElementById('navSubjectsMenu');
+      const subjectsDropdownList = document.getElementById('subjectsDropdownList');
+      const jumpToSubjectsSection = document.getElementById('jumpToSubjectsSection');
+      const mobileLinkHome = document.getElementById('mobileLinkHome');
+      const mobileLinkFeatures = document.getElementById('mobileLinkFeatures');
+      const mobileLinkHow = document.getElementById('mobileLinkHow');
+      const mobileLinkAbout = document.getElementById('mobileLinkAbout');
+
       const navAuthLoggedOut = document.getElementById('navAuthLoggedOut');
       const navAuthLoggedIn = document.getElementById('navAuthLoggedIn');
       const navUserName = document.getElementById('navUserName');
@@ -929,11 +1236,40 @@
         }
       }
 
-      /* ---------- 3. User Dropdown Menu ---------- */
+      /* ---------- 3. User & Navigation Dropdown Menus ---------- */
       userMenuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        closeSubjectsDropdown();
+        if (langDropdownMenu) langDropdownMenu.classList.remove('show');
         userDropdownMenu.classList.toggle('show');
       });
+
+      function openSubjectsDropdown() {
+        if (!navSubjectsMenu || !navSubjectsBtn) return;
+        if (langDropdownMenu) langDropdownMenu.classList.remove('show');
+        if (userDropdownMenu) userDropdownMenu.classList.remove('show');
+        navSubjectsMenu.classList.add('show');
+        navSubjectsBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeSubjectsDropdown() {
+        if (!navSubjectsMenu || !navSubjectsBtn) return;
+        navSubjectsMenu.classList.remove('show');
+        navSubjectsBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      function toggleSubjectsDropdown(e) {
+        if (e) e.stopPropagation();
+        if (navSubjectsMenu && navSubjectsMenu.classList.contains('show')) {
+          closeSubjectsDropdown();
+        } else {
+          openSubjectsDropdown();
+        }
+      }
+
+      if (navSubjectsBtn) {
+        navSubjectsBtn.addEventListener('click', toggleSubjectsDropdown);
+      }
 
       document.addEventListener('click', function(e) {
         if (userMenuWrap && !userMenuWrap.contains(e.target)) {
@@ -941,6 +1277,9 @@
         }
         if (langSelectorWrap && !langSelectorWrap.contains(e.target)) {
           langDropdownMenu.classList.remove('show');
+        }
+        if (navSubjectsWrap && !navSubjectsWrap.contains(e.target)) {
+          closeSubjectsDropdown();
         }
       });
 
@@ -1198,6 +1537,9 @@
       // Escape key close
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+          closeSubjectsDropdown();
+          if (langDropdownMenu) langDropdownMenu.classList.remove('show');
+          if (userDropdownMenu) userDropdownMenu.classList.remove('show');
           if (authModalOverlay && authModalOverlay.classList.contains('active')) closeAuthModal();
           if (demoModalOverlay && demoModalOverlay.classList.contains('active')) closeDemoModal();
         }
@@ -1330,32 +1672,207 @@
 
       if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleLogout);
 
-      /* ---------- 12. Smooth Scroll & Active Nav Highlighter ---------- */
-      const navLinks = document.querySelectorAll('.landing-nav-center .landing-nav-link');
-      const sections = document.querySelectorAll('section[id]');
+      /* ---------- 12. Smooth Scroll & Interactive Section Navigation ---------- */
+      function smoothScrollTo(elementOrY) {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const behavior = isReducedMotion ? 'auto' : 'smooth';
+        if (typeof elementOrY === 'number') {
+          window.scrollTo({ top: elementOrY, behavior });
+        } else if (elementOrY) {
+          const headerOffset = 70;
+          const elementPosition = elementOrY.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: Math.max(0, offsetPosition), behavior });
+        }
+      }
 
+      function setActiveNavLink(targetLink) {
+        document.querySelectorAll('.landing-nav-center .landing-nav-link').forEach(l => l.classList.remove('active'));
+        if (targetLink) targetLink.classList.add('active');
+      }
+
+      // Brand Logo click -> scrolls smoothly to top
+      if (navBrandLogo) {
+        navBrandLogo.addEventListener('click', function(e) {
+          e.preventDefault();
+          smoothScrollTo(0);
+          setActiveNavLink(navLinkHome);
+          closeSubjectsDropdown();
+        });
+      }
+
+      // Home Link
+      if (navLinkHome) {
+        navLinkHome.addEventListener('click', function(e) {
+          e.preventDefault();
+          smoothScrollTo(0);
+          setActiveNavLink(navLinkHome);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkHome) {
+        mobileLinkHome.addEventListener('click', function(e) {
+          e.preventDefault();
+          smoothScrollTo(0);
+          setActiveNavLink(navLinkHome);
+          closeMobileDrawer();
+        });
+      }
+
+      // Features Link
+      if (navLinkFeatures) {
+        navLinkFeatures.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('features');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkFeatures);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkFeatures) {
+        mobileLinkFeatures.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('features');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
+      // How It Works Link
+      if (navLinkHow) {
+        navLinkHow.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('how-it-works');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkHow);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkHow) {
+        mobileLinkHow.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('how-it-works');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
+      // About Link
+      if (navLinkAbout) {
+        navLinkAbout.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('about');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkAbout);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkAbout) {
+        mobileLinkAbout.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('about');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
+      // Dropdown internal jump to Subjects section
+      if (jumpToSubjectsSection) {
+        jumpToSubjectsSection.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeSubjectsDropdown();
+          const target = document.getElementById('subjects');
+          if (target) smoothScrollTo(target);
+        });
+      }
+
+      // Dynamic subject fetching from /api/subjects
+      async function loadSubjectsForDropdown() {
+        try {
+          const res = await fetch('/api/subjects');
+          if (!res.ok) return;
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            renderDynamicSubjects(json.data);
+          }
+        } catch (err) {
+          console.warn('API subjects fetch fallback in use:', err);
+        }
+      }
+
+      function renderDynamicSubjects(subjects) {
+        if (!subjectsDropdownList) return;
+        const subjectIcons = {
+          'Mathematics': '📐',
+          'Science': '🔬',
+          'Social Science': '🌍',
+          'English': '📚',
+          'Hindi': '🇮🇳'
+        };
+
+        let html = `
+          <a href="explore.html" class="nav-dropdown-item primary-subject-item" role="menuitem">
+            <span class="item-icon">📖</span>
+            <span class="item-text">All Subjects</span>
+            <span class="item-badge">Overview</span>
+          </a>
+          <div class="dropdown-divider"></div>
+        `;
+
+        subjects.forEach(sub => {
+          const icon = sub.icon || subjectIcons[sub.name] || '📘';
+          const slug = sub.slug || encodeURIComponent(sub.name.toLowerCase());
+          const meta = sub.grade_level ? `Classes 6 - 10` : 'Curriculum';
+          html += `
+            <a href="explore.html?subject=${slug}" class="nav-dropdown-item" role="menuitem">
+              <span class="item-icon">${icon}</span>
+              <span class="item-text">${sub.name}</span>
+              <span class="item-meta">${meta}</span>
+            </a>
+          `;
+        });
+
+        subjectsDropdownList.innerHTML = html;
+
+        subjectsDropdownList.querySelectorAll('.nav-dropdown-item').forEach(item => {
+          item.addEventListener('click', closeSubjectsDropdown);
+        });
+      }
+
+      if (subjectsDropdownList) {
+        subjectsDropdownList.querySelectorAll('.nav-dropdown-item').forEach(item => {
+          item.addEventListener('click', closeSubjectsDropdown);
+        });
+      }
+
+      // Passive scroll listener to update active indicator
       window.addEventListener('scroll', function() {
-        let currentSection = '';
-        const scrollPos = window.scrollY + 120;
+        const scrollPos = window.scrollY + 140;
+        const heroSection = document.getElementById('hero');
+        const featuresSection = document.getElementById('features');
+        const subjectsSection = document.getElementById('subjects');
+        const howSection = document.getElementById('how-it-works');
+        const aboutSection = document.getElementById('about');
 
-        sections.forEach(sec => {
-          const top = sec.offsetTop;
-          const height = sec.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            currentSection = sec.getAttribute('id');
-          }
-        });
+        if (window.scrollY < 260) {
+          setActiveNavLink(navLinkHome);
+          return;
+        }
 
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-          }
-        });
+        if (aboutSection && scrollPos >= aboutSection.offsetTop) {
+          setActiveNavLink(navLinkAbout);
+        } else if (howSection && scrollPos >= howSection.offsetTop) {
+          setActiveNavLink(navLinkHow);
+        } else if (subjectsSection && scrollPos >= subjectsSection.offsetTop) {
+          setActiveNavLink(null);
+        } else if (featuresSection && scrollPos >= featuresSection.offsetTop) {
+          setActiveNavLink(navLinkFeatures);
+        }
       }, { passive: true });
 
       // Run on page load
       checkAuthSession();
+      loadSubjectsForDropdown();
 
     })();
   </script>
