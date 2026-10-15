@@ -6,6 +6,16 @@
   <meta name="description" content="Sign In to EduSetu — Your AI-powered diagnostic learning companion.">
   <title>Sign In — EduSetu</title>
 
+  <!-- Prevent Theme FOUC -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('edusetu_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
+
   <!-- Google Fonts: Plus Jakarta Sans, Inter, Sora -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,10 +34,75 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      background-color: #060913;
-      color: #F8FAFC;
+      background-color: var(--bg-canvas, #060913);
+      color: var(--text-primary, #F8FAFC);
       font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
       overflow-x: hidden;
+    }
+
+    [data-theme="light"] html,
+    [data-theme="light"] body {
+      background-color: #F8FAFC !important;
+      color: #0F172A !important;
+    }
+
+    [data-theme="light"] .auth-card {
+      background: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12) !important;
+    }
+
+    [data-theme="light"] .auth-modal-backdrop {
+      background: rgba(15, 23, 42, 0.35) !important;
+    }
+
+    [data-theme="light"] .auth-heading {
+      color: #0F172A !important;
+    }
+
+    [data-theme="light"] .auth-subtitle {
+      color: #475569 !important;
+    }
+
+    [data-theme="light"] .form-label {
+      color: #334155 !important;
+    }
+
+    [data-theme="light"] .auth-input {
+      background: #F8FAFC !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+    }
+
+    [data-theme="light"] .auth-input:focus {
+      background: #FFFFFF !important;
+      border-color: #D97706 !important;
+    }
+
+    [data-theme="light"] .btn-fill-demo {
+      color: #D97706 !important;
+    }
+
+    [data-theme="light"] .auth-demo-banner {
+      background: #F8FAFC !important;
+      border-color: #E2E8F0 !important;
+    }
+
+    [data-theme="light"] .auth-modal-close,
+    [data-theme="light"] .auth-theme-toggle {
+      background: #F1F5F9 !important;
+      border-color: #CBD5E1 !important;
+      color: #475569 !important;
+    }
+
+    [data-theme="light"] .btn-oauth-google {
+      background: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+      color: #1E293B !important;
+    }
+
+    [data-theme="light"] .btn-oauth-google:hover {
+      background: #F8FAFC !important;
     }
 
     /* 1. Full-Screen Living Background Layer */
@@ -599,6 +674,12 @@
        ============================================================ -->
   <div class="auth-modal-wrapper" id="authModalWrapper" role="dialog" aria-modal="true" aria-labelledby="authHeading">
     <div class="auth-card">
+      <!-- Theme Toggle Button -->
+      <button class="theme-toggle-btn auth-theme-toggle" id="authThemeToggle" aria-label="Toggle Light/Dark Theme" type="button" title="Switch Theme" style="position: absolute; top: 14px; right: 48px; width: 28px; height: 28px; font-size: 0.85rem;">
+        <span class="theme-toggle-icon-dark">🌙</span>
+        <span class="theme-toggle-icon-light">☀️</span>
+      </button>
+
       <!-- Close Dialog Button -->
       <a href="index.html" class="auth-modal-close" aria-label="Close and return to home">✕</a>
 
@@ -662,6 +743,7 @@
   </div>
 
   <!-- Real Full-Stack Sign-In & Authentication Logic -->
+  <script src="../js/theme.js"></script>
   <script>
     (function() {
       'use strict';

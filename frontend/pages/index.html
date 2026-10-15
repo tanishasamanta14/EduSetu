@@ -1,18 +1,29 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EduSetu — AI-Powered Learning Companion bridging education gaps for students across India. Multilingual, diagnostic-first AI tutoring.">
-  <title>EduSetu — Your AI Learning Companion</title>
+  <meta name="description" content="EduSetu â€” AI-Powered Learning Companion bridging education gaps for students across India. Multilingual, diagnostic-first AI tutoring.">
+  <title>EduSetu â€” Your AI Learning Companion</title>
+
+  <!-- Prevent Theme FOUC -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('edusetu_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Google Fonts: Plus Jakarta Sans, Inter & Sora for Reference SaaS Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Core & Landing Stylesheet with Cache Buster -->
-  <link rel="stylesheet" href="../css/landing.css?v=3.3">
+  <!-- Core Theme & Landing Stylesheets -->
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/landing.css?v=3.4">
 
   <style id="navbar-direct-overrides">
     /* Explicit stacking hierarchy: Navbar & dropdowns above normal content & hero illustration */
@@ -311,7 +322,8 @@
       <div class="landing-nav-center" id="navCenterLinks">
         <a href="#hero" class="landing-nav-link active" id="navLinkHome">Home</a>
         <a href="#features" class="landing-nav-link" id="navLinkFeatures">Features</a>
-        <a href="#how-it-works" class="landing-nav-link" id="navLinkHow">How It Works</a>
+        <a href="#explore-curriculum" class="landing-nav-link" id="navLinkCurriculum">Curriculum</a>
+        <a href="#methodology" class="landing-nav-link" id="navLinkMethodology">Methodology</a>
         
         <!-- Interactive Subjects Dropdown -->
         <div class="nav-dropdown-wrap" id="navSubjectsWrap">
@@ -326,63 +338,70 @@
           <div class="nav-dropdown-menu subjects-dropdown-menu" id="navSubjectsMenu" role="menu" aria-label="Subjects Menu">
             <div class="dropdown-menu-header">
               <span class="dropdown-menu-title">ACADEMIC CURRICULUM</span>
-              <a href="#subjects" class="dropdown-section-jump" id="jumpToSubjectsSection">Go to Section ↓</a>
+              <a href="#explore-curriculum" class="dropdown-section-jump" id="jumpToSubjectsSection">Go to Section â†“</a>
             </div>
             
             <div class="dropdown-items-list" id="subjectsDropdownList">
               <a href="explore.html" class="nav-dropdown-item primary-subject-item" role="menuitem">
-                <span class="item-icon">📖</span>
+                <span class="item-icon">ðŸ“–</span>
                 <span class="item-text">All Subjects</span>
                 <span class="item-badge">Overview</span>
               </a>
               <div class="dropdown-divider"></div>
               <a href="explore.html?subject=math" class="nav-dropdown-item" role="menuitem">
-                <span class="item-icon">📐</span>
+                <span class="item-icon">ðŸ“</span>
                 <span class="item-text">Mathematics</span>
                 <span class="item-meta">Classes 6 - 10</span>
               </a>
               <a href="explore.html?subject=science" class="nav-dropdown-item" role="menuitem">
-                <span class="item-icon">🔬</span>
+                <span class="item-icon">ðŸ”¬</span>
                 <span class="item-text">Science</span>
                 <span class="item-meta">Physics, Chem, Bio</span>
               </a>
               <a href="explore.html?subject=social" class="nav-dropdown-item" role="menuitem">
-                <span class="item-icon">🌍</span>
+                <span class="item-icon">ðŸŒ</span>
                 <span class="item-text">Social Science</span>
                 <span class="item-meta">History, Civics, Geo</span>
               </a>
               <a href="explore.html?subject=english" class="nav-dropdown-item" role="menuitem">
-                <span class="item-icon">📚</span>
+                <span class="item-icon">ðŸ“š</span>
                 <span class="item-text">English</span>
                 <span class="item-meta">Grammar &amp; Lit</span>
               </a>
               <a href="explore.html?subject=hindi" class="nav-dropdown-item" role="menuitem">
-                <span class="item-icon">🇮🇳</span>
-                <span class="item-text">हिन्दी (Hindi)</span>
-                <span class="item-meta">साहित्य और व्याकरण</span>
+                <span class="item-icon">ðŸ‡®ðŸ‡³</span>
+                <span class="item-text">à¤¹à¤¿à¤¨à¥à¤¦à¥€ (Hindi)</span>
+                <span class="item-meta">à¤¸à¤¾à¤¹à¤¿à¤¤à¥à¤¯ à¤”à¤° à¤µà¥à¤¯à¤¾à¤•à¤°à¤£</span>
               </a>
             </div>
             
             <div class="dropdown-menu-footer">
               <a href="explore.html" class="dropdown-explore-link">
                 <span>View Full Curriculum &amp; Practice</span>
-                <span>→</span>
+                <span>â†’</span>
               </a>
             </div>
           </div>
         </div>
 
+        <a href="#faq" class="landing-nav-link" id="navLinkFaq">FAQ</a>
         <a href="#about" class="landing-nav-link" id="navLinkAbout">About</a>
       </div>
 
-      <!-- RIGHT: Language Selector & Dynamic Auth Action Buttons -->
+      <!-- RIGHT: Theme Toggle, Language Selector & Dynamic Auth Action Buttons -->
       <div class="landing-nav-right">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn" id="landingThemeToggle" aria-label="Toggle Light/Dark Theme" type="button" title="Switch Theme">
+          <span class="theme-toggle-icon-dark">ðŸŒ™</span>
+          <span class="theme-toggle-icon-light">â˜€ï¸</span>
+        </button>
+
         <!-- Language Selector -->
         <div class="lang-selector-wrap" id="langSelectorWrap">
           <button class="lang-selector-btn" id="langSelectorBtn" aria-label="Select Language" type="button" aria-expanded="false">
-            <span>🌐</span>
+            <span>ðŸŒ</span>
             <span id="currentLangLabel">EN</span>
-            <span style="font-size: 0.65rem; opacity: 0.7;">▾</span>
+            <span style="font-size: 0.65rem; opacity: 0.7;">â–¾</span>
           </button>
           <div class="lang-dropdown-menu" id="langDropdownMenu" role="menu">
             <button class="lang-dropdown-item active" data-lang="en" type="button">
@@ -390,7 +409,7 @@
               <span style="font-size:0.75rem; opacity:0.7;">EN</span>
             </button>
             <button class="lang-dropdown-item" data-lang="hi" type="button">
-              <span>हिन्दी</span>
+              <span>à¤¹à¤¿à¤¨à¥à¤¦à¥€</span>
               <span style="font-size:0.75rem; opacity:0.7;">HI</span>
             </button>
           </div>
@@ -399,26 +418,26 @@
         <!-- Logged-out state buttons (Sign In and Sign Up CTAs) -->
         <div class="nav-auth-logged-out" id="navAuthLoggedOut" style="display: flex; align-items: center; gap: 10px;">
           <a href="login.html" class="btn-nav-signin" id="navSignInBtn">Sign In</a>
-          <a href="register.html" class="btn-nav-signup" id="navSignUpBtn">Sign Up →</a>
+          <a href="register.html" class="btn-nav-signup" id="navSignUpBtn">Sign Up â†’</a>
         </div>
 
         <!-- Logged-in state buttons (Populated via /api/auth/me) -->
         <div class="nav-auth-logged-in" id="navAuthLoggedIn" style="display: none; align-items: center; gap: 12px;">
-          <a href="dashboard.html" class="btn-nav-dashboard">Go to Dashboard →</a>
+          <a href="dashboard.html" class="btn-nav-dashboard">Go to Dashboard â†’</a>
           <div class="user-menu-wrap" id="userMenuWrap">
             <button class="user-menu-btn" id="userMenuBtn" aria-label="User profile options" type="button">
               <div class="user-menu-avatar" id="navUserAvatar">S</div>
               <span id="navUserName">Student</span>
-              <span style="font-size: 0.65rem; opacity: 0.7;">▾</span>
+              <span style="font-size: 0.65rem; opacity: 0.7;">â–¾</span>
             </button>
             <div class="user-dropdown-menu" id="userDropdownMenu" role="menu">
               <div class="user-dropdown-header">
                 <div class="user-dropdown-name" id="userDropdownName">Student</div>
                 <div class="user-dropdown-email" id="userDropdownEmail">student@edusetu.in</div>
               </div>
-              <a href="dashboard.html" class="user-dropdown-item">📊 Dashboard</a>
-              <a href="profile.html" class="user-dropdown-item">⚙️ Profile &amp; Settings</a>
-              <button class="user-dropdown-item danger" id="navLogoutBtn" type="button">🚪 Log Out</button>
+              <a href="dashboard.html" class="user-dropdown-item">ðŸ“Š Dashboard</a>
+              <a href="profile.html" class="user-dropdown-item">âš™ï¸ Profile &amp; Settings</a>
+              <button class="user-dropdown-item danger" id="navLogoutBtn" type="button">ðŸšª Log Out</button>
             </div>
           </div>
         </div>
@@ -436,17 +455,27 @@
   <div class="landing-mobile-drawer" id="landingMobileDrawer">
     <a href="#hero" class="landing-nav-link" id="mobileLinkHome">Home</a>
     <a href="#features" class="landing-nav-link" id="mobileLinkFeatures">Features</a>
+    <a href="#explore-curriculum" class="landing-nav-link" id="mobileLinkCurriculum">Curriculum</a>
+    <a href="#methodology" class="landing-nav-link" id="mobileLinkMethodology">Methodology</a>
     <a href="#how-it-works" class="landing-nav-link" id="mobileLinkHow">How It Works</a>
     <div class="mobile-subjects-group">
       <div class="mobile-group-header">Academic Subjects</div>
-      <a href="explore.html?subject=math" class="mobile-sub-link">📐 Mathematics</a>
-      <a href="explore.html?subject=science" class="mobile-sub-link">🔬 Science</a>
-      <a href="explore.html?subject=social" class="mobile-sub-link">🌍 Social Science</a>
-      <a href="explore.html?subject=english" class="mobile-sub-link">📚 English</a>
-      <a href="explore.html?subject=hindi" class="mobile-sub-link">🇮🇳 हिन्दी</a>
-      <a href="explore.html" class="mobile-sub-link mobile-all-sub">📖 View All Subjects →</a>
+      <a href="explore.html?subject=math" class="mobile-sub-link">ðŸ“ Mathematics</a>
+      <a href="explore.html?subject=science" class="mobile-sub-link">ðŸ”¬ Science</a>
+      <a href="explore.html?subject=social" class="mobile-sub-link">ðŸŒ Social Science</a>
+      <a href="explore.html?subject=english" class="mobile-sub-link">ðŸ“š English</a>
+      <a href="explore.html?subject=hindi" class="mobile-sub-link">ðŸ‡®ðŸ‡³ à¤¹à¤¿à¤¨à¥à¤¦à¥€</a>
+      <a href="explore.html" class="mobile-sub-link mobile-all-sub">ðŸ“– View All Subjects â†’</a>
     </div>
+    <a href="#faq" class="landing-nav-link" id="mobileLinkFaq">FAQ</a>
     <a href="#about" class="landing-nav-link" id="mobileLinkAbout">About</a>
+    <div class="mobile-theme-wrap">
+      <span style="font-size: 0.9rem; font-weight: 600;">Theme Mode</span>
+      <button class="theme-toggle-btn" id="mobileThemeToggle" aria-label="Toggle Light/Dark Theme" type="button">
+        <span class="theme-toggle-icon-dark">ðŸŒ™</span>
+        <span class="theme-toggle-icon-light">â˜€ï¸</span>
+      </button>
+    </div>
     <div class="mobile-actions" id="mobileAuthContainer">
       <!-- Injected dynamically based on auth state -->
     </div>
@@ -461,16 +490,16 @@
       <!-- Left Column: Headline, Highlights, CTA -->
       <div class="hero-left-col">
         <div class="hero-top-badge">
-          <span class="badge-star">✦</span> AI-Powered Learning Platform
+          <span class="badge-star">âœ¦</span> AI-Powered Learning Platform
         </div>
 
         <h1 class="hero-main-title">
           <span class="hero-title-line">Learn Smarter</span>
-          <span class="hero-title-line">with AI, <span class="text-gold-gradient">Your Way</span><span class="hero-sparkle-star">✦</span></span>
+          <span class="hero-title-line">with AI, <span class="text-gold-gradient">Your Way</span><span class="hero-sparkle-star">âœ¦</span></span>
         </h1>
 
         <p class="hero-description">
-          Personalized, multilingual, and diagnostic-first learning for every learner — from school to college.
+          Personalized, multilingual, and diagnostic-first learning for every learner â€” from school to college.
         </p>
 
         <!-- 4 Circular Feature Highlights Row -->
@@ -536,16 +565,16 @@
         <!-- Micro-features Checkmarks Row -->
         <div class="hero-micro-checks">
           <span class="micro-check-item">
-            <span class="check-icon">✓</span> Multilingual Support
+            <span class="check-icon">âœ“</span> Multilingual Support
           </span>
           <span class="micro-check-item">
-            <span class="check-icon">✓</span> Adaptive Quizzes
+            <span class="check-icon">âœ“</span> Adaptive Quizzes
           </span>
           <span class="micro-check-item">
-            <span class="check-icon">✓</span> Concept Visualizations
+            <span class="check-icon">âœ“</span> Concept Visualizations
           </span>
           <span class="micro-check-item">
-            <span class="check-icon">✓</span> Progress Tracking
+            <span class="check-icon">âœ“</span> Progress Tracking
           </span>
         </div>
       </div>
@@ -559,7 +588,7 @@
           <!-- Repositioned Demo Action beneath Hero Illustration -->
           <div class="hero-demo-action-wrap">
             <button class="btn-explore-demo" id="heroWatchDemoBtn" type="button">
-              <span class="explore-demo-icon">▶</span> Explore How EduSetu Works →
+              <span class="explore-demo-icon">â–¶</span> Explore How EduSetu Works â†’
             </button>
           </div>
         </div>
@@ -637,7 +666,7 @@
       <!-- Left Header Column -->
       <div class="showcase-header-side">
         <div class="showcase-badge">
-          <span class="badge-star">✦</span> Why Choose EduSetu
+          <span class="badge-star">âœ¦</span> Why Choose EduSetu
         </div>
         <h2 class="showcase-title">
           Everything You Need<br>
@@ -671,7 +700,7 @@
           <p class="card-para">
             Get instant, step-by-step explanations in simple language.
           </p>
-          <div class="card-circle-arrow">→</div>
+          <div class="card-circle-arrow">â†’</div>
         </a>
 
         <!-- Card 2: Adaptive Quizzes (Purple Accent) -->
@@ -688,7 +717,7 @@
           <p class="card-para">
             Practice with personalized questions and detailed feedback.
           </p>
-          <div class="card-circle-arrow">→</div>
+          <div class="card-circle-arrow">â†’</div>
         </a>
 
         <!-- Card 3: Mastery Tracking (Emerald Accent) -->
@@ -704,7 +733,7 @@
           <p class="card-para">
             Visualize your progress and focus on what matters.
           </p>
-          <div class="card-circle-arrow">→</div>
+          <div class="card-circle-arrow">â†’</div>
         </a>
 
         <!-- Card 4: Personalized Learning (Gold Accent) -->
@@ -720,7 +749,7 @@
           <p class="card-para">
             Get recommendations based on your strengths and goals.
           </p>
-          <div class="card-circle-arrow">→</div>
+          <div class="card-circle-arrow">â†’</div>
         </a>
       </div>
 
@@ -728,52 +757,162 @@
   </section>
 
   <!-- ============================================================
-       SUBJECTS / CURRICULUM SECTION (#subjects)
+       CURRICULUM EXPLORATION & TOPIC DISCOVERY (#explore-curriculum)
        ============================================================ -->
-  <section class="section-subjects" id="subjects">
-    <div class="section-header">
-      <span class="section-tag-pill">Comprehensive Curriculum</span>
-      <h2 class="section-title">Subjects Covered</h2>
-      <p class="section-subtitle">
-        Structured syllabus coverage aligned with NCERT and Indian State Boards for Classes 6 through 10.
-      </p>
-    </div>
+  <section class="section-curriculum-discovery" id="explore-curriculum">
+    <div id="subjects" style="position: relative; top: -70px; visibility: hidden;"></div>
+    <div class="curriculum-discovery-panel">
+      <div class="section-header">
+        <span class="section-tag-pill">Academic Curriculum &amp; Discovery</span>
+        <h2 class="section-title">Explore Topics &amp; Diagnostic Pathways</h2>
+        <p class="section-subtitle">
+          Structured syllabus coverage aligned with NCERT and Indian State Boards for Classes 6 through 10. Search concepts or filter by subject to practice and diagnose gaps.
+        </p>
+      </div>
 
-    <div class="subjects-grid">
-      <!-- Mathematics -->
-      <a href="explore.html?subject=math" class="subject-glass-pill">
-        <span class="subject-icon-big">📐</span>
-        <span class="subject-name-big">Mathematics</span>
-        <span class="subject-class-tag">Classes 6 - 10</span>
-      </a>
+      <!-- Controls: Live Search & Category Filters -->
+      <div class="curriculum-controls-bar">
+        <div class="curriculum-search-box">
+          <svg class="curriculum-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="curriculum-search-input" id="curriculumSearchInput" placeholder="Search concepts (e.g., Photosynthesis, Linear Equations, Newton...)" autocomplete="off">
+        </div>
 
-      <!-- Science -->
-      <a href="explore.html?subject=science" class="subject-glass-pill">
-        <span class="subject-icon-big">🔬</span>
-        <span class="subject-name-big">Science</span>
-        <span class="subject-class-tag">Physics, Chem, Bio</span>
-      </a>
+        <div class="curriculum-filters-strip" id="curriculumFilters">
+          <button type="button" class="curriculum-filter-pill active" data-subject="all">
+            <span>âœ¨</span> All Subjects
+          </button>
+          <button type="button" class="curriculum-filter-pill" data-subject="math">
+            <span>ðŸ“</span> Mathematics
+          </button>
+          <button type="button" class="curriculum-filter-pill" data-subject="science">
+            <span>ðŸŒ¿</span> Science
+          </button>
+          <button type="button" class="curriculum-filter-pill" data-subject="social">
+            <span>ðŸŒ</span> Social Science
+          </button>
+          <button type="button" class="curriculum-filter-pill" data-subject="english">
+            <span>ðŸ“–</span> English
+          </button>
+          <button type="button" class="curriculum-filter-pill" data-subject="hindi">
+            <span>ðŸ‡®ðŸ‡³</span> à¤¹à¤¿à¤¨à¥à¤¦à¥€ (Hindi)
+          </button>
+        </div>
+      </div>
 
-      <!-- Social Science -->
-      <a href="explore.html?subject=social" class="subject-glass-pill">
-        <span class="subject-icon-big">🌍</span>
-        <span class="subject-name-big">Social Science</span>
-        <span class="subject-class-tag">History, Civics, Geo</span>
-      </a>
+      <!-- Live Dynamic Curriculum Cards Grid -->
+      <div class="curriculum-topic-grid" id="curriculumTopicGrid">
+        <!-- Initial Real Curriculum Cards (Synced live with /api/topics) -->
+        <div class="topic-card" data-subject="math" data-grade="6">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸ“ Mathematics Â· Class 6</span>
+            <span class="topic-diff-badge beginner">Beginner</span>
+          </div>
+          <h3 class="topic-title">Fractions &amp; Decimals</h3>
+          <p class="topic-desc">Understanding numerators, denominators, and rational representations with real-world examples.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Numerator represents parts taken</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Like fractions have identical denominators</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=fractions" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=fractions" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
 
-      <!-- English -->
-      <a href="explore.html?subject=english" class="subject-glass-pill">
-        <span class="subject-icon-big">📚</span>
-        <span class="subject-name-big">English</span>
-        <span class="subject-class-tag">Grammar &amp; Lit</span>
-      </a>
+        <div class="topic-card" data-subject="science" data-grade="7">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸŒ¿ Science Â· Class 7</span>
+            <span class="topic-diff-badge beginner">Beginner</span>
+          </div>
+          <h3 class="topic-title">Photosynthesis</h3>
+          <p class="topic-desc">How autotrophs synthesize glucose and chemical energy using chlorophyll, sunlight, and CO2.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Chlorophyll captures solar photons in chloroplasts</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Oxygen released as crucial bio-byproduct</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=photosynthesis" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=photosynthesis" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
 
-      <!-- Hindi -->
-      <a href="explore.html?subject=hindi" class="subject-glass-pill">
-        <span class="subject-icon-big">🇮🇳</span>
-        <span class="subject-name-big">हिन्दी</span>
-        <span class="subject-class-tag">व्याकरण और साहित्य</span>
-      </a>
+        <div class="topic-card" data-subject="math" data-grade="8">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸ“ Mathematics Â· Class 8</span>
+            <span class="topic-diff-badge intermediate">Intermediate</span>
+          </div>
+          <h3 class="topic-title">Algebraic Expressions</h3>
+          <p class="topic-desc">Operations on polynomials, coefficients, distributive law, and isolating variables.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Terms separated by + or - operators</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Like terms share identical variable exponents</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=algebraic-expressions" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=algebraic-expressions" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
+
+        <div class="topic-card" data-subject="social" data-grade="8">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸŒ Social Science Â· Class 8</span>
+            <span class="topic-diff-badge intermediate">Intermediate</span>
+          </div>
+          <h3 class="topic-title">Indian Constitution &amp; Rights</h3>
+          <p class="topic-desc">Preamble, secularism, separation of powers, and Fundamental Rights guaranteed under Articles 14â€“32.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Constitution is supreme law of India</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Fundamental Rights protected by Supreme Court</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=indian-constitution" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=indian-constitution" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
+
+        <div class="topic-card" data-subject="science" data-grade="8">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸŒ¿ Science Â· Class 8</span>
+            <span class="topic-diff-badge intermediate">Intermediate</span>
+          </div>
+          <h3 class="topic-title">Light â€” Reflection &amp; Refraction</h3>
+          <p class="topic-desc">Laws of reflection, spherical mirrors, refraction index, and ray optics ray tracing.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Angle of incidence equals angle of reflection</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Refractive index indicates optical density</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=light-reflection" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=light-reflection" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
+
+        <div class="topic-card" data-subject="math" data-grade="8">
+          <div class="topic-card-header">
+            <span class="topic-subject-badge">ðŸ“ Mathematics Â· Class 8</span>
+            <span class="topic-diff-badge intermediate">Intermediate</span>
+          </div>
+          <h3 class="topic-title">Linear Equations in One Variable</h3>
+          <p class="topic-desc">Solving first-degree linear equations with balanced bilateral transposition operations.</p>
+          <div class="topic-keypoints-list">
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Symmetric operations on both equation sides</div>
+            <div class="topic-keypoint-item"><span class="bullet">âœ¦</span> Cross-multiplication for rational coefficients</div>
+          </div>
+          <div class="topic-card-actions">
+            <a href="chatbot.html?topic=linear-equations" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+            <a href="quiz.html?topic=linear-equations" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 36px;">
+        <a href="explore.html" class="btn-gold-primary" style="padding: 12px 28px; font-size: 0.95rem;">
+          View Full Interactive Curriculum &amp; Practice â†’
+        </a>
+      </div>
     </div>
   </section>
 
@@ -823,6 +962,105 @@
         <h4 class="step-card-title">Master &amp; Retain</h4>
         <p class="step-card-desc">
           Track your real-time mastery growth on your concept graph and demonstrate proven retention with diagnostic quizzes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LEARNING METHODOLOGY & PEDAGOGICAL ADVANTAGES (#methodology)
+       ============================================================ -->
+  <section class="section-methodology" id="methodology">
+    <div class="section-header">
+      <span class="section-tag-pill">Pedagogical Architecture</span>
+      <h2 class="section-title">Why Socratic Diagnosis Beats Rote Tutoring</h2>
+      <p class="section-subtitle">
+        Most educational apps simply dump the answer. EduSetu diagnoses the root misconception, repairs the foundation, and verifies long-term mastery.
+      </p>
+    </div>
+
+    <!-- Comparison Grid: Traditional vs EduSetu -->
+    <div class="methodology-comparison-grid">
+      <!-- Traditional EdTech -->
+      <div class="comparison-card traditional">
+        <span class="comparison-badge">Traditional Rote EdTech</span>
+        <h3 class="comparison-title">Symptomatic Answers &amp; Passive Watching</h3>
+        <ul class="comparison-list">
+          <li class="comparison-item">
+            <span class="comparison-icon-cross">âœ•</span>
+            <div><strong>Provides immediate answers</strong> without identifying why the student got stuck or what misconception caused the error.</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-cross">âœ•</span>
+            <div><strong>One-way passive video lectures</strong> where students nod along with an illusion of competence that vanishes during exams.</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-cross">âœ•</span>
+            <div><strong>Ignores foundational gaps</strong> from earlier classes (e.g. failing quadratic equations because fractions from Class 6 were shaky).</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-cross">âœ•</span>
+            <div><strong>Rigid English-first jargon</strong> that intimidates students who think and communicate naturally in vernacular languages.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- EduSetu Diagnostic Engine -->
+      <div class="comparison-card edusetu">
+        <span class="comparison-badge">EduSetu Diagnostic Engine</span>
+        <h3 class="comparison-title">Socratic Diagnosis &amp; Root Cause Remediation</h3>
+        <ul class="comparison-list">
+          <li class="comparison-item">
+            <span class="comparison-icon-check">âœ“</span>
+            <div><strong>Pinpoints exact root misconceptions</strong> using targeted Socratic questions instead of handing over surface-level answers.</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-check">âœ“</span>
+            <div><strong>Knowledge Graph Prerequisite Tracing</strong> automatically detects missing prerequisites from past years and repairs them first.</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-check">âœ“</span>
+            <div><strong>Vernacular &amp; Hinglish Native Tutoring</strong> allows learners to voice doubts naturally in their mother tongue without hesitation.</div>
+          </li>
+          <li class="comparison-item">
+            <span class="comparison-icon-check">âœ“</span>
+            <div><strong>Adaptive Retention Calibration</strong> tests understanding with calibrated follow-up challenges to ensure durable long-term retention.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4 Pillars Grid -->
+    <div class="methodology-pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon-box">ðŸ”</div>
+        <h4 class="pillar-title">Diagnostic First</h4>
+        <p class="pillar-body">
+          Every query triggers an error-pattern analysis to locate the cognitive roadblock before introducing new theoretical material.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon-box">ðŸ—ºï¸</div>
+        <h4 class="pillar-title">Knowledge Graph</h4>
+        <p class="pillar-body">
+          Interactive concept dependencies mapped across grades ensure students never build advanced math on fragile foundational bricks.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon-box">ðŸŽ™ï¸</div>
+        <h4 class="pillar-title">Vernacular Voice</h4>
+        <p class="pillar-body">
+          Multilingual AI tutor understands Hindi, Hinglish, and regional speech patterns, dissolving intimidation and language barriers.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon-box">ðŸ“ˆ</div>
+        <h4 class="pillar-title">Mastery Calibration</h4>
+        <p class="pillar-body">
+          Real-time confidence scoring and spaced diagnostic quizzes prove concept mastery rather than mere test cramming.
         </p>
       </div>
     </div>
@@ -887,20 +1125,113 @@
   </section>
 
   <!-- ============================================================
+       FREQUENTLY ASKED QUESTIONS ACCORDION (#faq)
+       ============================================================ -->
+  <section class="section-faq" id="faq">
+    <div class="section-header">
+      <span class="section-tag-pill">Got Questions?</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">
+        Everything you need to know about EduSetu's AI-powered diagnostic tutoring platform.
+      </p>
+    </div>
+
+    <div class="faq-accordion-list" id="faqAccordion">
+      <!-- Item 1 -->
+      <div class="faq-item active">
+        <button type="button" class="faq-question-btn" aria-expanded="true">
+          <span>How does EduSetu differ from regular homework solvers?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            Traditional homework solvers act as copy-paste engines: they dump the final solution, leaving the student's underlying confusion untouched. <strong>EduSetu uses a diagnostic Socratic approach</strong>: our AI asks guided questions to uncover <em>why</em> you are stuck (e.g., confusing equal action-reaction forces with balanced forces), repairs the missing prerequisite concept, and tests your understanding with a quick practice problem.
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question-btn" aria-expanded="false">
+          <span>Can I ask questions in Hindi or Hinglish?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            <strong>Yes, absolutely!</strong> EduSetu is built specifically for Indian students. You can type or speak your questions in pure Hindi (à¤¹à¤¿à¤¨à¥à¤¦à¥€), colloquial Hinglish (e.g., <em>"Newton ka third law explain kar do with daily life examples"</em>), or English. The AI tutor responds in clear, relatable vernacular explanations with localized analogies.
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question-btn" aria-expanded="false">
+          <span>What curriculum standards and classes are covered?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            EduSetu covers the complete curriculum for <strong>Classes 6 through 10</strong>, fully aligned with <strong>NCERT, CBSE, ICSE, and Indian State Boards</strong> across Mathematics, Science (Physics, Chemistry, Biology), Social Science (History, Civics, Geography), English, and Hindi. Foundational topics from senior secondary (Classes 11â€“12) like Calculus are also available for advanced learners.
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question-btn" aria-expanded="false">
+          <span>How does the Concept Mastery Graph track my learning?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            The Concept Mastery Graph is an interactive visual knowledge map. Every topic is linked to its prerequisite dependencies. As you chat with the AI tutor and take diagnostic quizzes, your mastery score updates in real time (from <strong>Needs Practice</strong> to <strong>Mastered</strong>). If you struggle with an advanced concept, the graph lights up the exact prerequisite from an earlier grade that needs review.
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question-btn" aria-expanded="false">
+          <span>Is EduSetu free for students?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            <strong>Yes!</strong> All core diagnostic features â€” including 24/7 AI Tutor doubt solving, knowledge graph exploration, adaptive diagnostic quizzes, and student dashboard tracking â€” are completely free for students. Our mission is to bridge India's educational gap, ensuring high-quality personalized tutoring is accessible regardless of family income or location.
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question-btn" aria-expanded="false">
+          <span>Can teachers and mentors track student progress?</span>
+          <div class="faq-toggle-icon">â–¾</div>
+        </button>
+        <div class="faq-answer-collapse">
+          <div class="faq-answer-text">
+            <strong>Yes.</strong> EduSetu includes a dedicated <strong>Mentor Dashboard</strong> where educators, teachers, and tutors can monitor cohort diagnostic trends, identify which specific topics have the highest error rates across the classroom, and assign targeted remediation plans without manual paperwork.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        BOTTOM CTA BANNER
        ============================================================ -->
   <section class="section-cta-bottom">
     <div class="cta-banner-glass">
       <h2>Ready to Bridge the Learning Gap?</h2>
       <p>
-        Start your diagnostic journey today with EduSetu's AI-powered educational companion — completely free.
+        Start your diagnostic journey today with EduSetu's AI-powered educational companion â€” completely free.
       </p>
       <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
         <button class="hero-btn-primary" id="ctaBannerBtn" type="button">
-          🚀 Start Learning Now
+          ðŸš€ Start Learning Now
         </button>
         <a href="chatbot.html" class="hero-btn-secondary">
-          💬 Try AI Doubt Solver
+          ðŸ’¬ Try AI Doubt Solver
         </a>
       </div>
     </div>
@@ -970,8 +1301,8 @@
       <div class="footer-bottom-bar">
         <div>&copy; 2026 EduSetu. All rights reserved.</div>
         <div style="display: flex; gap: 10px;">
-          <span style="color: #60A5FA; font-weight: 600; font-size: 0.75rem;">● Inclusive Learning</span>
-          <span style="color: #F59E0B; font-weight: 600; font-size: 0.75rem;">● AI-Powered Accessibility</span>
+          <span style="color: #60A5FA; font-weight: 600; font-size: 0.75rem;">â— Inclusive Learning</span>
+          <span style="color: #F59E0B; font-weight: 600; font-size: 0.75rem;">â— AI-Powered Accessibility</span>
         </div>
       </div>
     </div>
@@ -982,7 +1313,7 @@
        ============================================================ -->
   <div class="demo-modal-overlay" id="demoModalOverlay" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
     <div class="demo-modal-card">
-      <button class="demo-modal-close" id="demoModalCloseBtn" aria-label="Close demo" type="button">✕</button>
+      <button class="demo-modal-close" id="demoModalCloseBtn" aria-label="Close demo" type="button">âœ•</button>
 
       <div class="demo-modal-header">
         <span class="section-tag-pill" style="margin-bottom: 8px;">Interactive Demo</span>
@@ -1005,7 +1336,7 @@
 
       <div class="demo-modal-footer">
         <button type="button" class="hero-btn-primary" id="demoTryTutorBtn" style="padding: 10px 24px; font-size: 0.9rem;">
-          Try Live in AI Tutor →
+          Try Live in AI Tutor â†’
         </button>
         <button type="button" class="hero-btn-secondary" id="demoCloseFootBtn" style="padding: 10px 20px; font-size: 0.9rem;">
           Close Demo
@@ -1019,7 +1350,7 @@
        ============================================================ -->
   <div class="auth-modal-overlay" id="authModalOverlay" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
     <div class="auth-modal-card">
-      <button class="auth-modal-close" id="authModalCloseBtn" aria-label="Close dialog" type="button">✕</button>
+      <button class="auth-modal-close" id="authModalCloseBtn" aria-label="Close dialog" type="button">âœ•</button>
 
       <div class="auth-modal-header">
         <h3 id="authModalTitle">Welcome to EduSetu</h3>
@@ -1043,15 +1374,15 @@
         </div>
         <div class="auth-form-group">
           <label class="auth-form-label" for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" class="auth-form-input" placeholder="••••••••" required autocomplete="current-password">
+          <input type="password" id="loginPassword" class="auth-form-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required autocomplete="current-password">
         </div>
         <button type="submit" class="auth-submit-btn" id="signInSubmitBtn">
-          Sign In to EduSetu →
+          Sign In to EduSetu â†’
         </button>
 
         <div class="auth-demo-footer">
           <button type="button" class="auth-demo-btn" id="demoFillBtn">
-            ⚡ Fill Test Student Account
+            âš¡ Fill Test Student Account
           </button>
         </div>
       </form>
@@ -1090,7 +1421,7 @@
           </div>
         </div>
         <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
-          Create Account &amp; Start →
+          Create Account &amp; Start â†’
         </button>
       </form>
 
@@ -1098,8 +1429,9 @@
   </div>
 
   <!-- ============================================================
-       LANDING PAGE CLIENT-SIDE JAVASCRIPT
+       THEME & CLIENT-SIDE INTERACTION JAVASCRIPT
        ============================================================ -->
+  <script src="../js/theme.js"></script>
   <script>
     (function() {
       'use strict';
@@ -1109,7 +1441,10 @@
       const navBrandLogo = document.getElementById('navBrandLogo');
       const navLinkHome = document.getElementById('navLinkHome');
       const navLinkFeatures = document.getElementById('navLinkFeatures');
+      const navLinkCurriculum = document.getElementById('navLinkCurriculum');
+      const navLinkMethodology = document.getElementById('navLinkMethodology');
       const navLinkHow = document.getElementById('navLinkHow');
+      const navLinkFaq = document.getElementById('navLinkFaq');
       const navLinkAbout = document.getElementById('navLinkAbout');
       const navSubjectsWrap = document.getElementById('navSubjectsWrap');
       const navSubjectsBtn = document.getElementById('navSubjectsBtn');
@@ -1118,7 +1453,10 @@
       const jumpToSubjectsSection = document.getElementById('jumpToSubjectsSection');
       const mobileLinkHome = document.getElementById('mobileLinkHome');
       const mobileLinkFeatures = document.getElementById('mobileLinkFeatures');
+      const mobileLinkCurriculum = document.getElementById('mobileLinkCurriculum');
+      const mobileLinkMethodology = document.getElementById('mobileLinkMethodology');
       const mobileLinkHow = document.getElementById('mobileLinkHow');
+      const mobileLinkFaq = document.getElementById('mobileLinkFaq');
       const mobileLinkAbout = document.getElementById('mobileLinkAbout');
 
       const navAuthLoggedOut = document.getElementById('navAuthLoggedOut');
@@ -1167,10 +1505,46 @@
       const landingMobileDrawer = document.getElementById('landingMobileDrawer');
       const mobileAuthContainer = document.getElementById('mobileAuthContainer');
 
-      let currentUser = null;
+      // Curriculum exploration elements
+      const curriculumSearchInput = document.getElementById('curriculumSearchInput');
+      const curriculumFilters = document.getElementById('curriculumFilters');
+      const curriculumTopicGrid = document.getElementById('curriculumTopicGrid');
 
-      /* ---------- 1. Navbar in Normal Document Flow ---------- */
-      // Navbar scrolls naturally with page flow without viewport pinning.
+      // FAQ elements
+      const faqAccordion = document.getElementById('faqAccordion');
+
+      let currentUser = null;
+      let allCurriculumTopics = [];
+      let activeFilterSubject = 'all';
+
+      /* ---------- 1. Smooth Scrolling Helper ---------- */
+      function smoothScrollTo(target) {
+        if (!target) return;
+        const offset = 80;
+        let topPos = 0;
+        if (typeof target === 'number') {
+          topPos = target;
+        } else {
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = target.getBoundingClientRect().top;
+          topPos = elementRect - bodyRect - offset;
+        }
+        window.scrollTo({
+          top: Math.max(0, topPos),
+          behavior: 'smooth'
+        });
+      }
+
+      function setActiveNavLink(activeLink) {
+        const links = [
+          navLinkHome, navLinkFeatures, navLinkCurriculum,
+          navLinkMethodology, navLinkHow, navLinkFaq, navLinkAbout
+        ];
+        links.forEach(l => {
+          if (l) l.classList.remove('active');
+        });
+        if (activeLink) activeLink.classList.add('active');
+      }
 
       /* ---------- 2. Check Real Authentication State (/api/auth/me) ---------- */
       async function checkAuthSession() {
@@ -1207,9 +1581,8 @@
           userDropdownEmail.textContent = user.email || '';
           navUserAvatar.textContent = (displayName.charAt(0) || 'S').toUpperCase();
 
-          // Hero buttons redirect to dashboard
           if (heroSignUpBtn) {
-            heroSignUpBtn.innerHTML = '📊 Go to Dashboard →';
+            heroSignUpBtn.innerHTML = 'ðŸ“Š Go to Dashboard â†’';
             heroSignUpBtn.onclick = function() {
               window.location.href = 'dashboard.html';
             };
@@ -1220,10 +1593,9 @@
             };
           }
 
-          // Mobile Drawer actions for logged-in
           mobileAuthContainer.innerHTML = `
             <a href="dashboard.html" class="btn-nav-dashboard" style="text-align: center; justify-content: center; width: 100%;">
-              Go to Dashboard →
+              Go to Dashboard â†’
             </a>
             <button type="button" class="btn-nav-signin" id="mobileLogoutBtn" style="color: #F87171; justify-content: center; width: 100%;">
               Log Out (${displayName})
@@ -1236,7 +1608,7 @@
           navAuthLoggedIn.style.display = 'none';
 
           if (heroSignUpBtn) {
-            heroSignUpBtn.innerHTML = 'Sign Up →';
+            heroSignUpBtn.innerHTML = 'Sign Up â†’';
             heroSignUpBtn.onclick = function() {
               window.location.href = 'register.html';
             };
@@ -1247,14 +1619,27 @@
             };
           }
 
-          // Mobile Drawer actions for logged-out
           mobileAuthContainer.innerHTML = `
             <a href="login.html" class="btn-nav-signin" style="text-align: center; justify-content: center; width: 100%;">Sign In</a>
             <a href="register.html" class="btn-nav-signup" style="text-align: center; justify-content: center; width: 100%;">
-              Sign Up →
+              Sign Up â†’
             </a>
           `;
         }
+      }
+
+      async function handleLogout(e) {
+        if (e) e.preventDefault();
+        try {
+          await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch(e) {}
+        currentUser = null;
+        renderAuthState(false);
+        window.location.href = 'index.html';
+      }
+
+      if (navLogoutBtn) {
+        navLogoutBtn.addEventListener('click', handleLogout);
       }
 
       /* ---------- 3. User & Navigation Dropdown Menus ---------- */
@@ -1347,374 +1732,144 @@
         });
       }
 
-      /* ---------- 7. Interactive Demo Walkthrough Modal ---------- */
-      const demoSteps = [
-        {
-          step: 1,
-          badge: "Step 1 · Vernacular Input",
-          desc: "Type or dictate your doubt in Hindi, Hinglish, or English without hesitation.",
-          html: `
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
-                <div style="font-size:0.75rem; color:#94A3B8; margin-bottom:4px; font-weight:600;">STUDENT DOUBT</div>
-                <div style="color:#F1F5F9; font-size:0.9rem; line-height:1.4;">
-                  "Sir, Newton ka Third Law me Action and Reaction cancel kyu nahi hote agar equal and opposite hain?"
-                </div>
-              </div>
-              <div style="background:rgba(30,58,138,0.25); border:1px solid rgba(59,130,246,0.3); border-radius:10px; padding:12px 14px;">
-                <div style="font-size:0.75rem; color:#60A5FA; margin-bottom:4px; font-weight:600;">🤖 AI TUTOR SOCRATIC GUIDANCE</div>
-                <div style="color:#E2E8F0; font-size:0.875rem; line-height:1.45;">
-                  Bahut badhiya sawaal! Cancellation tab hoti hai jab do forces <strong>ek hi body</strong> par lagte hain. Par Newton ke 3rd Law me action aur reaction <strong>do alag-alag bodies</strong> par act karte hain!
-                </div>
-              </div>
-            </div>
-          `
-        },
-        {
-          step: 2,
-          badge: "Step 2 · Misconception Diagnosis",
-          desc: "EduSetu pinpoints the root misconception rather than just reciting final textbook answers.",
-          html: `
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:12px 14px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                  <span style="font-size:0.75rem; color:#F87171; font-weight:700;">DIAGNOSED MISCONCEPTION</span>
-                  <span style="font-size:0.7rem; background:rgba(239,68,68,0.2); color:#FCA5A5; padding:2px 8px; border-radius:12px;">Root Gap</span>
-                </div>
-                <div style="color:#FEE2E2; font-size:0.875rem; font-weight:500;">
-                  Confusing Balanced Forces (Equilibrium on 1 object) with Action-Reaction Pairs (Interactions between 2 distinct bodies).
-                </div>
-              </div>
-              <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.25); border-radius:10px; padding:12px 14px;">
-                <div style="font-size:0.75rem; color:#34D399; margin-bottom:4px; font-weight:700;">REMEDIATION STRATEGY</div>
-                <div style="color:#D1FAE5; font-size:0.85rem; line-height:1.4;">
-                  Interactive free-body diagram isolation practice to visualize both bodies independently.
-                </div>
-              </div>
-            </div>
-          `
-        },
-        {
-          step: 3,
-          badge: "Step 3 · Concept Mastery Graph",
-          desc: "Real-time concept graph monitors prerequisites and uncovers exact knowledge gaps.",
-          html: `
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px;">
-                  <div style="font-size:0.7rem; color:#94A3B8;">Velocity &amp; Acceleration</div>
-                  <div style="color:#10B981; font-weight:700; font-size:1.1rem; margin-top:2px;">94% <span style="font-size:0.7rem; color:#6EE7B7; font-weight:normal;">Mastered</span></div>
-                </div>
-                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px;">
-                  <div style="font-size:0.7rem; color:#94A3B8;">Newton's 3rd Law</div>
-                  <div style="color:#F59E0B; font-weight:700; font-size:1.1rem; margin-top:2px;">68% <span style="font-size:0.7rem; color:#FCD34D; font-weight:normal;">In Review</span></div>
-                </div>
-              </div>
-              <div style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); border-radius:10px; padding:10px 14px;">
-                <div style="font-size:0.75rem; color:#A5B4FC; font-weight:600;">RECOMMENDED NEXT TOPIC</div>
-                <div style="color:#FFFFFF; font-size:0.9rem; font-weight:600; margin-top:2px;">Conservation of Momentum</div>
-                <div style="font-size:0.75rem; color:#CBD5E1; margin-top:2px;">Prerequisites 92% fulfilled • Estimated 12 min session</div>
-              </div>
-            </div>
-          `
-        },
-        {
-          step: 4,
-          badge: "Step 4 · Adaptive Diagnostic Quiz",
-          desc: "Questions dynamically calibrate difficulty to confirm lasting retention.",
-          html: `
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
-                <div style="font-size:0.75rem; color:#F59E0B; font-weight:600; margin-bottom:4px;">DIAGNOSTIC QUESTION 1 OF 3</div>
-                <div style="color:#F1F5F9; font-size:0.875rem; margin-bottom:10px;">A swimmer pushes water backwards to move forward. Which law explains this?</div>
-                <div style="display:flex; flex-direction:column; gap:6px;">
-                  <div style="background:rgba(16,185,129,0.2); border:1px solid #10B981; border-radius:6px; padding:8px 12px; font-size:0.8rem; color:#A7F3D0; font-weight:600;">
-                    ✓ Newton's Third Law (Action-Reaction pair on separate bodies)
-                  </div>
-                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:8px 12px; font-size:0.8rem; color:#94A3B8;">
-                    ○ Newton's First Law (Law of Inertia)
-                  </div>
-                </div>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#94A3B8; padding:0 4px;">
-                <span>Accuracy: <strong style="color:#10B981;">92%</strong></span>
-                <span>Active Streak: <strong style="color:#F59E0B;">🔥 4 Days</strong></span>
-              </div>
-            </div>
-          `
-        }
-      ];
-
-      function renderDemoStep(stepNum) {
-        const stepData = demoSteps.find(s => s.step === Number(stepNum)) || demoSteps[0];
-        demoTabBtns.forEach(btn => {
-          if (Number(btn.getAttribute('data-step')) === Number(stepNum)) {
-            btn.classList.add('active');
-          } else {
-            btn.classList.remove('active');
-          }
-        });
-        if (demoStageBox) {
-          demoStageBox.innerHTML = `
-            <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-              <span style="font-size: 0.75rem; background: rgba(59,130,246,0.15); color: #60A5FA; padding: 3px 10px; border-radius: 999px; font-weight: 600; border: 1px solid rgba(59,130,246,0.25);">
-                ${stepData.badge}
-              </span>
-              <span style="font-size: 0.8rem; color: #94A3B8;">${stepData.desc}</span>
-            </div>
-            ${stepData.html}
-          `;
-        }
-      }
-
-      function openDemoModal() {
-        if (!demoModalOverlay) return;
-        demoModalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        renderDemoStep(1);
-      }
-
-      function closeDemoModal() {
-        if (!demoModalOverlay) return;
-        demoModalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      if (heroWatchDemoBtn) heroWatchDemoBtn.addEventListener('click', openDemoModal);
-      if (demoModalCloseBtn) demoModalCloseBtn.addEventListener('click', closeDemoModal);
-      if (demoCloseFootBtn) demoCloseFootBtn.addEventListener('click', closeDemoModal);
-
-      if (demoModalOverlay) {
-        demoModalOverlay.addEventListener('click', function(e) {
-          if (e.target === demoModalOverlay) closeDemoModal();
-        });
-      }
-
-      demoTabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const step = this.getAttribute('data-step');
-          renderDemoStep(step);
-        });
-      });
-
-      if (demoTryTutorBtn) {
-        demoTryTutorBtn.addEventListener('click', function() {
-          window.location.href = 'chatbot.html';
-        });
-      }
-
-      /* ---------- 8. Auth Modal Controls ---------- */
-      function openAuthModal(mode) {
-        authStatusMsg.className = 'auth-status-msg';
-        authStatusMsg.style.display = 'none';
-        authStatusMsg.textContent = '';
-        authModalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        if (mode === 'register') {
-          switchTab('register');
-        } else {
-          switchTab('signin');
-        }
-      }
-
-      function closeAuthModal() {
-        authModalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      function switchTab(mode) {
-        authStatusMsg.style.display = 'none';
-        if (mode === 'register') {
-          tabRegisterBtn.classList.add('active');
-          tabSignInBtn.classList.remove('active');
-          registerForm.style.display = 'block';
-          signInForm.style.display = 'none';
-          authModalTitle.textContent = 'Create Student Account';
-          authModalSubtitle.textContent = 'Join EduSetu to begin your personalized learning journey';
-          document.getElementById('regName').focus();
-        } else {
-          tabSignInBtn.classList.add('active');
-          tabRegisterBtn.classList.remove('active');
-          signInForm.style.display = 'block';
-          registerForm.style.display = 'none';
-          authModalTitle.textContent = 'Welcome Back';
-          authModalSubtitle.textContent = 'Sign in with your email and password';
-          document.getElementById('loginEmail').focus();
-        }
-      }
-
-      if (authModalCloseBtn) authModalCloseBtn.addEventListener('click', closeAuthModal);
-      if (tabSignInBtn) tabSignInBtn.addEventListener('click', () => switchTab('signin'));
-      if (tabRegisterBtn) tabRegisterBtn.addEventListener('click', () => switchTab('register'));
-
-      // Outside click close
-      if (authModalOverlay) {
-        authModalOverlay.addEventListener('click', function(e) {
-          if (e.target === authModalOverlay) {
-            closeAuthModal();
-          }
-        });
-      }
-
-      // Escape key close
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeSubjectsDropdown();
-          if (langDropdownMenu) langDropdownMenu.classList.remove('show');
-          if (userDropdownMenu) userDropdownMenu.classList.remove('show');
-          if (authModalOverlay && authModalOverlay.classList.contains('active')) closeAuthModal();
-          if (demoModalOverlay && demoModalOverlay.classList.contains('active')) closeDemoModal();
-        }
-      });
-
-      // Quick test credentials fill button
-      if (demoFillBtn) {
-        demoFillBtn.addEventListener('click', function() {
-          document.getElementById('loginEmail').value = 'student1@edusetu.in';
-          document.getElementById('loginPassword').value = 'Password123!';
-        });
-      }
-
-      /* ---------- 9. Sign In Form Submission (POST /api/auth/login) ---------- */
-      signInForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const submitBtn = document.getElementById('signInSubmitBtn');
-
-        if (!email || !password) {
-          showAuthStatus('Please enter your email and password.', 'error');
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Signing in...';
-        showAuthStatus('', '');
-
+      /* ---------- 7. Dynamic Curriculum Topics & Search Filtering ---------- */
+      async function loadCurriculumTopics() {
         try {
-          const res = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ email, password })
-          });
-
-          const data = await res.json();
-          if (res.ok && data.success) {
-            showAuthStatus('Signed in successfully! Redirecting...', 'success');
-            setTimeout(() => {
-              window.location.href = 'dashboard.html';
-            }, 500);
-          } else {
-            showAuthStatus(data.message || 'Invalid email or password.', 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Sign In to EduSetu →';
+          const res = await fetch('/api/topics');
+          if (res.ok) {
+            const json = await res.json();
+            if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+              allCurriculumTopics = json.data;
+              renderCurriculumGrid();
+            }
           }
-        } catch (err) {
-          showAuthStatus('Network error while connecting to server.', 'error');
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Sign In to EduSetu →';
-        }
-      });
-
-      /* ---------- 10. Register Form Submission (POST /api/auth/register) ---------- */
-      registerForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const name = document.getElementById('regName').value.trim();
-        const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const grade = document.getElementById('regGrade').value;
-        const role = document.getElementById('regRole').value;
-        const submitBtn = document.getElementById('registerSubmitBtn');
-
-        if (!name || !email || !password) {
-          showAuthStatus('Please fill in all required fields.', 'error');
-          return;
-        }
-
-        if (password.length < 6) {
-          showAuthStatus('Password must be at least 6 characters.', 'error');
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Creating account...';
-        showAuthStatus('', '');
-
-        try {
-          const res = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ name, email, password, grade: Number(grade), role })
-          });
-
-          const data = await res.json();
-          if (res.ok && data.success) {
-            showAuthStatus('Account created! Entering your dashboard...', 'success');
-            setTimeout(() => {
-              window.location.href = 'dashboard.html';
-            }, 600);
-          } else {
-            showAuthStatus(data.message || 'Failed to register account.', 'error');
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Create Account & Start →';
-          }
-        } catch (err) {
-          showAuthStatus('Network error while communicating with server.', 'error');
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Create Account & Start →';
-        }
-      });
-
-      function showAuthStatus(message, type) {
-        if (!message) {
-          authStatusMsg.style.display = 'none';
-          authStatusMsg.textContent = '';
-          return;
-        }
-        authStatusMsg.className = `auth-status-msg ${type}`;
-        authStatusMsg.textContent = message;
-        authStatusMsg.style.display = 'block';
-      }
-
-      /* ---------- 11. Logout Action (/api/auth/logout) ---------- */
-      async function handleLogout() {
-        try {
-          await fetch('/api/auth/logout', {
-            method: 'GET',
-            credentials: 'include'
-          });
         } catch (e) {
-          console.warn('Logout error:', e);
-        }
-        userDropdownMenu.classList.remove('show');
-        checkAuthSession();
-      }
-
-      if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleLogout);
-
-      /* ---------- 12. Smooth Scroll & Interactive Section Navigation ---------- */
-      function smoothScrollTo(elementOrY) {
-        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const behavior = isReducedMotion ? 'auto' : 'smooth';
-        if (typeof elementOrY === 'number') {
-          window.scrollTo({ top: elementOrY, behavior });
-        } else if (elementOrY) {
-          const headerOffset = 70;
-          const elementPosition = elementOrY.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: Math.max(0, offsetPosition), behavior });
+          console.warn('Topics API loaded from static cards fallback:', e);
         }
       }
 
-      function setActiveNavLink(targetLink) {
-        document.querySelectorAll('.landing-nav-center .landing-nav-link').forEach(l => l.classList.remove('active'));
-        if (targetLink) targetLink.classList.add('active');
+      function getSubjectMeta(topic) {
+        const slug = (topic.slug || '').toLowerCase();
+        const name = (topic.name || '').toLowerCase();
+
+        if (slug.includes('fraction') || slug.includes('algebra') || slug.includes('calculus') || slug.includes('equation') || name.includes('math')) {
+          return { category: 'math', icon: 'ðŸ“', label: 'Mathematics' };
+        }
+        if (slug.includes('photo') || slug.includes('light') || name.includes('science') || name.includes('cell')) {
+          return { category: 'science', icon: 'ðŸŒ¿', label: 'Science' };
+        }
+        if (slug.includes('constitution') || slug.includes('history') || slug.includes('geography')) {
+          return { category: 'social', icon: 'ðŸŒ', label: 'Social Science' };
+        }
+        if (slug.includes('gram') || slug.includes('english')) {
+          return { category: 'english', icon: 'ðŸ“–', label: 'English' };
+        }
+        return { category: 'math', icon: 'ðŸ“', label: 'Mathematics' };
       }
 
-      // Brand Logo click -> scrolls smoothly to top
+      function renderCurriculumGrid() {
+        if (!curriculumTopicGrid || allCurriculumTopics.length === 0) return;
+
+        const query = (curriculumSearchInput ? curriculumSearchInput.value : '').trim().toLowerCase();
+
+        const filtered = allCurriculumTopics.filter(t => {
+          const meta = getSubjectMeta(t);
+          const matchesCategory = (activeFilterSubject === 'all') || (meta.category === activeFilterSubject);
+          const matchesQuery = !query || 
+            (t.name && t.name.toLowerCase().includes(query)) ||
+            (t.description && t.description.toLowerCase().includes(query)) ||
+            (Array.isArray(t.keyPoints) && t.keyPoints.some(kp => kp.toLowerCase().includes(query)));
+          return matchesCategory && matchesQuery;
+        });
+
+        if (filtered.length === 0) {
+          curriculumTopicGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--lp-text-dim);">
+              <div style="font-size: 2.2rem; margin-bottom: 12px;">ðŸ”</div>
+              <h4 style="color: var(--lp-text-primary); font-size: 1.1rem; margin-bottom: 6px;">No topics matched your search</h4>
+              <p style="font-size: 0.88rem;">Try searching for "Photosynthesis", "Fractions", or switch categories.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        filtered.forEach(t => {
+          const meta = getSubjectMeta(t);
+          const grade = t.gradeLevel || 8;
+          const diff = (t.difficulty || 'intermediate').toLowerCase();
+          const slug = t.slug || encodeURIComponent(t.name.toLowerCase().replace(/\s+/g, '-'));
+          const desc = t.description || 'Core curriculum topic covering key diagnostic fundamentals.';
+          const points = Array.isArray(t.keyPoints) && t.keyPoints.length > 0 ? t.keyPoints.slice(0, 2) : ['NCERT aligned foundational concept', 'Diagnostic gap analysis available'];
+
+          html += `
+            <div class="topic-card" data-subject="${meta.category}" data-grade="${grade}">
+              <div class="topic-card-header">
+                <span class="topic-subject-badge">${meta.icon} ${meta.label} Â· Class ${grade}</span>
+                <span class="topic-diff-badge ${diff}">${diff.charAt(0).toUpperCase() + diff.slice(1)}</span>
+              </div>
+              <h3 class="topic-title">${t.name}</h3>
+              <p class="topic-desc">${desc}</p>
+              <div class="topic-keypoints-list">
+                ${points.map(p => `<div class="topic-keypoint-item"><span class="bullet">âœ¦</span> ${p}</div>`).join('')}
+              </div>
+              <div class="topic-card-actions">
+                <a href="chatbot.html?topic=${slug}" class="btn-topic-action-primary">ðŸ¤– Ask Doubt</a>
+                <a href="quiz.html?topic=${slug}" class="btn-topic-action-secondary">ðŸŽ¯ Quiz</a>
+              </div>
+            </div>
+          `;
+        });
+
+        curriculumTopicGrid.innerHTML = html;
+      }
+
+      if (curriculumFilters) {
+        curriculumFilters.querySelectorAll('.curriculum-filter-pill').forEach(pill => {
+          pill.addEventListener('click', function() {
+            curriculumFilters.querySelectorAll('.curriculum-filter-pill').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            activeFilterSubject = this.getAttribute('data-subject') || 'all';
+            renderCurriculumGrid();
+          });
+        });
+      }
+
+      if (curriculumSearchInput) {
+        curriculumSearchInput.addEventListener('input', function() {
+          renderCurriculumGrid();
+        });
+      }
+
+      /* ---------- 8. Interactive Accessible FAQ Accordion ---------- */
+      if (faqAccordion) {
+        const faqItems = faqAccordion.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+          const btn = item.querySelector('.faq-question-btn');
+          if (btn) {
+            btn.addEventListener('click', function() {
+              const isOpen = item.classList.contains('active');
+              // Close other open items for a neat SaaS accordion feel
+              faqItems.forEach(other => {
+                other.classList.remove('active');
+                const otherBtn = other.querySelector('.faq-question-btn');
+                if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+              });
+
+              if (!isOpen) {
+                item.classList.add('active');
+                btn.setAttribute('aria-expanded', 'true');
+              } else {
+                item.classList.remove('active');
+                btn.setAttribute('aria-expanded', 'false');
+              }
+            });
+          }
+        });
+      }
+
+      /* ---------- 9. Navigation Anchors Smooth Scrolling ---------- */
+      // Home Link
       if (navBrandLogo) {
         navBrandLogo.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1723,8 +1878,6 @@
           closeSubjectsDropdown();
         });
       }
-
-      // Home Link
       if (navLinkHome) {
         navLinkHome.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1761,6 +1914,44 @@
         });
       }
 
+      // Curriculum Link
+      if (navLinkCurriculum) {
+        navLinkCurriculum.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('explore-curriculum');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkCurriculum);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkCurriculum) {
+        mobileLinkCurriculum.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('explore-curriculum');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
+      // Methodology Link
+      if (navLinkMethodology) {
+        navLinkMethodology.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('methodology');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkMethodology);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkMethodology) {
+        mobileLinkMethodology.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('methodology');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
       // How It Works Link
       if (navLinkHow) {
         navLinkHow.addEventListener('click', function(e) {
@@ -1775,6 +1966,25 @@
         mobileLinkHow.addEventListener('click', function(e) {
           e.preventDefault();
           const target = document.getElementById('how-it-works');
+          if (target) smoothScrollTo(target);
+          closeMobileDrawer();
+        });
+      }
+
+      // FAQ Link
+      if (navLinkFaq) {
+        navLinkFaq.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('faq');
+          if (target) smoothScrollTo(target);
+          setActiveNavLink(navLinkFaq);
+          closeSubjectsDropdown();
+        });
+      }
+      if (mobileLinkFaq) {
+        mobileLinkFaq.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('faq');
           if (target) smoothScrollTo(target);
           closeMobileDrawer();
         });
@@ -1799,17 +2009,17 @@
         });
       }
 
-      // Dropdown internal jump to Subjects section
+      // Jump to curriculum from dropdown
       if (jumpToSubjectsSection) {
         jumpToSubjectsSection.addEventListener('click', function(e) {
           e.preventDefault();
           closeSubjectsDropdown();
-          const target = document.getElementById('subjects');
+          const target = document.getElementById('explore-curriculum');
           if (target) smoothScrollTo(target);
         });
       }
 
-      // Dynamic subject fetching from /api/subjects
+      // Dynamic subject fetching from /api/subjects for navbar dropdown
       async function loadSubjectsForDropdown() {
         try {
           const res = await fetch('/api/subjects');
@@ -1826,16 +2036,16 @@
       function renderDynamicSubjects(subjects) {
         if (!subjectsDropdownList) return;
         const subjectIcons = {
-          'Mathematics': '📐',
-          'Science': '🔬',
-          'Social Science': '🌍',
-          'English': '📚',
-          'Hindi': '🇮🇳'
+          'Mathematics': 'ðŸ“',
+          'Science': 'ðŸ”¬',
+          'Social Science': 'ðŸŒ',
+          'English': 'ðŸ“š',
+          'Hindi': 'ðŸ‡®ðŸ‡³'
         };
 
         let html = `
           <a href="explore.html" class="nav-dropdown-item primary-subject-item" role="menuitem">
-            <span class="item-icon">📖</span>
+            <span class="item-icon">ðŸ“–</span>
             <span class="item-text">All Subjects</span>
             <span class="item-badge">Overview</span>
           </a>
@@ -1843,7 +2053,7 @@
         `;
 
         subjects.forEach(sub => {
-          const icon = sub.icon || subjectIcons[sub.name] || '📘';
+          const icon = sub.icon || subjectIcons[sub.name] || 'ðŸ“˜';
           const slug = sub.slug || encodeURIComponent(sub.name.toLowerCase());
           const meta = sub.grade_level ? `Classes 6 - 10` : 'Curriculum';
           html += `
@@ -1862,20 +2072,16 @@
         });
       }
 
-      if (subjectsDropdownList) {
-        subjectsDropdownList.querySelectorAll('.nav-dropdown-item').forEach(item => {
-          item.addEventListener('click', closeSubjectsDropdown);
-        });
-      }
-
-      // Passive scroll listener to update active indicator
+      // Passive scroll listener to update active navigation indicator
       window.addEventListener('scroll', function() {
         const scrollPos = window.scrollY + 140;
         const heroSection = document.getElementById('hero');
         const featuresSection = document.getElementById('features');
-        const subjectsSection = document.getElementById('subjects');
+        const curriculumSection = document.getElementById('explore-curriculum');
         const howSection = document.getElementById('how-it-works');
+        const methodologySection = document.getElementById('methodology');
         const aboutSection = document.getElementById('about');
+        const faqSection = document.getElementById('faq');
 
         if (window.scrollY < 260) {
           setActiveNavLink(navLinkHome);
@@ -1884,10 +2090,14 @@
 
         if (aboutSection && scrollPos >= aboutSection.offsetTop) {
           setActiveNavLink(navLinkAbout);
+        } else if (faqSection && scrollPos >= faqSection.offsetTop) {
+          setActiveNavLink(navLinkFaq);
+        } else if (methodologySection && scrollPos >= methodologySection.offsetTop) {
+          setActiveNavLink(navLinkMethodology);
         } else if (howSection && scrollPos >= howSection.offsetTop) {
           setActiveNavLink(navLinkHow);
-        } else if (subjectsSection && scrollPos >= subjectsSection.offsetTop) {
-          setActiveNavLink(null);
+        } else if (curriculumSection && scrollPos >= curriculumSection.offsetTop) {
+          setActiveNavLink(navLinkCurriculum);
         } else if (featuresSection && scrollPos >= featuresSection.offsetTop) {
           setActiveNavLink(navLinkFeatures);
         }
@@ -1896,6 +2106,7 @@
       // Run on page load
       checkAuthSession();
       loadSubjectsForDropdown();
+      loadCurriculumTopics();
 
     })();
   </script>

@@ -6,6 +6,16 @@
   <meta name="description" content="EduSetu Student Dashboard — Track your learning progress, confidence score, and mastery across subjects.">
   <title>Dashboard — EduSetu</title>
 
+  <!-- Prevent Theme FOUC -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('edusetu_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
+
   <link rel="stylesheet" href="../css/theme.css">
   <link rel="stylesheet" href="../css/app-shell.css">
   <link rel="stylesheet" href="../css/dashboard.css">
@@ -151,6 +161,12 @@
         </div>
 
         <div class="topbar-right">
+          <!-- Theme Toggle Button -->
+          <button class="topbar-icon-btn theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme" type="button" title="Switch Theme">
+            <span class="theme-toggle-icon-dark">🌙</span>
+            <span class="theme-toggle-icon-light">☀️</span>
+          </button>
+
           <!-- Notification Bell -->
           <div style="position: relative;">
             <button class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
@@ -387,6 +403,7 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="../js/theme.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/app-shell.js"></script>
   <script src="../js/dashboard.js"></script>
