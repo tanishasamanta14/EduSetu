@@ -495,48 +495,48 @@ const QUIZZES = {
   /* ---- HINDI ---- */
   "kriya": [
     {
-      question: "क्रिया किसे कहते हैं?",
+      question: "What is the definition of a 'Kriya' (Verb) in grammar?",
       options: [
-        { text: "जो शब्द किसी काम का करना या होना बताए", correct: true },
-        { text: "जो शब्द किसी व्यक्ति का नाम बताए", correct: false, misconceptionTag: "sangya-confusion", explanation: "नाम बताने वाले शब्द 'संज्ञा' हैं। क्रिया काम का करना या होना बताती है।" },
-        { text: "जो शब्द किसी की विशेषता बताए", correct: false, misconceptionTag: "visheshan-confusion", explanation: "विशेषता बताने वाले शब्द 'विशेषण' हैं। क्रिया कार्य को दर्शाती है।" },
-        { text: "जो शब्द संज्ञा के बदले आए", correct: false, misconceptionTag: "sarvanam-confusion", explanation: "संज्ञा के बदले आने वाले शब्द 'सर्वनाम' हैं।" }
+        { text: "A word that indicates an action, event, or state of being", correct: true },
+        { text: "A word that names a specific person, place, or thing", correct: false, misconceptionTag: "sangya-confusion", explanation: "Words naming a person or place are Nouns (Sangya). Verbs describe actions." },
+        { text: "A word that describes or modifies a noun", correct: false, misconceptionTag: "visheshan-confusion", explanation: "Words that describe qualities are Adjectives (Visheshan). Verbs show actions." },
+        { text: "A word that substitutes for a noun", correct: false, misconceptionTag: "sarvanam-confusion", explanation: "Words that substitute for nouns are Pronouns (Sarvanam)." }
       ]
     },
     {
-      question: "'राम पुस्तक पढ़ता है।' — इसमें क्रिया कौन सा शब्द है?",
+      question: "In the sentence 'Ram reads a book' ('Ram pustak padhta hai'), which part is the verb (kriya)?",
       options: [
-        { text: "पढ़ता है", correct: true },
-        { text: "राम", correct: false, misconceptionTag: "subject-as-verb", explanation: "'राम' कर्ता (subject) है, क्रिया नहीं। 'पढ़ता है' क्रिया है जो काम बता रही है।" },
-        { text: "पुस्तक", correct: false, misconceptionTag: "object-as-verb", explanation: "'पुस्तक' कर्म (object) है। 'पढ़ता है' क्रिया है।" },
-        { text: "है", correct: false, misconceptionTag: "partial-identification", explanation: "'पढ़ता है' पूरी क्रिया है। 'है' अकेला सहायक क्रिया है।" }
+        { text: "reads (padhta hai)", correct: true },
+        { text: "Ram", correct: false, misconceptionTag: "subject-as-verb", explanation: "'Ram' is the subject (karta), not the verb. 'reads' is the action verb." },
+        { text: "book (pustak)", correct: false, misconceptionTag: "object-as-verb", explanation: "'book' is the direct object (karm). 'reads' is the action verb." },
+        { text: "is (hai) only", correct: false, misconceptionTag: "partial-identification", explanation: "'reads' (padhta hai) is the complete predicate verb phrase." }
       ]
     },
     {
-      question: "सकर्मक क्रिया का अर्थ है:",
+      question: "What is a Transitive Verb (Sakarmak Kriya)?",
       options: [
-        { text: "जिस क्रिया का कर्म होता है", correct: true },
-        { text: "जिस क्रिया का कर्म नहीं होता", correct: false, misconceptionTag: "sakarmak-akarmak-confusion", explanation: "कर्म न होना 'अकर्मक' क्रिया है। सकर्मक में कर्म होता है।" },
-        { text: "जो क्रिया भविष्य में हो", correct: false, misconceptionTag: "tense-confusion", explanation: "यह काल (tense) का मामला है, सकर्मक-अकर्मक का नहीं।" },
-        { text: "जो क्रिया दो बार हो", correct: false, misconceptionTag: "definition-error", explanation: "बार-बार होने का संबंध सकर्मक से नहीं है। सकर्मक = कर्म वाली क्रिया।" }
+        { text: "A verb that requires a direct object to complete its meaning", correct: true },
+        { text: "A verb that does not take an object", correct: false, misconceptionTag: "sakarmak-akarmak-confusion", explanation: "A verb without an object is an Intransitive Verb (Akarmak)." },
+        { text: "A verb that only occurs in future tense", correct: false, misconceptionTag: "tense-confusion", explanation: "Transitivity is about whether the verb takes an object, not tense." },
+        { text: "A verb that is repeated twice for emphasis", correct: false, misconceptionTag: "definition-error", explanation: "Transitivity indicates an action directed onto a recipient object." }
       ]
     },
     {
-      question: "'वह रोज़ सुबह दौड़ता है।' — यह किस काल में है?",
+      question: "In the sentence 'He runs every morning', what tense is used?",
       options: [
-        { text: "सामान्य वर्तमान काल", correct: true },
-        { text: "भूतकाल", correct: false, misconceptionTag: "tense-identification-error", explanation: "'दौड़ता है' — यह वर्तमान काल है क्योंकि 'है' लगा हुआ है।" },
-        { text: "भविष्यकाल", correct: false, misconceptionTag: "tense-identification-error", explanation: "भविष्यकाल में 'गा/गी/गे' लगता है। यहाँ 'है' लगा है — वर्तमान काल।" },
-        { text: "अपूर्ण वर्तमान काल", correct: false, misconceptionTag: "continuous-confusion", explanation: "अपूर्ण (continuous) में 'रहा है' लगता है। 'दौड़ता है' सामान्य वर्तमान है।" }
+        { text: "Simple Present Tense", correct: true },
+        { text: "Past Tense", correct: false, misconceptionTag: "tense-identification-error", explanation: "'runs' indicates a regular habitual action in the present." },
+        { text: "Future Tense", correct: false, misconceptionTag: "tense-identification-error", explanation: "Future tense would use 'will run'." },
+        { text: "Present Continuous Tense", correct: false, misconceptionTag: "continuous-confusion", explanation: "Continuous tense would be 'is running'." }
       ]
     },
     {
-      question: "'बच्चे खेल रहे थे।' — इसमें कौन सी क्रिया है?",
+      question: "In 'The children were playing', what is the verb form?",
       options: [
-        { text: "खेल रहे थे (अपूर्ण भूतकाल)", correct: true },
-        { text: "खेल (सामान्य भूतकाल)", correct: false, misconceptionTag: "partial-verb", explanation: "पूरी क्रिया 'खेल रहे थे' है — यह अपूर्ण (continuous) भूतकाल है।" },
-        { text: "बच्चे (संज्ञा)", correct: false, misconceptionTag: "noun-as-verb", explanation: "'बच्चे' कर्ता (subject) है, क्रिया नहीं। 'खेल रहे थे' क्रिया है।" },
-        { text: "थे (सहायक)", correct: false, misconceptionTag: "helper-only", explanation: "'थे' सहायक क्रिया है। पूरी क्रिया 'खेल रहे थे' है।" }
+        { text: "were playing (Past Continuous)", correct: true },
+        { text: "played (Simple Past)", correct: false, misconceptionTag: "partial-verb", explanation: "'were playing' indicates an ongoing action in the past." },
+        { text: "children (Noun)", correct: false, misconceptionTag: "noun-as-verb", explanation: "'children' is the subject noun, not the verb." },
+        { text: "were (Auxiliary only)", correct: false, misconceptionTag: "helper-only", explanation: "'were playing' is the complete verb phrase including the main verb." }
       ]
     }
   ],

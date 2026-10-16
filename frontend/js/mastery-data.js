@@ -74,17 +74,17 @@ const CONCEPTS = {
   ],
 
   hindi: [
-    { id: "varnamala",           name: "वर्णमाला (Alphabet)",     grade: 6, prerequisites: [],                            status: "mastered",    lastScore: 95, confidenceScore: 92 },
-    { id: "sangya",              name: "संज्ञा (Nouns)",           grade: 6, prerequisites: ["varnamala"],                 status: "mastered",    lastScore: 88, confidenceScore: 85 },
-    { id: "sarvanam",            name: "सर्वनाम (Pronouns)",      grade: 7, prerequisites: ["sangya"],                    status: "mastered",    lastScore: 82, confidenceScore: 80 },
-    { id: "kriya",               name: "क्रिया (Verbs)",           grade: 7, prerequisites: ["sangya"],                    status: "shaky",       lastScore: 58, confidenceScore: 52 },
-    { id: "visheshan",           name: "विशेषण (Adjectives)",     grade: 7, prerequisites: ["sangya"],                    status: "shaky",       lastScore: 55, confidenceScore: 50 },
-    { id: "vakya-rachna",        name: "वाक्य रचना (Sentences)",  grade: 8, prerequisites: ["kriya", "sarvanam"],          status: "recommended", lastScore: null, confidenceScore: null },
-    { id: "muhavare",            name: "मुहावरे (Idioms)",         grade: 8, prerequisites: ["vakya-rachna"],               status: "unattempted", lastScore: null, confidenceScore: null },
-    { id: "patra-lekhan",        name: "पत्र लेखन (Letter)",      grade: 8, prerequisites: ["vakya-rachna"],               status: "unattempted", lastScore: null, confidenceScore: null },
-    { id: "gadya",               name: "गद्य (Prose)",            grade: 7, prerequisites: ["varnamala"],                 status: "mastered",    lastScore: 80, confidenceScore: 78 },
-    { id: "padya",               name: "पद्य (Poetry)",           grade: 7, prerequisites: ["varnamala"],                 status: "shaky",       lastScore: 50, confidenceScore: 45 },
-    { id: "nibandh",             name: "निबंध (Essay)",           grade: 8, prerequisites: ["vakya-rachna", "gadya"],      status: "unattempted", lastScore: null, confidenceScore: null }
+    { id: "varnamala",           name: "Language Phonetics (Varnamala)", grade: 6, prerequisites: [],                            status: "mastered",    lastScore: 95, confidenceScore: 92 },
+    { id: "sangya",              name: "Nouns (Sangya)",                 grade: 6, prerequisites: ["varnamala"],                 status: "mastered",    lastScore: 88, confidenceScore: 85 },
+    { id: "sarvanam",            name: "Pronouns (Sarvanam)",            grade: 7, prerequisites: ["sangya"],                    status: "mastered",    lastScore: 82, confidenceScore: 80 },
+    { id: "kriya",               name: "Verbs (Kriya)",                  grade: 7, prerequisites: ["sangya"],                    status: "shaky",       lastScore: 58, confidenceScore: 52 },
+    { id: "visheshan",           name: "Adjectives (Visheshan)",         grade: 7, prerequisites: ["sangya"],                    status: "shaky",       lastScore: 55, confidenceScore: 50 },
+    { id: "vakya-rachna",        name: "Sentence Syntax (Vakya Rachna)", grade: 8, prerequisites: ["kriya", "sarvanam"],          status: "recommended", lastScore: null, confidenceScore: null },
+    { id: "muhavare",            name: "Idioms & Proverbs (Muhavare)",   grade: 8, prerequisites: ["vakya-rachna"],               status: "unattempted", lastScore: null, confidenceScore: null },
+    { id: "patra-lekhan",        name: "Formal Letter Writing",          grade: 8, prerequisites: ["vakya-rachna"],               status: "unattempted", lastScore: null, confidenceScore: null },
+    { id: "gadya",               name: "Prose Analysis (Gadya)",         grade: 7, prerequisites: ["varnamala"],                 status: "mastered",    lastScore: 80, confidenceScore: 78 },
+    { id: "padya",               name: "Poetic Devices (Padya)",         grade: 7, prerequisites: ["varnamala"],                 status: "shaky",       lastScore: 50, confidenceScore: 45 },
+    { id: "nibandh",             name: "Essay Composition (Nibandh)",    grade: 8, prerequisites: ["vakya-rachna", "gadya"],      status: "unattempted", lastScore: null, confidenceScore: null }
   ],
 
   physics: [
@@ -159,7 +159,7 @@ const SUBJECT_META = {
   science:         { name: "Science",         icon: "🔬", color: "#34D399" },
   english:         { name: "English",         icon: "📚", color: "#FBBF24" },
   socialScience:   { name: "Social Science",  icon: "🌍", color: "#A78BFA" },
-  hindi:           { name: "हिंदी",            icon: "📖", color: "#F87171" },
+  hindi:           { name: "Hindi (Language & Lit)",            icon: "📖", color: "#F87171" },
   physics:         { name: "Physics",         icon: "⚛️", color: "#38BDF8" },
   chemistry:       { name: "Chemistry",       icon: "🧪", color: "#FB923C" },
   computerScience: { name: "Computer Science", icon: "💻", color: "#4ADE80" },

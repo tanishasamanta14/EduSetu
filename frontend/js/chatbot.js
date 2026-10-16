@@ -17,8 +17,6 @@
   const chatMessages = document.getElementById('chatMessages');
   const chatInput = document.getElementById('chatInput');
   const chatSend = document.getElementById('chatSend');
-  const btnEN = document.getElementById('btnEN');
-  const btnHI = document.getElementById('btnHI');
   const headerNewChatBtn = document.getElementById('headerNewChatBtn');
   const sidebarNewChatBtn = document.getElementById('sidebarNewChatBtn');
   const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
@@ -163,7 +161,7 @@
 
     const label = document.createElement('span');
     label.className = 'typing-label';
-    label.textContent = currentLang === 'hi' ? 'AI शिक्षक सोच रहे हैं...' : 'AI Tutor is thinking...';
+    label.textContent = 'AI Tutor is thinking...';
 
     indicator.appendChild(dotsWrap);
     indicator.appendChild(label);
@@ -187,20 +185,11 @@
     const studentName = currentUser ? currentUser.name : 'Student';
     const gradeVal = currentUser ? currentUser.grade : 8;
 
-    const title = currentLang === 'hi' 
-      ? `नमस्ते ${studentName}! 👋 मैं आपका Socratic AI Tutor हूँ`
-      : `Hello ${studentName}! 👋 I'm your Socratic AI Tutor`;
+    const title = `Hello ${studentName}! 👋 I'm your Socratic AI Tutor`;
 
-    const desc = currentLang === 'hi'
-      ? `Class ${gradeVal} पाठ्यक्रम के आधार पर किसी भी विषय या समस्या पर सवाल पूछें। मैं सीधे उत्तर देने के बजाय आपको अवधारणा को चरण-दर-चरण समझाऊँगा।`
-      : `Ask any doubt or question from your Class ${gradeVal} syllabus. Rather than just giving answers, I'll guide you step-by-step so you truly master the concept.`;
+    const desc = `Ask any doubt or question from your Class ${gradeVal} syllabus. Rather than just giving answers, I'll guide you step-by-step so you truly master the concept.`;
 
-    const chips = currentLang === 'hi' ? [
-      { text: '🌱 प्रकाश संश्लेषण क्या है?', val: 'प्रकाश संश्लेषण (Photosynthesis) की प्रक्रिया सरल भाषा में समझाओ।' },
-      { text: '📐 भिन्न (Fractions) का जोड़', val: 'भिन्न (Fractions) को जोड़ने के मूल नियम क्या हैं?' },
-      { text: '⚡ रेखीय समीकरण (Linear Equations)', val: 'Linear Equations को हल करने का तरीका समझाओ।' },
-      { text: '💡 न्यूटन का तीसरा नियम', val: 'न्यूटन का तीसरा नियम (Newton\'s 3rd Law) उदाहरण सहित समझाओ।' }
-    ] : [
+    const chips = [
       { text: '🌱 What is Photosynthesis?', val: 'What is photosynthesis and how do plants make glucose?' },
       { text: '📐 Explain Adding Fractions', val: 'Why do we need a common denominator to add fractions like 1/2 and 1/3?' },
       { text: '⚡ How to Solve Linear Equations?', val: 'Explain step-by-step how to solve a linear equation like 2x + 5 = 15.' },
@@ -496,26 +485,7 @@
     chatSidebar.classList.toggle('open');
   });
 
-  // Language Toggle
-  btnEN.addEventListener('click', function() {
-    currentLang = 'en';
-    btnEN.classList.add('active');
-    btnHI.classList.remove('active');
-    chatInput.placeholder = 'Ask your doubt in English... (Shift + Enter for new line)';
-    if (!currentConversationId && chatMessages.children.length <= 1) {
-      renderStarterCard();
-    }
-  });
 
-  btnHI.addEventListener('click', function() {
-    currentLang = 'hi';
-    btnHI.classList.add('active');
-    btnEN.classList.remove('active');
-    chatInput.placeholder = 'अपनी शंका या सवाल हिंदी में पूछें... (Shift + Enter से नई लाइन)';
-    if (!currentConversationId && chatMessages.children.length <= 1) {
-      renderStarterCard();
-    }
-  });
 
   /* ---------- 10. Initialization ---------- */
   async function init() {
@@ -532,10 +502,6 @@
           currentUser = data.data.user;
           const gradeStr = currentUser.grade ? `Class ${currentUser.grade}` : 'Class 8';
           studentContextText.textContent = `${currentUser.name} · ${gradeStr} · Socratic Calibrated`;
-          
-          if (currentUser.language === 'hi') {
-            btnHI.click();
-          }
         }
       }
     } catch (e) {
