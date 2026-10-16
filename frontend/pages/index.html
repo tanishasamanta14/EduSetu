@@ -259,14 +259,18 @@
        LIGHT THEME NAVBAR DIRECT OVERRIDES (SaaS Grade)
        ============================================================ */
     [data-theme="light"] .landing-navbar-inner {
-      background: rgba(255, 255, 255, 0.88) !important;
-      border: 1px solid rgba(226, 232, 240, 0.95) !important;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
+      background: rgba(255, 255, 255, 0.86) !important;
+      border: 1px solid rgba(226, 232, 240, 0.85) !important;
+      box-shadow: 
+        0 1px 3px rgba(15, 23, 42, 0.04),
+        0 8px 24px -4px rgba(15, 23, 42, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
     }
     [data-theme="light"] .landing-logo-text {
       color: #0F172A !important;
+      font-weight: 850 !important;
     }
     [data-theme="light"] .landing-logo-text span {
       color: #D97706 !important;
@@ -277,13 +281,14 @@
     }
     [data-theme="light"] .landing-nav-link:hover {
       color: #0F172A !important;
-      background: #F1F5F9 !important;
+      background: rgba(15, 23, 42, 0.04) !important;
     }
     [data-theme="light"] .landing-nav-link.active {
       color: #92400E !important;
       background: #FEF3C7 !important;
       border: 1px solid #FCD34D !important;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important;
+      box-shadow: 0 1px 3px rgba(245, 158, 11, 0.15) !important;
+      font-weight: 700 !important;
     }
     [data-theme="light"] .nav-dropdown-btn {
       color: #334155 !important;
@@ -291,7 +296,7 @@
     }
     [data-theme="light"] .nav-dropdown-btn:hover {
       color: #0F172A !important;
-      background: #F1F5F9 !important;
+      background: rgba(15, 23, 42, 0.04) !important;
     }
     [data-theme="light"] .nav-dropdown-btn[aria-expanded="true"] {
       color: #92400E !important;
@@ -306,16 +311,24 @@
     [data-theme="light"] .user-dropdown-menu {
       background: #FFFFFF !important;
       border: 1px solid #E2E8F0 !important;
-      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(15, 23, 42, 0.05) !important;
+      box-shadow: 
+        0 1px 3px rgba(15, 23, 42, 0.04),
+        0 20px 45px -10px rgba(15, 23, 42, 0.12),
+        0 0 1px 1px rgba(15, 23, 42, 0.04) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-radius: 18px !important;
     }
     [data-theme="light"] .dropdown-menu-header {
-      border-bottom: 1px solid #E2E8F0 !important;
+      border-bottom: 1px solid #F1F5F9 !important;
     }
     [data-theme="light"] .dropdown-menu-title {
       color: #64748B !important;
+      font-weight: 700 !important;
     }
     [data-theme="light"] .dropdown-section-jump {
       color: #2563EB !important;
+      font-weight: 650 !important;
     }
     [data-theme="light"] .dropdown-section-jump:hover {
       color: #1D4ED8 !important;
@@ -326,6 +339,7 @@
     [data-theme="light"] .nav-dropdown-item:hover {
       background: #EFF6FF !important;
       color: #1D4ED8 !important;
+      transform: translateX(2px) !important;
     }
     [data-theme="light"] .nav-dropdown-item.primary-subject-item {
       background: transparent !important;
@@ -335,7 +349,7 @@
     }
     [data-theme="light"] .nav-dropdown-item .item-text {
       color: #0F172A !important;
-      font-weight: 600 !important;
+      font-weight: 650 !important;
     }
     [data-theme="light"] .nav-dropdown-item .item-meta {
       color: #64748B !important;
@@ -346,10 +360,10 @@
       border-color: #BFDBFE !important;
     }
     [data-theme="light"] .dropdown-divider {
-      background: #E2E8F0 !important;
+      background: #F1F5F9 !important;
     }
     [data-theme="light"] .dropdown-menu-footer {
-      border-top: 1px solid #E2E8F0 !important;
+      border-top: 1px solid #F1F5F9 !important;
     }
     [data-theme="light"] .dropdown-explore-link {
       color: #D97706 !important;
@@ -361,8 +375,10 @@
     }
     [data-theme="light"] .btn-nav-signin {
       background: #FFFFFF !important;
-      border: 1.5px solid #CBD5E1 !important;
-      color: #1E293B !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+      font-weight: 650 !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 #FFFFFF !important;
     }
     [data-theme="light"] .btn-nav-signin:hover {
       background: #F8FAFC !important;
@@ -371,17 +387,24 @@
     }
     [data-theme="light"] .btn-nav-signup,
     [data-theme="light"] .btn-nav-getstarted {
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+      background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%) !important;
+      border: 1px solid rgba(180, 83, 9, 0.55) !important;
       color: #FFFFFF !important;
-      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35) !important;
+      font-weight: 750 !important;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18) !important;
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.08),
+        0 4px 14px -2px rgba(217, 119, 6, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
     }
     [data-theme="light"] .theme-toggle-btn {
-      background: #F1F5F9 !important;
+      background: #FFFFFF !important;
       border: 1px solid #CBD5E1 !important;
       color: #0F172A !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 #FFFFFF !important;
     }
     [data-theme="light"] .theme-toggle-btn:hover {
-      background: #E2E8F0 !important;
+      background: #F8FAFC !important;
       border-color: #94A3B8 !important;
     }
   </style>
