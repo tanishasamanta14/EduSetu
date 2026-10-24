@@ -19,11 +19,13 @@ async function startServer() {
     console.log(`  ║   http://localhost:${config.port.toString().padEnd(34)}║`);
     console.log('  ╠══════════════════════════════════════════════════════╣');
     
-    if (isRealSupabase) {
+    if (connection && connection.connected && connection.provider === 'cloud') {
       console.log('  ║   ✅ Connected to Cloud Supabase (PostgreSQL + Auth) ║');
     } else {
       console.log('  ║   ⚡ Local Supabase Adapter Active (Zero-config dev) ║');
-      console.log('  ║   → Add SUPABASE_URL & keys to .env for cloud DB     ║');
+      if (connection && connection.error) {
+        console.log('  ║   ℹ️  Note: Cloud Supabase offline / unreachable      ║');
+      }
     }
 
     if (hasGrok) {

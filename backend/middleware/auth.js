@@ -24,14 +24,28 @@ exports.protect = async (req, res, next) => {
       return next(new AppError('You are not logged in. Please log in to get access.', 401));
     }
 
-    // Verify token with Supabase Auth
-    const { data, error } = await supabase.auth.getUser(token);
-
-    if (error || !data || !data.user) {
-      return next(new AppError('Authentication failed or session expired. Please log in again.', 401));
+    // Verify token with Supabase Auth or Local Auth
+    let authUser = null;
+    try {
+      const { data, error } = await supabase.auth.getUser(token);
+      if (!error && data && data.user) {
+        authUser = data.user;
+      }
+    } catch (err) {
+      // Network failure on cloud supabase
     }
 
-    const authUser = data.user;
+    if (!authUser) {
+      const { localAuth } = require('../config/supabase');
+      const { data: localData } = await localAuth.getUser(token);
+      if (localData && localData.user) {
+        authUser = localData.user;
+      }
+    }
+
+    if (!authUser) {
+      return next(new AppError('Authentication failed or session expired. Please log in again.', 401));
+    }
 
     // Fetch user profile from the profiles table
     const { data: profile, error: profileErr } = await supabaseAdmin
