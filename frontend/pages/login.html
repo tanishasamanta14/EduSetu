@@ -849,7 +849,10 @@
               localStorage.setItem('edusetu_user_prefs', JSON.stringify(data.data.user));
             }
             setTimeout(() => {
-              if (data.data && data.data.user && data.data.user.role === 'mentor') {
+              const redirectUrl = new URLSearchParams(window.location.search).get('redirect');
+              if (redirectUrl) {
+                window.location.href = redirectUrl;
+              } else if (data.data && data.data.user && data.data.user.role === 'mentor') {
                 window.location.href = 'mentor.html';
               } else {
                 window.location.href = 'dashboard.html';

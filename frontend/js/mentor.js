@@ -27,10 +27,11 @@
     var main = document.querySelector('.main-content');
     main.style.opacity = '0.5';
 
-    fetch('/api/dashboard/mentor')
+    fetch('/api/dashboard/mentor', { credentials: 'include' })
       .then(function(res) {
         if (res.status === 401) {
-          return fetch('/api/auth/dev-login-mentor').then(function() { return fetch('/api/dashboard/mentor'); });
+          window.location.replace('login.html?redirect=mentor.html');
+          return null;
         }
         if (res.status === 403) {
           throw new Error('Forbidden: Only mentors can access this data.');

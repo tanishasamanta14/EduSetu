@@ -1,23 +1,72 @@
 /* ============================================================
-   EduSetu — App Shell Controller
+   EduSetu — App Shell Controller & Global Authentication Guard
    Unified navigation, active route handling, user profile syncing,
-   and mobile drawer behavior across all authenticated views.
+   mobile drawer behavior, and STRICT access control across all app views.
+   Without a verified login, users are immediately redirected to login.html.
    ============================================================ */
 
 (function() {
   'use strict';
+
+  // Current page detection
+  const currentPath = window.location.pathname.split('/').pop() || 'dashboard.html';
+  const query = window.location.search || '';
+
+  function redirectToLogin() {
+    try {
+      localStorage.removeItem('edusetu_user_token');
+      localStorage.removeItem('edusetu_user_prefs');
+    } catch (e) {}
+
+    // Public pages do not redirect
+    if (currentPath === 'login.html' || currentPath === 'register.html' || currentPath === 'index.html') {
+      return;
+    }
+
+    const redirectTarget = encodeURIComponent(currentPath + query);
+    window.location.replace('login.html?redirect=' + redirectTarget);
+  }
+
+  // 1. Enforce Authentication Immediately (Auth Guard)
+  async function enforceAuth() {
+    try {
+      const res = await fetch('/api/auth/me', {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        redirectToLogin();
+        return;
+      }
+
+      const json = await res.json();
+      if (!json.success || !json.data || !json.data.user) {
+        redirectToLogin();
+        return;
+      }
+
+      // User is verified and authenticated
+      updateUserUI(json.data.user);
+    } catch (err) {
+      console.warn('[EduSetu Shell] Auth verification failed:', err);
+      redirectToLogin();
+    }
+  }
+
+  // Run Auth Guard immediately on script evaluation
+  enforceAuth();
 
   function initAppShell() {
     setupActiveNav();
     setupMobileSidebar();
     setupUserProfileMenu();
     setupGlobalSearch();
-    loadActiveUser();
   }
 
-  /* 1. Mark Active Navigation Item */
+  /* 2. Mark Active Navigation Item */
   function setupActiveNav() {
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navItems = document.querySelectorAll('.app-sidebar-nav .nav-item');
 
     navItems.forEach(item => {
@@ -30,7 +79,7 @@
     });
   }
 
-  /* 2. Mobile Sidebar Open / Close */
+  /* 3. Mobile Sidebar Open / Close */
   function setupMobileSidebar() {
     const sidebar = document.querySelector('.app-sidebar');
     const toggleBtn = document.getElementById('sidebarMobileToggle');
@@ -58,7 +107,7 @@
     overlay.addEventListener('click', closeSidebar);
   }
 
-  /* 3. User Profile Dropdown & Logout */
+  /* 4. User Profile Dropdown & Logout */
   function setupUserProfileMenu() {
     const profilePill = document.getElementById('userProfilePill');
     const profileDropdown = document.getElementById('userProfileDropdown');
@@ -83,9 +132,11 @@
         try {
           await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
         } catch (err) {}
-        localStorage.removeItem('edusetu_user_token');
-        localStorage.removeItem('edusetu_user_prefs');
-        window.location.href = 'login.html';
+        try {
+          localStorage.removeItem('edusetu_user_token');
+          localStorage.removeItem('edusetu_user_prefs');
+        } catch (e) {}
+        window.location.replace('login.html');
       });
     }
 
@@ -105,7 +156,7 @@
     }
   }
 
-  /* 4. Global Search Handler */
+  /* 5. Global Search Handler */
   function setupGlobalSearch() {
     const searchForm = document.getElementById('topbarSearchForm');
     const searchInput = document.getElementById('topbarSearchInput');
@@ -121,47 +172,14 @@
     }
   }
 
-  /* 5. Fetch Active User Profile */
-  async function loadActiveUser() {
-    try {
-      const res = await fetch('/api/auth/me', { credentials: 'include' });
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success && json.data && json.data.user) {
-          updateUserUI(json.data.user);
-          return;
-        }
-      }
-
-      // If unauthenticated in dev, check profile endpoint or fallback to default student
-      const pRes = await fetch('/api/profile', { credentials: 'include' });
-      if (pRes.ok) {
-        const pJson = await pRes.json();
-        if (pJson.success && pJson.data) {
-          updateUserUI(pJson.data);
-          return;
-        }
-      }
-
-      // Check localStorage prefs
-      const prefs = localStorage.getItem('edusetu_user_prefs');
-      if (prefs) {
-        updateUserUI(JSON.parse(prefs));
-      } else {
-        updateUserUI({ name: 'Tanisha Samanta', email: 'tanisha@example.com', role: 'Student' });
-      }
-    } catch (err) {
-      updateUserUI({ name: 'Tanisha Samanta', email: 'tanisha@example.com', role: 'Student' });
-    }
-  }
-
   function updateUserUI(user) {
-    const name = user.name || user.email?.split('@')[0] || 'Tanisha';
-    const email = user.email || 'tanisha@example.com';
+    if (!user) return;
+    const name = user.name || user.email?.split('@')[0] || 'Student';
+    const email = user.email || '';
     const role = (user.role || 'student').charAt(0).toUpperCase() + (user.role || 'student').slice(1);
 
     // Get initials
-    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'TS';
+    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'S';
 
     // Update Topbar
     const avatarEls = document.querySelectorAll('.user-avatar-circle');
@@ -188,6 +206,7 @@
   }
 
   window.EduSetuShell = {
-    loadActiveUser: loadActiveUser
+    enforceAuth: enforceAuth,
+    updateUserUI: updateUserUI
   };
 })();

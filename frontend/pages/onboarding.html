@@ -333,7 +333,17 @@
   </div>
 
   <script>
-    (function() {
+    (async function() {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'include' });
+        if (!res.ok) throw new Error('Unauthenticated');
+        const json = await res.json();
+        if (!json.success || !json.data || !json.data.user) throw new Error('No user');
+      } catch (e) {
+        window.location.replace('login.html?redirect=onboarding.html');
+        return;
+      }
+
       const cards = document.querySelectorAll('.level-card');
       const nextBtn = document.getElementById('btnNextStep');
       let selectedGrade = 8;

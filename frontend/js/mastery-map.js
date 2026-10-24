@@ -37,14 +37,14 @@
 
   /* ---------- Fetch Real Database Mastery Map ---------- */
   function loadBackendMap(callback) {
-    fetch('/api/mastery/map')
+    fetch('/api/mastery/map', { credentials: 'include' })
       .then(function(res) {
         if (res.status === 401) {
-          return fetch('/api/auth/dev-login').then(function() { return fetch('/api/mastery/map'); });
+          window.location.replace('login.html?redirect=mastery-map.html');
+          return null;
         }
-        return res;
+        return res.json();
       })
-      .then(function(res) { return res.json(); })
       .then(function(result) {
         if (result.success && result.data) {
           backendMapData = result.data;

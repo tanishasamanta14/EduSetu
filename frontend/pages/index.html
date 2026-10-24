@@ -1760,7 +1760,7 @@
           }
           if (ctaBannerBtn) {
             ctaBannerBtn.onclick = function() {
-              window.location.href = 'register.html';
+              window.location.href = 'login.html';
             };
           }
 
@@ -1779,6 +1779,10 @@
           await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
         } catch(e) {}
         currentUser = null;
+        try {
+          localStorage.removeItem('edusetu_user_token');
+          localStorage.removeItem('edusetu_user_prefs');
+        } catch (e) {}
         renderAuthState(false);
         window.location.href = 'index.html';
       }
@@ -1786,6 +1790,42 @@
       if (navLogoutBtn) {
         navLogoutBtn.addEventListener('click', handleLogout);
       }
+
+      // Strict Authentication Guard for all landing page app links & buttons
+      const protectedAppRoutes = [
+        'dashboard.html',
+        'chatbot.html',
+        'quiz.html',
+        'mastery-map.html',
+        'explore.html',
+        'learning-plan.html',
+        'profile.html',
+        'mentor.html',
+        'community.html',
+        'onboarding.html'
+      ];
+
+      // Global click interceptor: block unauthenticated entry to any app page
+      document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        // Skip internal section hashes and external protocols
+        if (href.startsWith('#') || href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('javascript:')) {
+          return;
+        }
+
+        const cleanPath = href.split('?')[0].replace(/^(\/|pages\/)/, '');
+        if (protectedAppRoutes.includes(cleanPath)) {
+          if (!currentUser) {
+            e.preventDefault();
+            // Redirect to login page with requested return destination
+            window.location.href = 'login.html?redirect=' + encodeURIComponent(href);
+          }
+        }
+      });
 
       /* ---------- 3. User & Navigation Dropdown Menus ---------- */
       userMenuBtn.addEventListener('click', function(e) {

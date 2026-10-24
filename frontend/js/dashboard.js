@@ -30,14 +30,14 @@
     var main = document.querySelector('.main-content');
     if (main) main.style.opacity = '0.7';
 
-    fetch('/api/dashboard/student')
+    fetch('/api/dashboard/student', { credentials: 'include' })
       .then(function(res) {
         if (res.status === 401) {
-          return fetch('/api/auth/dev-login').then(function() { return fetch('/api/dashboard/student'); });
+          window.location.replace('login.html?redirect=dashboard.html');
+          return null;
         }
-        return res;
+        return res.json();
       })
-      .then(function(res) { return res.json(); })
       .then(function(result) {
         if (main) main.style.opacity = '1';
         if (result.success && result.data) {
