@@ -21,7 +21,6 @@ EduSetu is an intelligent, diagnostic-first learning platform built to bridge ed
 - [🏗️ System Architecture](#️-system-architecture)
 - [📁 Project Structure](#-project-structure)
 - [🚀 Getting Started](#-getting-started)
-- [📡 API Reference](#-api-reference)
 - [🧪 Testing](#-testing)
 - [🗺️ Implementation Status & Roadmap](#️-implementation-status--roadmap)
 - [🤝 Contributing & License](#-contributing--license)
@@ -228,43 +227,6 @@ When initialized with the provided seed data (`seed.sql`), test accounts are ava
 |---|---|---|---|
 | 🎓 **Student** | `student1@edusetu.in` | `Password123!` | Dashboard, Quizzes, Mastery Map, AI Tutor |
 | 👨‍🏫 **Mentor** | `mentor1@edusetu.in` | `Password123!` | Mentor Dashboard, Linked Student Insights |
-
----
-
-## 📡 API Reference
-
-All backend endpoints are prefixed with `/api`. Protected routes require an active session via HttpOnly cookies (`sb-access-token` / `jwt`) or an `Authorization: Bearer <token>` header.
-
-| HTTP Method | Route Path | Access | Purpose |
-|---|---|---|---|
-| `POST` | `/api/auth/register` | Public | Register student or mentor profile |
-| `POST` | `/api/auth/login` | Public | Authenticate user and issue session cookies |
-| `GET` / `POST` | `/api/auth/logout` | Public | Clear session cookies and sign out |
-| `GET` | `/api/auth/me` | Protected | Fetch authenticated user profile data |
-| `GET` | `/api/auth/dev-login` | Public | Fast-path developer login as demo student |
-| `GET` | `/api/auth/dev-login-mentor` | Public | Fast-path developer login as demo mentor |
-| `GET` | `/api/profile` | Protected | Retrieve full student profile and preferences |
-| `PUT` | `/api/profile` | Protected | Update student profile metadata (name, grade, language) |
-| `GET` | `/api/quizzes` | Protected | List active quizzes with topic filtering |
-| `GET` | `/api/quizzes/:id` | Protected | Retrieve quiz details and assessment questions |
-| `POST` | `/api/quizzes/:id/attempt` | Protected | Submit quiz answers; evaluates misconception tags and updates mastery |
-| `GET` | `/api/quiz-attempts` | Protected | List user's past quiz attempt history |
-| `GET` | `/api/quiz-attempts/:id` | Protected | Retrieve specific attempt with evaluated misconception tags |
-| `GET` | `/api/mastery` | Protected | Fetch student's individual topic mastery records |
-| `GET` | `/api/mastery/map` | Protected | Retrieve full concept graph (nodes, edges, prerequisites, states) |
-| `GET` | `/api/progress` | Protected | Fetch student's overall confidence and subject progress |
-| `GET` | `/api/dashboard/student` | Protected | Fetch aggregated metrics and dropout risk data for student |
-| `GET` | `/api/dashboard/mentor` | Protected (Mentor) | Fetch cohort analytics, class mastery levels, and risk alerts |
-| `GET` | `/api/mentor/students` | Protected (Mentor) | List all students linked to the authenticated mentor |
-| `POST` | `/api/mentor/students` | Protected (Mentor) | Link a student to the authenticated mentor |
-| `POST` | `/api/chat` | Protected | Submit message to AI tutor (requires `GROK_API_KEY`) |
-| `GET` | `/api/chat/conversations` | Protected | List user's conversational session history |
-| `GET` | `/api/chat/conversations/:id`| Protected | Fetch message history for a specific conversation |
-| `DELETE`| `/api/chat/conversations/:id`| Protected | Delete a conversation session |
-| `GET` | `/api/subjects` | Public | Retrieve active curriculum subjects |
-| `GET` | `/api/topics` | Public | Retrieve curriculum topics with grade and subject filters |
-| `GET` | `/api/topics/:id` | Public | Retrieve specific topic metadata and prerequisite links |
-| `GET` | `/api/health` | Public | System health check and database connectivity probe |
 
 ---
 
