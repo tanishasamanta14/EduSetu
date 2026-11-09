@@ -1,6 +1,5 @@
 # 🎓 EduSetu
 
-
 > *"Don't just answer the question — diagnose the gap."*
 
 EduSetu is an intelligent, diagnostic-first learning platform built to bridge educational divides across India. Rather than presenting generic video catalogs, EduSetu diagnoses the root cognitive misconceptions behind student errors, visualizes knowledge dependencies through an interactive concept mastery graph, and delivers adaptive Socratic tutoring across vernacular languages.
